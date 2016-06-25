@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.mck.localweathernow.Constants;
 import com.mck.localweathernow.model.CurrentWeatherData;
 import com.mck.localweathernow.model.ForecastWeatherData;
 import com.mck.localweathernow.model.Rain;
@@ -34,7 +35,7 @@ public class OpenWeatherMapService {
 
     protected static OpenWeatherMapService instance;
     protected static final String lockKey = "instance_lock";
-    private String API_ID = "TODO_ADD_A_KEY";
+    private String API_ID = Constants.API_ID;
 
     public static OpenWeatherMapService instance(){
         if (instance == null){
