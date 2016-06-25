@@ -31,11 +31,11 @@ import java.util.Locale;
  * Created by Michael on 5/15/2016.
  */
 public class OpenWeatherMapService {
-    protected static final String units = "imperial";
+    private static final String units = "imperial";
+    private static final String lockKey = "instance_lock";
+    private static final String API_ID = Constants.API_ID;
 
     protected static OpenWeatherMapService instance;
-    protected static final String lockKey = "instance_lock";
-    private String API_ID = Constants.API_ID;
 
     public static OpenWeatherMapService instance(){
         if (instance == null){
