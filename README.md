@@ -6,6 +6,11 @@ This project builds upon a [previous](https://github.com/iammck/WeatherNow) proj
 
 The application uses [OpenWeatherMaps](http://openweathermap.org/) to request data over the network using the users current location. Getting the user location is handled by Google Play Services and the Weather data request is made using an HttpURLConnection. The resulting JSon string is parsed using Gson into custom weather data objects.
 
+### Model
+
+The model and tests come directly from the previous project. The incoming data is a JSon string and the model is composed so as to collect that data into usable POJOs. Rain and Snow objects are special. The incoming JSon string has invalid names for each item, thus they need to use custom deserializers. The deserializers are defined as static inner classes of the respective classes.
+
+
 Data should be cached locally. The application will seek out new data under three conditions. One, there is no cached data. Two, the cached data is relatively stale. Three the users position has changed by a significant amount.
   
 ## Displaying Data
