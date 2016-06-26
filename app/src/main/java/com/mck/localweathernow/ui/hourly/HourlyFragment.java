@@ -17,7 +17,6 @@ import com.mck.localweathernow.R;
 public class HourlyFragment extends Fragment {
     public HourlyFragment() {    }
 
-    @SuppressWarnings("unused")
     public static HourlyFragment newInstance() {
         return new HourlyFragment();
     }
