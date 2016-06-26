@@ -1,21 +1,19 @@
-package com.mck.localweathernow.hourly;
+package com.mck.localweathernow;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.mck.localweathernow.R;
-
 /**
- * {@link RecyclerView.Adapter} that can display hourly weather forecast.
+ * {@link RecyclerView.Adapter} that can display daily weather forecast.
  */
-class HourlyRecyclerViewAdapter extends RecyclerView.Adapter<HourlyRecyclerViewAdapter.ViewHolder> {
+class DailyRecyclerViewAdapter extends RecyclerView.Adapter<DailyRecyclerViewAdapter.ViewHolder> {
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.list_item_hourly, parent, false);
+                .inflate(R.layout.list_item_daily, parent, false);
         return new ViewHolder(view);
     }
 
