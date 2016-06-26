@@ -1,4 +1,4 @@
-package com.mck.localweathernow.ui;
+package com.mck.localweathernow;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -11,8 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import com.mck.localweathernow.R;
 
 public class MainActivity extends AppCompatActivity {
 

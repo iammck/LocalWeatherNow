@@ -1,4 +1,4 @@
-package com.mck.localweathernow.ui.daily;
+package com.mck.localweathernow.daily;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;

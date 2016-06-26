@@ -9,5 +9,5 @@
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
-    tools:context="com.mck.localweathernow.ui.hourly.HourlyFragment"
+    tools:context=".hourly.HourlyFragment"
     tools:listitem="@layout/list_item_hourly" />

@@ -1,4 +1,4 @@
-package com.mck.localweathernow.ui.hourly;
+package com.mck.localweathernow.hourly;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;

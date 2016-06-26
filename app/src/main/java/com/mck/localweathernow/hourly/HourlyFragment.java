@@ -1,4 +1,4 @@
-package com.mck.localweathernow.ui.hourly;
+package com.mck.localweathernow.hourly;
 
 import android.content.Context;
 import android.os.Bundle;

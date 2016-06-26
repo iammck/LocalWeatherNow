@@ -1,4 +1,4 @@
-package com.mck.localweathernow.ui.daily;
+package com.mck.localweathernow.daily;
 
 import android.content.Context;
 import android.os.Bundle;
