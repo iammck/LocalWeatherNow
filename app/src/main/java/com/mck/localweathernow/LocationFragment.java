@@ -29,6 +29,7 @@ import com.google.android.gms.location.LocationSettingsStatusCodes;
  */
 public class LocationFragment extends Fragment implements LocationListener,
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+    public static String TAG = "LocationFragment";
     private LocationFragmentListener mLocationFragmentListener;
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
@@ -66,6 +67,7 @@ public class LocationFragment extends Fragment implements LocationListener,
     @Override
     public void onStart() {
         super.onStart();
+
         // create the googleApiClient for access to google services.
         mGoogleApiClient = new GoogleApiClient.Builder(getContext())
                 .addConnectionCallbacks(this)
@@ -201,7 +203,7 @@ public class LocationFragment extends Fragment implements LocationListener,
         }
     }
 
-    public interface LocationFragmentListener {
+    interface LocationFragmentListener {
         void onLocationsSettingsFailure();
         void onShowRequestPermissionRationale();
         void onLocationUpdate(Location location);

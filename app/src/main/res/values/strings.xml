@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Local Weather Now</string>
     <string name="section_format">Hello World from section: %1$d</string>
+    <string name="hourly">Hourly</string>
+    <string name="daily">Daily</string>
 
 </resources>
