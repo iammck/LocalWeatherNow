@@ -6,8 +6,10 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+
 import com.mck.localweathernow.R;
 
 
@@ -47,15 +49,20 @@ public class RequiresPermissionsRationaleDialogFragment extends DialogFragment {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         getActivity().finish();
                     }
-                })
-                .setOnCancelListener(new DialogInterface.OnCancelListener() {
-                    @Override
-                    public void onCancel(DialogInterface dialogInterface) {
-                        callback.requiresPermissionsRationaleTryAgain();
-                    }
-                });
+                }).setOnKeyListener(new DialogInterface.OnKeyListener() {
+            @Override
+            public boolean onKey(DialogInterface dialogInterface, int keyCode, KeyEvent keyEvent) {
+                if (keyCode == KeyEvent.KEYCODE_BACK &&
+                        keyEvent.getAction() == KeyEvent.ACTION_UP){
+                    callback.requiresPermissionsRationaleTryAgain();
+                    dismissAllowingStateLoss();
+                }
+                return false;
+            }
+        });
         return builder.create();
     }
+
 
     public interface RequiresPermissionsRationaleCallback {
         void requiresPermissionsRationaleTryAgain();
