@@ -8,5 +8,6 @@
     <string name="settings_required_reason">Access to location services is required for the application to work properly. Please enable location services to continue.</string>
     <string name="exit">Exit</string>
     <string name="try_again">TRY AGAIN</string>
+    <string name="location_settings_failure_message">Local Weather Now failed to acquire location services. Location services are a required for the application to work properly. Please enable them and try again.</string>
 
 </resources>
