@@ -28,23 +28,43 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
+import com.mck.localweathernow.dialog.LocationSettingsFailureDialogFragment;
+import com.mck.localweathernow.dialog.RequiresGooglePlayServicesDialogFragment;
 import com.mck.localweathernow.dialog.RequiresPermissionsRationaleDialogFragment;
 import com.mck.localweathernow.dialog.RequiresSettingsRationaleDialogFragment;
+import com.mck.localweathernow.model.CurrentWeatherData;
+import com.mck.localweathernow.model.ForecastWeatherData;
 
 public class MainActivity extends AppCompatActivity implements LocationListener,
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
         RequiresSettingsRationaleDialogFragment.RequiresSettingsRationaleCallback,
         RequiresPermissionsRationaleDialogFragment.RequiresPermissionsRationaleCallback {
 
+    private static final long ACCEPTABLE_TIME_DELTA = 10000; // 10 seconds.
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
 
     private static final int REQUEST_PERMISSIONS_ACCESS_ID = 23;
     private static final int REQUEST_SETTINGS_RESOLUTION_ID = 72;
     private static final int GPS_CONNECTION_RESOLUTION_ID = 43;
+    private static final float OPTIMAL_ACCURACY = 1500; // in meters.
+
     private boolean requiresSettingsRationale;
     private boolean requiresPermissionsRationale;
     private boolean requiresGooglePlayServices;
+
+    private static final String KEY_CUR_LAT = "KEY_CUR_LAT";
+    private static final String KEY_CUR_LON = "KEY_CUR_LON";
+    private static final String KEY_CUR_LOC_RETRVL_TIME = "KEY_CUR_LOC_RETRVL_TIME";
+    private static final String KEY_CUR_LOC_ACCURACY = "KEY_CUR_LOC_ACCURACY";
+
+    private double currentLatitude = -1000;
+    private double currentLongitude = -1000;
+    private float currentLocationAccuracy = -1000;
+    private long currentLocationRetrievalTime = -1000;
+
+    private CurrentWeatherData currentWeather;
+    private ForecastWeatherData forecastWeather;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,11 +80,13 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         // Set up the tab layout with the view pager.
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
-    }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
+        if (savedInstanceState != null){
+            currentLatitude = savedInstanceState.getDouble(KEY_CUR_LAT);
+            currentLongitude = savedInstanceState.getDouble(KEY_CUR_LON);
+            currentLocationAccuracy = savedInstanceState.getFloat(KEY_CUR_LOC_ACCURACY);
+            currentLocationRetrievalTime = savedInstanceState.getLong(KEY_CUR_LOC_RETRVL_TIME);
+        }
     }
 
     /**
@@ -109,15 +131,49 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
     public void onResume() {
         super.onResume();
         if (requiresGooglePlayServices){
-            // TODO
+            RequiresGooglePlayServicesDialogFragment frag = (RequiresGooglePlayServicesDialogFragment)
+                    getSupportFragmentManager().findFragmentByTag(RequiresGooglePlayServicesDialogFragment.TAG);
+            if (frag == null){
+                frag = RequiresGooglePlayServicesDialogFragment.newInstance();
+                frag.show(getSupportFragmentManager(), RequiresGooglePlayServicesDialogFragment.TAG);
+            }return;
         }
-        // create the googleApiClient for access to google services.
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(LocationServices.API)
-                .build();
-        mGoogleApiClient.connect();
+        boolean isLocationDataUsable = isLocationDataUsable();
+        // if we have usable location data and no weather data, get current and forecast data
+        if (isLocationDataUsable){
+            // if current and forecast data is present
+            if (currentWeather != null && forecastWeather != null){
+                updateCurrentWeatherListener();
+                updateForecastWeatherListener();
+            } else { // otherwise get weather data.
+                getWeatherData();
+            }
+        }
+        // if !isLocationDataUsable or accuracy is greater than optimal
+        if (!isLocationDataUsable || currentLocationAccuracy > OPTIMAL_ACCURACY ){
+            // create the googleApiClient for access to google services.
+            mGoogleApiClient = new GoogleApiClient.Builder(this)
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this)
+                    .addApi(LocationServices.API)
+                    .build();
+            mGoogleApiClient.connect();
+        }
+    }
+
+    private void updateForecastWeatherListener() {
+        // TODO
+    }
+
+    private void updateCurrentWeatherListener() {
+        // TODO
+    }
+
+    private boolean isLocationDataUsable() {
+        // if data exists and time is acceptable, return true
+        return currentLongitude != -1000 && currentLatitude != -1000 &&
+                currentLocationAccuracy != -1000 && currentLocationRetrievalTime != -1000 &&
+                System.currentTimeMillis() - currentLocationRetrievalTime < ACCEPTABLE_TIME_DELTA;
     }
 
     @Override
@@ -130,6 +186,15 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
                 (mGoogleApiClient.isConnecting() || mGoogleApiClient.isConnected())) {
             mGoogleApiClient.disconnect();
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+            outState.putDouble(KEY_CUR_LAT, currentLatitude);
+            outState.putDouble(KEY_CUR_LON, currentLongitude);
+            outState.putLong(KEY_CUR_LOC_RETRVL_TIME, currentLocationRetrievalTime);
+            outState.putFloat(KEY_CUR_LOC_ACCURACY, currentLocationAccuracy);
     }
 
     // google api client is connected
@@ -236,7 +301,23 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
     // location has been updated.
     @Override
     public void onLocationChanged(Location location) {
+        currentLatitude = location.getLatitude();
+        currentLongitude = location.getLongitude();
+        currentLocationAccuracy = location.getAccuracy();
+        currentLocationRetrievalTime = System.currentTimeMillis();
 
+        // if the accuracy is great, remove location helper fragment.
+        if (currentLocationAccuracy < OPTIMAL_ACCURACY){
+            if (mGoogleApiClient.isConnected()){
+                mGoogleApiClient.unregisterConnectionCallbacks(this);
+                mGoogleApiClient.unregisterConnectionFailedListener(this);
+                mGoogleApiClient.disconnect();
+            }
+        }
+        getWeatherData();
+    }
+
+    private void getWeatherData() {
     }
 
     @Override
@@ -284,7 +365,12 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
     }
 
     private void onLocationsSettingsFailure() {
-
+        LocationSettingsFailureDialogFragment frag = (LocationSettingsFailureDialogFragment)
+                getSupportFragmentManager().findFragmentByTag(LocationSettingsFailureDialogFragment.TAG);
+        if (frag == null){
+            frag = LocationSettingsFailureDialogFragment.newInstance();
+            frag.show(getSupportFragmentManager(), LocationSettingsFailureDialogFragment.TAG);
+        }
     }
 
 }
