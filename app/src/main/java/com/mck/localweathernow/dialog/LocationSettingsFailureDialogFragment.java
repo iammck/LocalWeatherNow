@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -30,13 +31,17 @@ public class LocationSettingsFailureDialogFragment extends DialogFragment {
                     public void onClick(DialogInterface dialog, int which) {
                         getActivity().finish();
                     }
-                })
-                .setOnCancelListener(new DialogInterface.OnCancelListener() {
-                    @Override
-                    public void onCancel(DialogInterface dialogInterface) {
-                        getActivity().finish();
-                    }
-                });
+                }).setOnKeyListener(new DialogInterface.OnKeyListener() {
+            @Override
+            public boolean onKey(DialogInterface dialogInterface, int keyCode, KeyEvent keyEvent) {
+                if (keyCode == KeyEvent.KEYCODE_BACK &&
+                        keyEvent.getAction() == KeyEvent.ACTION_UP){
+                    dismissAllowingStateLoss();
+                    getActivity().finish();
+                }
+                return false;
+            }
+        });
         return builder.create();
     }
 
