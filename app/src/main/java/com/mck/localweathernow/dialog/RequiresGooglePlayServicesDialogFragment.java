@@ -17,7 +17,7 @@ import com.mck.localweathernow.R;
  * LocationSettingsFailureDialogFragment
  * Created by Michael on 5/29/2016.
  */
-public class LocationSettingsFailureDialogFragment extends DialogFragment {
+public class RequiresGooglePlayServicesDialogFragment extends DialogFragment {
     public static final String TAG = "LocSettingsFailure";
 
     @NonNull
@@ -26,7 +26,7 @@ public class LocationSettingsFailureDialogFragment extends DialogFragment {
         // Use a builder to construct the dialog
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View layout = inflater.inflate(R.layout.location_settings_failure, null);
+        View layout = inflater.inflate(R.layout.requires_gps_failure, null);
         builder.setView(layout)
                 .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
@@ -47,7 +47,7 @@ public class LocationSettingsFailureDialogFragment extends DialogFragment {
         return builder.create();
     }
 
-    public static LocationSettingsFailureDialogFragment newInstance() {
-        return new LocationSettingsFailureDialogFragment();
+    public static RequiresGooglePlayServicesDialogFragment newInstance() {
+        return new RequiresGooglePlayServicesDialogFragment();
     }
 }
