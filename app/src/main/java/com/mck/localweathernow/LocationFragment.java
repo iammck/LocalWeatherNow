@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -67,37 +68,40 @@ public class LocationFragment extends Fragment implements LocationListener,
     @Override
     public void onStart() {
         super.onStart();
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.v(TAG,"onResume()");
+        Bundle args = getArguments();
         // create the googleApiClient for access to google services.
         mGoogleApiClient = new GoogleApiClient.Builder(getContext())
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .build();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
         mGoogleApiClient.connect();
     }
 
     @Override
     public void onPause() {
         super.onPause();
+        Log.v(TAG,"onPause()");
         if(mGoogleApiClient != null && mGoogleApiClient.isConnected() ){
             LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
+        }
+        if (mGoogleApiClient != null &&
+                (mGoogleApiClient.isConnecting() || mGoogleApiClient.isConnected())) {
+            mGoogleApiClient.disconnect();
+
         }
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        if (mGoogleApiClient != null &&
-                (mGoogleApiClient.isConnecting() || mGoogleApiClient.isConnected())) {
-            mGoogleApiClient.disconnect();
-
-        }
+        Log.v(TAG,"onStop()");
     }
 
     @Override
@@ -109,13 +113,18 @@ public class LocationFragment extends Fragment implements LocationListener,
     // google api client is connected
     @Override
     public void onConnected(@Nullable Bundle bundle) {
+        Log.v(TAG,"onConnected");
         // create location request instance
         mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(Constants.locationReqInterval);
         mLocationRequest.setFastestInterval(Constants.fastestLocationReqInterval);
         //mLocationRequest.setSmallestDisplacement(100);// in meters.
         mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+        requestLocationUpdates();
+    }
 
+    private void requestLocationUpdates() {
+        Log.v(TAG,"requestLocationUpdates() -- BEGIN");
         // Make sure location services are enabled.
         // get a location settings builder and check location settings via a PendingResult
         LocationSettingsRequest.Builder settingsBuilder = new LocationSettingsRequest.Builder()
@@ -125,23 +134,29 @@ public class LocationFragment extends Fragment implements LocationListener,
         pendingResult.setResultCallback(new ResultCallback<LocationSettingsResult>() {
             @Override
             public void onResult(@NonNull LocationSettingsResult locationSettingsResult) {
+                Log.v(TAG,"LocationSettingsRequest checkLocationSettings() pendingResult ResultCallback<LocationSettingsResult>");
+                Log.v(TAG,"onResult()");
                 Status status = locationSettingsResult.getStatus();
                 switch (status.getStatusCode()) {
                     case LocationSettingsStatusCodes.SUCCESS:
+                        Log.v(TAG,"SUCCESS");
                         // All location settings are satisfied(ie: not in airplane mode). The client can
                         // Make sure the app has location permissions. If it does not,
                         if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) !=
                                 PackageManager.PERMISSION_GRANTED &&
                                 ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) !=
                                         PackageManager.PERMISSION_GRANTED) {
+                            Log.v(TAG,"Required permissions are not granted.");
                             // Should we show an explanation?
                             if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
                                     Manifest.permission.ACCESS_FINE_LOCATION)) {
+                                Log.v(TAG,"Should show request permission rationale.");
                                 // Show an explanation to the user *asynchronously* -- don't block
                                 // this thread waiting for the user's response! After the user
                                 // sees the explanation, try again to request the permission.
                                 mLocationFragmentListener.onShowRequestPermissionRationale();
                             } else {
+                                Log.v(TAG,"No need to show request permission rationale, requesting permission.");
                                 // No explanation needed, we can request the permission.
                                 ActivityCompat.requestPermissions(getActivity(),
                                         new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
@@ -150,11 +165,13 @@ public class LocationFragment extends Fragment implements LocationListener,
                             }
                             return;
                         }
+                        Log.v(TAG,"Have permissions, go ahead and request updates.");
                         // have permissions, go ahead and request updates.
                         LocationServices.FusedLocationApi.requestLocationUpdates(
                                 mGoogleApiClient, mLocationRequest, LocationFragment.this);
                         break;
                     case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
+                        Log.v(TAG,"RESOLUTION_REQUIRED");
                         // Location settings are not satisfied, but this can be fixed
                         // by showing the user a dialog.
                         try {
@@ -169,14 +186,14 @@ public class LocationFragment extends Fragment implements LocationListener,
                         }
                         break;
                     case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
+                        Log.v(TAG,"SETTINGS_CHANGE_UNAVAILABLE");
                         // Location settings are not satisfied. However, we have no way
                         // to fix the settings so we won't show the dialog.
                         mLocationFragmentListener.onLocationsSettingsFailure();
-
                 }
             }
         });
-
+        Log.v(TAG,"requestLocationUpdates() -- END");
     }
 
     // google api client has been suspended.
