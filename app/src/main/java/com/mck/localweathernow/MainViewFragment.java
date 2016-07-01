@@ -12,14 +12,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-public class MainFragment extends Fragment {
-    public static final String TAG = "MainFragment";
+public class MainViewFragment extends Fragment {
+    public static final String TAG = "MainViewFragment";
 
-    public MainFragment() {
+    public MainViewFragment() {
     }
 
-    public static MainFragment newInstance() {
-        return new MainFragment();
+    public static MainViewFragment newInstance() {
+        return new MainViewFragment();
     }
 
     @Override
@@ -58,9 +58,9 @@ public class MainFragment extends Fragment {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return HourlyFragment.newInstance();
+                    return HourlyViewFragment.newInstance();
                 case 1:
-                    return DailyFragment.newInstance();
+                    return DailyViewFragment.newInstance();
             }
             return null;
         }

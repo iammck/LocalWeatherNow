@@ -12,11 +12,11 @@ import android.view.ViewGroup;
 /**
  * A fragment representing a list of daily forecasts.
  */
-public class DailyFragment extends Fragment {
-    public DailyFragment() {    }
+public class DailyViewFragment extends Fragment {
+    public DailyViewFragment() {    }
 
-    public static DailyFragment newInstance() {
-        return new DailyFragment();
+    public static DailyViewFragment newInstance() {
+        return new DailyViewFragment();
     }
 
     @Override
@@ -29,7 +29,7 @@ public class DailyFragment extends Fragment {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            recyclerView.setAdapter(new DailyRecyclerViewAdapter());
+            recyclerView.setAdapter(new DailyViewRecyclerViewAdapter());
         }
         return view;
     }

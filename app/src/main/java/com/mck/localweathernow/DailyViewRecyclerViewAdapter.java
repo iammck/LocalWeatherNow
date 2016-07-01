@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 /**
  * {@link RecyclerView.Adapter} that can display daily weather forecast.
  */
-class DailyRecyclerViewAdapter extends RecyclerView.Adapter<DailyRecyclerViewAdapter.ViewHolder> {
+class DailyViewRecyclerViewAdapter extends RecyclerView.Adapter<DailyViewRecyclerViewAdapter.ViewHolder> {
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

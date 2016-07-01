@@ -12,11 +12,11 @@ import android.view.ViewGroup;
 /**
  * A fragment representing a list of hourly forecasts.
  */
-public class HourlyFragment extends Fragment {
-    public HourlyFragment() {    }
+public class HourlyViewFragment extends Fragment {
+    public HourlyViewFragment() {    }
 
-    public static HourlyFragment newInstance() {
-        return new HourlyFragment();
+    public static HourlyViewFragment newInstance() {
+        return new HourlyViewFragment();
     }
 
     @Override
@@ -29,7 +29,7 @@ public class HourlyFragment extends Fragment {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            recyclerView.setAdapter(new HourlyRecyclerViewAdapter());
+            recyclerView.setAdapter(new HourlyViewRecyclerViewAdapter());
         }
         return view;
     }

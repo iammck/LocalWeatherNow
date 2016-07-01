@@ -15,7 +15,7 @@ import java.util.ArrayList;
 /**
  * {@link RecyclerView.Adapter} that can display hourly weather forecast.
  */
-class HourlyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+class HourlyViewRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int VIEW_TYPE_CURRENT = 0;
     private static final int VIEW_TYPE_PERIOD = 1;
     private static final String TAG = "HourlyRVAdapter";
@@ -24,7 +24,7 @@ class HourlyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private CurrentWeatherData currentWeather;
     private CurrentViewHolder currentViewHolder;
 
-    public HourlyRecyclerViewAdapter(){
+    public HourlyViewRecyclerViewAdapter(){
         periodViewHolders = new ArrayList<>();
     }
 
