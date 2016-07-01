@@ -48,17 +48,18 @@ public class RequiresSettingsRationaleDialogFragment extends DialogFragment {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         getActivity().finish();
                     }
-                }).setOnKeyListener(new DialogInterface.OnKeyListener() {
-            @Override
-            public boolean onKey(DialogInterface dialogInterface, int keyCode, KeyEvent keyEvent) {
-                if (keyCode == KeyEvent.KEYCODE_BACK &&
-                        keyEvent.getAction() == KeyEvent.ACTION_UP){
-                    callback.requiresSettingsRationaleTryAgain();
-                    dismissAllowingStateLoss();
-                }
-                return false;
-            }
-        });
+                })
+                .setOnKeyListener(new DialogInterface.OnKeyListener() {
+                        public boolean onKey(DialogInterface dialogInterface, int keyCode, KeyEvent keyEvent) {
+                            if (keyCode == KeyEvent.KEYCODE_BACK &&
+                                    keyEvent.getAction() == KeyEvent.ACTION_UP){
+                                dismissAllowingStateLoss();
+                                callback.requiresSettingsRationaleTryAgain();
+                            }
+                            return false;
+                        }
+                });
+        setCancelable(false);
         return builder.create();
     }
 

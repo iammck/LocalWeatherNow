@@ -29,7 +29,6 @@ public class RequiresPermissionsRationaleDialogFragment extends DialogFragment {
         return result;
     }
 
-
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -50,19 +49,18 @@ public class RequiresPermissionsRationaleDialogFragment extends DialogFragment {
                         getActivity().finish();
                     }
                 }).setOnKeyListener(new DialogInterface.OnKeyListener() {
-            @Override
-            public boolean onKey(DialogInterface dialogInterface, int keyCode, KeyEvent keyEvent) {
-                if (keyCode == KeyEvent.KEYCODE_BACK &&
-                        keyEvent.getAction() == KeyEvent.ACTION_UP){
-                    callback.requiresPermissionsRationaleTryAgain();
-                    dismissAllowingStateLoss();
-                }
-                return false;
-            }
-        });
+                        public boolean onKey(DialogInterface dialogInterface, int keyCode, KeyEvent keyEvent) {
+                            if (keyCode == KeyEvent.KEYCODE_BACK &&
+                                    keyEvent.getAction() == KeyEvent.ACTION_UP){
+                                callback.requiresPermissionsRationaleTryAgain();
+                                dismissAllowingStateLoss();
+                            }
+                            return false;
+                        }
+                });
+        setCancelable(false);
         return builder.create();
     }
-
 
     public interface RequiresPermissionsRationaleCallback {
         void requiresPermissionsRationaleTryAgain();

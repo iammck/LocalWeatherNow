@@ -11,4 +11,7 @@
     <string name="location_settings_failure_message">Local Weather Now failed to acquire location services. Location services are a required for the application to work properly. Please enable them and try again.</string>
     <string name="requires_gps_failure_reason">Local Weather Now requires Google Play Services to run successfully. In particular it needs location services. Please make sure these services are installed and enabled on your device then try again.</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

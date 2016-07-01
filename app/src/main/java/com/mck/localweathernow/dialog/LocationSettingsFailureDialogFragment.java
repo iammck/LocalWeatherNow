@@ -34,16 +34,16 @@ public class LocationSettingsFailureDialogFragment extends DialogFragment {
                         getActivity().finish();
                     }
                 }).setOnKeyListener(new DialogInterface.OnKeyListener() {
-            @Override
-            public boolean onKey(DialogInterface dialogInterface, int keyCode, KeyEvent keyEvent) {
-                if (keyCode == KeyEvent.KEYCODE_BACK &&
-                        keyEvent.getAction() == KeyEvent.ACTION_UP){
-                    dismissAllowingStateLoss();
-                    getActivity().finish();
-                }
-                return false;
-            }
-        });
+                        public boolean onKey(DialogInterface dialogInterface, int keyCode, KeyEvent keyEvent) {
+                            if (keyCode == KeyEvent.KEYCODE_BACK &&
+                                    keyEvent.getAction() == KeyEvent.ACTION_UP){
+                                dismissAllowingStateLoss();
+                                getActivity().finish();
+                            }
+                            return false;
+                        }
+                });
+        setCancelable(false);
         return builder.create();
     }
 
