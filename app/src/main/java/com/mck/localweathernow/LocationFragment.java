@@ -30,6 +30,7 @@ import com.mck.localweathernow.dialog.RequiresGooglePlayServicesDialogFragment;
 import com.mck.localweathernow.dialog.RequiresPermissionsRationaleDialogFragment;
 import com.mck.localweathernow.dialog.RequiresSettingsRationaleDialogFragment;
 
+@SuppressWarnings("WeakerAccess")
 public class LocationFragment extends Fragment implements LocationListener,
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
         RequiresSettingsRationaleDialogFragment.RequiresSettingsRationaleCallback,
@@ -39,9 +40,6 @@ public class LocationFragment extends Fragment implements LocationListener,
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
 
-
-    private static final long ACCEPTABLE_TIME_DELTA = 10000;
-    private static final float OPTIMAL_ACCURACY = 1500;
     private static final String KEY_CUR_LAT = "KEY_CUR_LAT";
     private static final String KEY_CUR_LON = "KEY_CUR_LON";
     private static final String KEY_CUR_LOC_RETRVL_TIME = "KEY_CUR_LOC_RETRVL_TIME";
@@ -50,7 +48,7 @@ public class LocationFragment extends Fragment implements LocationListener,
     private LocationFragmentListener mListener;
 
 
-    class LocationData {
+    static class LocationData {
         double latitude;
         double longitude;
         float accuracy;
@@ -74,7 +72,7 @@ public class LocationFragment extends Fragment implements LocationListener,
     public LocationFragment() {
     }
 
-    public static LocationFragment newInstance() {
+    static LocationFragment newInstance() {
         return new LocationFragment();
     }
 
@@ -109,17 +107,14 @@ public class LocationFragment extends Fragment implements LocationListener,
         // get current and forecast data
         if (locationData != null){
             mListener.onLocationUpdate(locationData);
-            /*// if current and forecast data is present
-            if (currentWeather != null && forecastWeather != null){
-                updateCurrentWeatherListener();
-                updateForecastWeatherListener();
-            } else { // otherwise get weather data.
-                getWeatherData();
-            }*/
         }
-        // if !isLocationDataUsable (no data) or accuracy is greater than optimal
+        // if !isLocationDataUsable (no data)
+        // or accuracy is greater than optimal
+        // or the time is stale
         if (locationData == null ||
-                locationData.accuracy > OPTIMAL_ACCURACY ){
+                locationData.accuracy > Constants.MIN_ACCURACY ||
+                System.currentTimeMillis() - locationData.time > Constants.MAX_LOC_TIME_DELTA){
+
             // create the googleApiClient for access to google services.
             mGoogleApiClient = new GoogleApiClient.Builder(getContext())
                     .addConnectionCallbacks(this)
@@ -147,7 +142,6 @@ public class LocationFragment extends Fragment implements LocationListener,
                     RequiresPermissionsRationaleDialogFragment.newInstance(this);
             frag.show(getChildFragmentManager(), RequiresPermissionsRationaleDialogFragment.TAG);
         }
-
     }
 
     @Override
@@ -331,7 +325,7 @@ public class LocationFragment extends Fragment implements LocationListener,
         locationData = new LocationData(lat, lon, acc, time);
 
         // if the accuracy is great, remove location helper fragment.
-        if (locationData.accuracy < OPTIMAL_ACCURACY){
+        if (locationData.accuracy < Constants.MIN_ACCURACY){
             if (mGoogleApiClient.isConnected()){
                 mGoogleApiClient.unregisterConnectionCallbacks(this);
                 mGoogleApiClient.unregisterConnectionFailedListener(this);
@@ -351,7 +345,7 @@ public class LocationFragment extends Fragment implements LocationListener,
         requestLocationUpdates();
     }
 
-    public interface LocationFragmentListener {
+    interface LocationFragmentListener {
         void onLocationUpdate(LocationData location);
     }
 }

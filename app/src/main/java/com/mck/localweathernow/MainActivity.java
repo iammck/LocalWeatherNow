@@ -8,6 +8,7 @@ import android.util.Log;
 
 public class MainActivity extends AppCompatActivity
         implements LocationFragment.LocationFragmentListener {
+
     private static final String TAG = "MainActivity";
 
     @Override
@@ -21,6 +22,14 @@ public class MainActivity extends AppCompatActivity
                     .add(LocationFragment.newInstance(), LocationFragment.TAG)
                     .commit();
         }
+
+        /*// if current and forecast data is present
+            if (currentWeather != null && forecastWeather != null){
+                updateCurrentWeatherListener();
+                updateForecastWeatherListener();
+            } else { // otherwise get weather data.
+                getWeatherData();
+            }*/
     }
 
     @Override
