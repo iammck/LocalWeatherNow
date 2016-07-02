@@ -6,20 +6,25 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.mck.localweathernow.model.CurrentWeatherData;
+import com.mck.localweathernow.model.ForecastWeatherData;
+
 public class MainActivity extends AppCompatActivity
-        implements LocationFragment.LocationFragmentListener {
+        implements LocationFragment.LocationFragmentListener,
+        WeatherFragment.WeatherFragmentListener {
 
     private static final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main2);
+        setContentView(R.layout.activity_main);
         if (savedInstanceState == null){
             getSupportFragmentManager()
                     .beginTransaction()
                     .add(R.id.mainFragmentContainer, MainViewFragment.newInstance())
                     .add(LocationFragment.newInstance(), LocationFragment.TAG)
+                    .add(WeatherFragment.newInstance(), WeatherFragment.TAG)
                     .commit();
         }
 
@@ -75,5 +80,15 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onLocationUpdate(LocationFragment.LocationData location) {
         Log.v(TAG, "onLocationUpdate()");
+    }
+
+    @Override
+    public void onCurrentWeatherDataUpdate(CurrentWeatherData currentWeatherData) {
+
+    }
+
+    @Override
+    public void onForecastWeatherDataUpdate(ForecastWeatherData forecastWeatherData) {
+
     }
 }
