@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.mck.localweathernow.model.CurrentWeatherData;
 import com.mck.localweathernow.model.ForecastWeatherData;
+import com.mck.localweathernow.model.LocationData;
 
 public class MainActivity extends AppCompatActivity
         implements LocationFragment.LocationFragmentListener,
@@ -27,14 +28,6 @@ public class MainActivity extends AppCompatActivity
                     .add(WeatherFragment.newInstance(), WeatherFragment.TAG)
                     .commit();
         }
-
-        /*// if current and forecast data is present
-            if (currentWeather != null && forecastWeather != null){
-                updateCurrentWeatherListener();
-                updateForecastWeatherListener();
-            } else { // otherwise get weather data.
-                getWeatherData();
-            }*/
     }
 
     @Override
@@ -78,7 +71,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onLocationUpdate(LocationFragment.LocationData location) {
+    public void onLocationUpdate(LocationData location) {
         Log.v(TAG, "onLocationUpdate()");
     }
 

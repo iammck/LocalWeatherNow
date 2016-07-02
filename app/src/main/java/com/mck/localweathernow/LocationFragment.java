@@ -33,6 +33,7 @@ import com.mck.localweathernow.dialog.LocationSettingsFailureDialogFragment;
 import com.mck.localweathernow.dialog.RequiresGooglePlayServicesDialogFragment;
 import com.mck.localweathernow.dialog.RequiresPermissionsRationaleDialogFragment;
 import com.mck.localweathernow.dialog.RequiresSettingsRationaleDialogFragment;
+import com.mck.localweathernow.model.LocationData;
 
 @SuppressWarnings("WeakerAccess")
 public class LocationFragment extends Fragment implements LocationListener,
@@ -51,22 +52,6 @@ public class LocationFragment extends Fragment implements LocationListener,
     private static final String KEY_CUR_LOC_ACCURACY = "KEY_CUR_LOC_ACCURACY";
 
     private LocationFragmentListener mListener;
-
-    static class LocationData {
-        double latitude;
-        double longitude;
-        float accuracy;
-        long time;
-
-        LocationData(double latitude, double longitude,
-                     float accuracy, long time) {
-
-            this.latitude = latitude;
-            this.longitude = longitude;
-            this.accuracy = accuracy;
-            this.time = time;
-        }
-    }
 
     private boolean requiresSettingsRationale = false;
     private boolean requiresPermissionsRationale = false;

@@ -5,14 +5,20 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 
+import com.mck.localweathernow.asynctask.GetCurrentWeatherAsyncTask;
+import com.mck.localweathernow.asynctask.GetForecastWeatherAsyncTask;
 import com.mck.localweathernow.model.CurrentWeatherData;
 import com.mck.localweathernow.model.ForecastWeatherData;
+import com.mck.localweathernow.model.LocationData;
 
 @SuppressWarnings("WeakerAccess")
 public class WeatherFragment extends Fragment {
     public static final String TAG = "WeatherFragment";
 
     private WeatherFragmentListener mWeatherFragmentListener;
+
+    private GetCurrentWeatherAsyncTask mGetCurrentWeatherAsyncTask;
+    private GetForecastWeatherAsyncTask mGetForecastWeatherAsyncTask;
 
     public WeatherFragment() {     }
 
@@ -65,6 +71,21 @@ public class WeatherFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mWeatherFragmentListener = null;
+    }
+
+    public synchronized void updateLocation(LocationData locationData){
+
+
+        if (mGetCurrentWeatherAsyncTask != null){
+            mGetCurrentWeatherAsyncTask.cancel(true);
+            mGetForecastWeatherAsyncTask = null;
+        }
+        if (mGetForecastWeatherAsyncTask != null){
+            mGetForecastWeatherAsyncTask.cancel(true);
+            mGetForecastWeatherAsyncTask = null;
+        }
+
+        //mGetCurrentWeatherAsyncTask = new GetCurrentWeatherAsyncTask(this, locationData);
     }
 
     interface WeatherFragmentListener {
