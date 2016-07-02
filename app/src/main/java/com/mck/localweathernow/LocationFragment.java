@@ -2,13 +2,16 @@ package com.mck.localweathernow;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -40,6 +43,7 @@ public class LocationFragment extends Fragment implements LocationListener,
 
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
+    private LocationModeReceiver mLocationModeReceiver;
 
     private static final String KEY_CUR_LAT = "KEY_CUR_LAT";
     private static final String KEY_CUR_LON = "KEY_CUR_LON";
@@ -47,8 +51,6 @@ public class LocationFragment extends Fragment implements LocationListener,
     private static final String KEY_CUR_LOC_ACCURACY = "KEY_CUR_LOC_ACCURACY";
 
     private LocationFragmentListener mListener;
-    private SystemLocationListener mSystemLocationListener;
-
 
     static class LocationData {
         double latitude;
@@ -97,7 +99,7 @@ public class LocationFragment extends Fragment implements LocationListener,
             mListener = (LocationFragmentListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement LocationFragmentListener");
+                    + " must implement Location2FragmentListener");
         }
     }
 
@@ -132,7 +134,11 @@ public class LocationFragment extends Fragment implements LocationListener,
             mListener.onLocationUpdate(locationData);
         } else {
             Log.v(TAG, "onResume() does not have ideal location data, calling connectGoogleApiClient()");
+            disconnectGoogleApiClient();
             connectGoogleApiClient();
+            IntentFilter filter = new IntentFilter("android.location.MODE_CHANGED");
+            mLocationModeReceiver = new LocationModeReceiver();
+            getActivity().registerReceiver(mLocationModeReceiver, filter);
         }
     }
 
@@ -140,7 +146,11 @@ public class LocationFragment extends Fragment implements LocationListener,
     public void onPause() {
         super.onPause();
         Log.v(TAG, "onPause()");
-        disconnectLocationServices();
+        if (mLocationModeReceiver != null) {
+            getActivity().unregisterReceiver(mLocationModeReceiver);
+            mLocationModeReceiver = null;
+        }
+        disconnectGoogleApiClient();
     }
 
     @Override
@@ -178,21 +188,9 @@ public class LocationFragment extends Fragment implements LocationListener,
         mGoogleApiClient.connect();
     }
 
-    private void disconnectLocationServices() {
-        Log.v(TAG, "disconnectLocationServices()");
+    private void disconnectGoogleApiClient() {
+        Log.v(TAG, "disconnectGoogleApiClient()");
         // if we are listening for location updates from LocationManager,
-        if (mSystemLocationListener != null) {
-            // if we still have permission
-            if (ActivityCompat.checkSelfPermission(getContext(),
-                    Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
-                    ActivityCompat.checkSelfPermission(getContext(),
-                            Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                // stop remove updates
-                ((LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE))
-                        .removeUpdates(mSystemLocationListener);
-            }
-            mSystemLocationListener = null;
-        }
         if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
             LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
         }
@@ -200,6 +198,7 @@ public class LocationFragment extends Fragment implements LocationListener,
                 (mGoogleApiClient.isConnecting() || mGoogleApiClient.isConnected())) {
             mGoogleApiClient.disconnect();
         }
+        mGoogleApiClient = null;
     }
 
     // google api client is connected
@@ -248,17 +247,6 @@ public class LocationFragment extends Fragment implements LocationListener,
                         // have permissions, go ahead and request updates.
                         LocationServices.FusedLocationApi.requestLocationUpdates(
                                 mGoogleApiClient, mLocationRequest, LocationFragment.this);
-                        // It may be possible to turn off location changes from notifications bar without on pause being called.
-                        // need to use an android.location.LocationListener to catch this event. Since not using these services
-                        // for location updates, set the minimum time and displacement deltas to large values
-                        mSystemLocationListener = new SystemLocationListener();
-                        LocationManager locationManager = ((LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE));
-                        if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-                            Log.v(TAG, "NETWORK_PROVIDER IS ENABLED.");
-                            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, mSystemLocationListener);
-                        } else {
-                            Log.v(TAG, "NETWORK_PROVIDER IS NOT ENABLED.");
-                        }
                         break;
                     case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
                         Log.v(TAG, "onResult() LocationSettingsStatusCodes.RESOLUTION_REQUIRED");
@@ -294,21 +282,6 @@ public class LocationFragment extends Fragment implements LocationListener,
             Log.v(TAG, "onActivityResult() requestCode is REQUEST_SETTINGS_RESOLUTION_ID");
             if (resultCode != Activity.RESULT_OK) {
                 requiresSettingsRationale = true;
-            } else {
-                if (ActivityCompat.checkSelfPermission(getContext(),
-                        Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                        ActivityCompat.checkSelfPermission(getContext(),
-                                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                        return;
-                }
-                mSystemLocationListener = new SystemLocationListener();
-                LocationManager locationManager = ((LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE));
-                if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-                    Log.v(TAG, "NETWORK_PROVIDER IS ENABLED.");
-                    locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 60000, 5000, mSystemLocationListener);
-                } else {
-                    Log.v(TAG, "NETWORK_PROVIDER IS NOT ENABLED.");
-                }
             }
         }
         if (requestCode == Constants.GPS_CONNECTION_RESOLUTION_ID) {
@@ -320,7 +293,6 @@ public class LocationFragment extends Fragment implements LocationListener,
             }
         }
     }
-
 
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -335,7 +307,6 @@ public class LocationFragment extends Fragment implements LocationListener,
         } else {
             Log.v(TAG, "onRequestPermissionsResult() .. permission is granted.");
         }
-
     }
 
     private void onLocationsSettingsFailure() {
@@ -375,20 +346,20 @@ public class LocationFragment extends Fragment implements LocationListener,
         // if the accuracy is great, remove location helper fragment.
         if (hasIdealLocationData()){
             Log.v(TAG, "onLocationChanged() with accuracy < than min. disconnecting. mGoogleApiClient");
-            disconnectLocationServices();
+            disconnectGoogleApiClient();
         }
         mListener.onLocationUpdate(locationData);
     }
 
-
-
     @Override
     public void requiresSettingsRationaleTryAgain() {
+        disconnectGoogleApiClient();
         connectGoogleApiClient();
     }
 
     @Override
     public void requiresPermissionsRationaleTryAgain() {
+        disconnectGoogleApiClient();
         connectGoogleApiClient();
     }
 
@@ -399,28 +370,23 @@ public class LocationFragment extends Fragment implements LocationListener,
                 System.currentTimeMillis() - locationData.time > Constants.MAX_LOC_TIME_DELTA);
     }
 
-    private class SystemLocationListener implements android.location.LocationListener {
-        public void onLocationChanged(Location location) {
-            Log.v(TAG, "SystemLocationListener.onLocationChanged()");
-        }
-        public void onStatusChanged(String s, int i, Bundle bundle) {
-            Log.v(TAG, "SystemLocationListener.onStatusChanged()");
-        }
-        public void onProviderEnabled(String s) {
-            Log.v(TAG, "SystemLocationListener.onProviderEnabled()");
-        }
-        // want to disconnect any loc listeners, then try and reconnect.
-        // this should force a reconnect cycle.
-        public void onProviderDisabled(String s) {
-            Log.v(TAG, "SystemLocationListener.onProviderDisabled()");
-            if (getContext() != null) {
-                disconnectLocationServices();
-                connectGoogleApiClient();
-            } else {
-                Log.e(TAG, "onProviderDisabled() but context is null");
+    public class LocationModeReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.v(TAG, "LocationModeReceiver.onReceiver()");
+            try {
+                ContentResolver contentResolver = context.getContentResolver();
+                int mode = Settings.Secure.getInt(contentResolver, Settings.Secure.LOCATION_MODE);
+                if (mode == Settings.Secure.LOCATION_MODE_OFF){
+                    Log.v(TAG, "LocationModeReceiver.onReceiver() with mode Settings.Secure.LOCATION_MODE_OFF.");
+                    disconnectGoogleApiClient();
+                    connectGoogleApiClient();
+                }
+            } catch (Settings.SettingNotFoundException e) {
+                e.printStackTrace();
             }
-        }
 
+        }
     }
 
     interface LocationFragmentListener {
