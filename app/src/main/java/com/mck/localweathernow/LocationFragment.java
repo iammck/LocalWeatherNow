@@ -401,20 +401,24 @@ public class LocationFragment extends Fragment implements LocationListener,
 
     private class SystemLocationListener implements android.location.LocationListener {
         public void onLocationChanged(Location location) {
-            Log.v(TAG, "onLocationChanged()");
+            Log.v(TAG, "SystemLocationListener.onLocationChanged()");
         }
         public void onStatusChanged(String s, int i, Bundle bundle) {
-            Log.v(TAG, "onStatusChanged()");
+            Log.v(TAG, "SystemLocationListener.onStatusChanged()");
         }
         public void onProviderEnabled(String s) {
-            Log.v(TAG, "onProviderEnabled()");
+            Log.v(TAG, "SystemLocationListener.onProviderEnabled()");
         }
         // want to disconnect any loc listeners, then try and reconnect.
         // this should force a reconnect cycle.
         public void onProviderDisabled(String s) {
-            Log.v(TAG, "onProviderDisabled()");
-            disconnectLocationServices();
-            connectGoogleApiClient();
+            Log.v(TAG, "SystemLocationListener.onProviderDisabled()");
+            if (getContext() != null) {
+                disconnectLocationServices();
+                connectGoogleApiClient();
+            } else {
+                Log.e(TAG, "onProviderDisabled() but context is null");
+            }
         }
 
     }
