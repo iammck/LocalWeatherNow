@@ -310,6 +310,7 @@ public class LocationFragment extends Fragment implements LocationListener,
     }
 
     private void onLocationsSettingsFailure() {
+        Log.v(TAG, "onLocationSettingsFailure()");
         LocationSettingsFailureDialogFragment frag = LocationSettingsFailureDialogFragment.newInstance();
             frag.show(getChildFragmentManager(), LocationSettingsFailureDialogFragment.TAG);
     }
@@ -324,8 +325,15 @@ public class LocationFragment extends Fragment implements LocationListener,
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         try {
-            connectionResult.startResolutionForResult(getActivity(), Constants.GPS_CONNECTION_RESOLUTION_ID);
-        } catch (IntentSender.SendIntentException e) {
+            Log.v(TAG, "onConnectionFailed() with result " + connectionResult);
+            if (!connectionResult.hasResolution()){
+                RequiresGooglePlayServicesDialogFragment frag =
+                        RequiresGooglePlayServicesDialogFragment.newInstance();
+                frag.show(getChildFragmentManager(), RequiresGooglePlayServicesDialogFragment.TAG);
+            } else {
+                connectionResult.startResolutionForResult(getActivity(), Constants.GPS_CONNECTION_RESOLUTION_ID);
+            }
+        } catch (Exception e) {
             e.printStackTrace();
             RequiresGooglePlayServicesDialogFragment frag =
                     RequiresGooglePlayServicesDialogFragment.newInstance();
@@ -376,11 +384,21 @@ public class LocationFragment extends Fragment implements LocationListener,
             Log.v(TAG, "LocationModeReceiver.onReceiver()");
             try {
                 ContentResolver contentResolver = context.getContentResolver();
-                int mode = Settings.Secure.getInt(contentResolver, Settings.Secure.LOCATION_MODE);
-                if (mode == Settings.Secure.LOCATION_MODE_OFF){
-                    Log.v(TAG, "LocationModeReceiver.onReceiver() with mode Settings.Secure.LOCATION_MODE_OFF.");
-                    disconnectGoogleApiClient();
-                    connectGoogleApiClient();
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+                    int mode = Settings.Secure.getInt(contentResolver, Settings.Secure.LOCATION_MODE);
+                    if (mode == Settings.Secure.LOCATION_MODE_OFF){
+                        Log.v(TAG, "LocationModeReceiver.onReceiver() with mode Settings.Secure.LOCATION_MODE_OFF.");
+                        disconnectGoogleApiClient();
+                        connectGoogleApiClient();
+                    }
+                } else {
+                    @SuppressWarnings("deprecation")
+                    String providers = Settings.Secure.getString(contentResolver, Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
+                    Log.v(TAG, "LocationModeReceiver.onReceiver() with providers " + providers);
+                    if (providers.isEmpty()){
+                        disconnectGoogleApiClient();
+                        connectGoogleApiClient();
+                    }
                 }
             } catch (Settings.SettingNotFoundException e) {
                 e.printStackTrace();
