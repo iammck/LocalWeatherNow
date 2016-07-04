@@ -24,8 +24,10 @@ class HourlyViewRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     private CurrentWeatherData currentWeather;
     private CurrentViewHolder currentViewHolder;
 
-    public HourlyViewRecyclerViewAdapter(){
+    HourlyViewRecyclerViewAdapter(){
+        Log.v(TAG, "HourlyViewRecyclerViewAdapter instantiation in progress.");
         periodViewHolders = new ArrayList<>();
+
     }
 
 
@@ -105,7 +107,17 @@ class HourlyViewRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         notifyItemChanged(0);
     }
 
-    class CurrentViewHolder extends RecyclerView.ViewHolder {
+    void onCurrentWeatherDataUpdate(CurrentWeatherData currentWeatherData) {
+        // TODO
+        Log.v(TAG, "onCurrentWeatherDataUpdate()");
+    }
+
+    void onForecastWeatherDataUpdate(ForecastWeatherData forecastWeatherData) {
+        // TODO
+        Log.v(TAG, "onForecastWeatherDataUpdate()");
+    }
+
+    private class CurrentViewHolder extends RecyclerView.ViewHolder {
         View mView;
         CurrentViewHolder(View view) {
             super(view);
@@ -113,7 +125,7 @@ class HourlyViewRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         }
     }
 
-    class PeriodViewHolder extends RecyclerView.ViewHolder {
+    private class PeriodViewHolder extends RecyclerView.ViewHolder {
         View mView;
         PeriodViewHolder(View view) {
             super(view);

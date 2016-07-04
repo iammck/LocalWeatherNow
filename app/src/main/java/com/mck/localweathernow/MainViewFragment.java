@@ -7,15 +7,22 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.mck.localweathernow.model.CurrentWeatherData;
+import com.mck.localweathernow.model.ForecastWeatherData;
 
 
 public class MainViewFragment extends Fragment {
     public static final String TAG = "MainViewFragment";
 
+    private String[] fragmentTags;
+
     public MainViewFragment() {
+        fragmentTags = new String[2];
     }
 
     public static MainViewFragment newInstance() {
@@ -25,6 +32,7 @@ public class MainViewFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.v(TAG, "onCreate()");
     }
 
     @Override
@@ -32,17 +40,57 @@ public class MainViewFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
+        Log.v(TAG, "onCreateView()");
         SectionsPagerAdapter sectionsPagerAdapter =
                 new SectionsPagerAdapter(getChildFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        ViewPager mViewPager = (ViewPager) view.findViewById(R.id.viewPagerContainer);
-        mViewPager.setAdapter(sectionsPagerAdapter);
+        ViewPager viewPager = (ViewPager) view.findViewById(R.id.viewPagerContainer);
+        viewPager.setAdapter(sectionsPagerAdapter);
         // Set up the tab layout with the view pager.
         TabLayout tabLayout = (TabLayout) view.findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(mViewPager);
+        tabLayout.setupWithViewPager(viewPager);
 
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.v(TAG, "onStart()");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.v(TAG, "onResume()");
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.v(TAG, "onPause()");
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.v(TAG, "onStop()");
+    }
+
+
+    void onCurrentWeatherDataUpdate(CurrentWeatherData currentWeatherData) {
+        Log.v(TAG, "onCurrentWeatherDataUpdate()");
+        HourlyViewFragment fragment = (HourlyViewFragment)
+                getChildFragmentManager().findFragmentByTag(fragmentTags[0]);
+        fragment.onCurrentWeatherDataUpdate(currentWeatherData);
+    }
+
+    void onForecastWeatherDataUpdate(ForecastWeatherData forecastWeatherData) {
+        Log.v(TAG, "onForecastWeatherDataUpdate()");
+        HourlyViewFragment fragment = (HourlyViewFragment)
+                getChildFragmentManager().findFragmentByTag(fragmentTags[0]);
+        fragment.onForecastWeatherDataUpdate(forecastWeatherData);
     }
 
 
@@ -56,6 +104,7 @@ public class MainViewFragment extends Fragment {
         }
         @Override
         public Fragment getItem(int position) {
+            Log.v(TAG, "getItem() for position " + position);
             switch (position) {
                 case 0:
                     return HourlyViewFragment.newInstance();
@@ -80,6 +129,16 @@ public class MainViewFragment extends Fragment {
             }
             return null;
         }
+
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+            Fragment fragment = (Fragment) super.instantiateItem(container, position);
+            fragmentTags[position] = fragment.getTag();
+            return fragment;
+        }
+
     }
+
+
 
 }

@@ -81,10 +81,24 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onCurrentWeatherDataUpdate(CurrentWeatherData currentWeatherData) {
         Log.v(TAG, "onCurrentWeatherDataUpdate()");
+        MainViewFragment fragment = (MainViewFragment)
+                getSupportFragmentManager().findFragmentById(R.id.mainFragmentContainer);
+        if (fragment != null){
+            fragment.onCurrentWeatherDataUpdate(currentWeatherData);
+        } else {
+            Log.v(TAG, "onCurrentWeatherDataUpdate(), but MainViewFragment can not be found by id.");
+        }
     }
 
     @Override
-    public void onForecastWeatherDataUpdate(ForecastWeatherData mForecastWeatherData) {
+    public void onForecastWeatherDataUpdate(ForecastWeatherData forecastWeatherData) {
         Log.v(TAG, "onForecastWeatherDataUpdate()");
+        MainViewFragment fragment = (MainViewFragment)
+                getSupportFragmentManager().findFragmentById(R.id.mainFragmentContainer);
+        if (fragment != null){
+            fragment.onForecastWeatherDataUpdate(forecastWeatherData);
+        } else {
+            Log.v(TAG, "onForecastWeatherDataUpdate(), but MainViewFragment can not be found by id.");
+        }
     }
 }
