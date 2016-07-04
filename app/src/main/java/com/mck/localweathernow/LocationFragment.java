@@ -46,10 +46,7 @@ public class LocationFragment extends Fragment implements LocationListener,
     private LocationRequest mLocationRequest;
     private LocationModeReceiver mLocationModeReceiver;
 
-    private static final String KEY_CUR_LAT = "KEY_CUR_LAT";
-    private static final String KEY_CUR_LON = "KEY_CUR_LON";
-    private static final String KEY_CUR_LOC_RETRVL_TIME = "KEY_CUR_LOC_RETRVL_TIME";
-    private static final String KEY_CUR_LOC_ACCURACY = "KEY_CUR_LOC_ACCURACY";
+    private static final String KEY_LOCATION_DATA = TAG + ".key_location_data";
 
     private LocationFragmentListener mListener;
 
@@ -69,11 +66,7 @@ public class LocationFragment extends Fragment implements LocationListener,
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
-            double lat = savedInstanceState.getDouble(KEY_CUR_LAT);
-            double lon = savedInstanceState.getDouble(KEY_CUR_LON);
-            float acc = savedInstanceState.getFloat(KEY_CUR_LOC_ACCURACY);
-            long time = savedInstanceState.getLong(KEY_CUR_LOC_RETRVL_TIME);
-            locationData = new LocationData(lat, lon, acc, time);
+                locationData = savedInstanceState.getParcelable(KEY_LOCATION_DATA);
         }
     }
 
@@ -115,8 +108,8 @@ public class LocationFragment extends Fragment implements LocationListener,
             // if showing either of the dialogs, can return without connecting
             Log.v(TAG, "onResume() a dialog is showing so just returning.");
         } else if (hasIdealLocationData()) {
-            Log.v(TAG, "onResume() has ideal location data, forwarding to listener.onLocationUpdate().");
-            mListener.onLocationUpdate(locationData);
+            Log.v(TAG, "onResume() has ideal location data, forwarding to listener.onLocationDataUpdate().");
+            mListener.onLocationDataUpdate(locationData);
         } else {
             Log.v(TAG, "onResume() does not have ideal location data, calling connectGoogleApiClient()");
             disconnectGoogleApiClient();
@@ -148,10 +141,7 @@ public class LocationFragment extends Fragment implements LocationListener,
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         if (locationData != null) {
-            outState.putDouble(KEY_CUR_LAT, locationData.latitude);
-            outState.putDouble(KEY_CUR_LON, locationData.longitude);
-            outState.putLong(KEY_CUR_LOC_RETRVL_TIME, locationData.time);
-            outState.putFloat(KEY_CUR_LOC_ACCURACY, locationData.accuracy);
+            outState.putParcelable(KEY_LOCATION_DATA, locationData);
         }
     }
 
@@ -338,10 +328,10 @@ public class LocationFragment extends Fragment implements LocationListener,
 
         // if the accuracy is great, remove location helper fragment.
         if (hasIdealLocationData()){
-            Log.v(TAG, "onLocationChanged() with accuracy < than min. disconnecting. mGoogleApiClient");
+            Log.v(TAG, "onLocationChanged() with hasIdealLocationData() returning true. Disconnecting the mGoogleApiClient");
             disconnectGoogleApiClient();
         }
-        mListener.onLocationUpdate(locationData);
+        mListener.onLocationDataUpdate(locationData);
     }
 
     @Override
@@ -358,6 +348,12 @@ public class LocationFragment extends Fragment implements LocationListener,
 
     private boolean hasIdealLocationData(){
         // if no locationData or accuracy is greater than optimal or the time is stale
+        if (locationData != null) {
+            Log.v(TAG, "hasIdealLocationData() check with location accuracy: "
+                    + locationData.accuracy + ", and time: " + locationData.time + ".");
+        } else {
+            Log.v(TAG, "hasIdealLocationData() check with null locationData");
+        }
         return !(locationData == null ||
                 locationData.accuracy > Constants.MIN_ACCURACY ||
                 System.currentTimeMillis() - locationData.time > Constants.MAX_LOC_TIME_DELTA);
@@ -393,6 +389,6 @@ public class LocationFragment extends Fragment implements LocationListener,
     }
 
     interface LocationFragmentListener {
-        void onLocationUpdate(LocationData location);
+        void onLocationDataUpdate(LocationData location);
     }
 }
