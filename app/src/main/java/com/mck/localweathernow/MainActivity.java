@@ -10,8 +10,8 @@ import com.mck.localweathernow.model.CurrentWeatherData;
 import com.mck.localweathernow.model.ForecastWeatherData;
 import com.mck.localweathernow.model.LocationData;
 
-public class MainActivity extends AppCompatActivity
-        implements LocationFragment.LocationFragmentListener,
+public class MainActivity extends AppCompatActivity implements
+        LocationFragment.LocationFragmentListener,
         WeatherFragment.WeatherFragmentListener {
 
     private static final String TAG = "MainActivity";
@@ -71,17 +71,20 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onLocationUpdate(LocationData location) {
-        Log.v(TAG, "onLocationUpdate()");
+    public void onLocationDataUpdate(LocationData locationData) {
+        Log.v(TAG, "onLocationDataUpdate()");
+        WeatherFragment fragment = (WeatherFragment)
+                getSupportFragmentManager().findFragmentByTag(WeatherFragment.TAG);
+        fragment.onLocationDataUpdate(locationData);
     }
 
     @Override
     public void onCurrentWeatherDataUpdate(CurrentWeatherData currentWeatherData) {
-
+        Log.v(TAG, "onCurrentWeatherDataUpdate()");
     }
 
     @Override
-    public void onForecastWeatherDataUpdate(ForecastWeatherData forecastWeatherData) {
-
+    public void onForecastWeatherDataUpdate(ForecastWeatherData mForecastWeatherData) {
+        Log.v(TAG, "onForecastWeatherDataUpdate()");
     }
 }

@@ -2,43 +2,35 @@ package com.mck.localweathernow.asynctask;
 
 import android.os.AsyncTask;
 
-import com.mck.localweathernow.model.ForecastWeatherData;
+import com.mck.localweathernow.model.LocationData;
 import com.mck.localweathernow.service.OpenWeatherMapService;
 
-
 /**
- * Gets the forecast for the lat and lon over a period and returns the result to a Callback.
- *
- * Created by Michael on 5/17/2016.
+ * gets forecast weather from OpenWeatherMapService
+ * Created by Michael on 7/3/2016.
  */
-public class GetForecastWeatherAsyncTask extends AsyncTask<Object,Integer,ForecastWeatherData> {
-    Callback callback;
-    double lat;
-    double lon;
-    int periods;
+
+public class GetForecastWeatherAsyncTask extends AsyncTask<Object,Integer,String> {
+    private final LocationData locationData;
+    private final Callback callback;
 
     public interface Callback {
-        void onForecastWeatherResult(ForecastWeatherData data);
+        void onForecastWeatherResult(String forecastWeather);
     }
 
-    public GetForecastWeatherAsyncTask(Callback callback, double lat, double lon, int periods){
+    public GetForecastWeatherAsyncTask(Callback callback, LocationData locationData){
         this.callback = callback;
-        this.lat = lat;
-        this.lon = lon;
-        this.periods = periods;
+        this.locationData = locationData;
     }
 
     @Override
-    protected ForecastWeatherData doInBackground(Object... params) {
-        if (isCancelled()) return null;
-        return OpenWeatherMapService.instance().requestForecastWeather(lat, lon, periods);
+    protected String doInBackground(Object... objects) {
+        return isCancelled()? null: OpenWeatherMapService.requestForecast(locationData);
     }
 
     @Override
-    protected void onPostExecute(ForecastWeatherData data) {
-        super.onPostExecute(data);
-        if (!isCancelled()){
-            callback.onForecastWeatherResult(data);
-        }
+    protected void onPostExecute(String s) {
+        super.onPostExecute(s);
+        if (!isCancelled()) callback.onForecastWeatherResult(s);
     }
 }

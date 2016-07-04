@@ -2,40 +2,33 @@ package com.mck.localweathernow.asynctask;
 
 import android.os.AsyncTask;
 
-import com.mck.localweathernow.model.CurrentWeatherData;
+import com.mck.localweathernow.model.LocationData;
 import com.mck.localweathernow.service.OpenWeatherMapService;
 
 /**
- * AsyncTask to get the current weather. requires the call, lat and long
- * to start.
- * Created by Michael on 5/16/2016.
+ * Created by Michael on 7/2/2016.
  */
-public class GetCurrentWeatherAsyncTask extends AsyncTask<Object,Integer,CurrentWeatherData> {
-    Callback callback;
-    private double lat;
-    private double lon;
+public class GetCurrentWeatherAsyncTask extends AsyncTask<Object,Integer,String> {
+    private final LocationData locationData;
+    private final Callback callback;
 
     public interface Callback {
-        void onCurrentWeatherResult(CurrentWeatherData data);
+        void onCurrentWeatherResult(String currentWeather);
     }
 
-    public GetCurrentWeatherAsyncTask(Callback callback, double lat, double lon){
+    public GetCurrentWeatherAsyncTask(Callback callback, LocationData locationData){
         this.callback = callback;
-        this.lat = lat;
-        this.lon = lon;
+        this.locationData = locationData;
     }
 
     @Override
-    protected CurrentWeatherData doInBackground(Object... params) {
-        if (isCancelled()) return null;
-        return OpenWeatherMapService.instance().requestCurrentWeather(lat, lon);
+    protected String doInBackground(Object... objects) {
+        return isCancelled()? null: OpenWeatherMapService.requestCurrent(locationData);
     }
 
     @Override
-    protected void onPostExecute(CurrentWeatherData data) {
-        super.onPostExecute(data);
-        if (!isCancelled()){
-            callback.onCurrentWeatherResult(data);
-        }
+    protected void onPostExecute(String s) {
+        super.onPostExecute(s);
+        if (!isCancelled()) callback.onCurrentWeatherResult(s);
     }
 }
