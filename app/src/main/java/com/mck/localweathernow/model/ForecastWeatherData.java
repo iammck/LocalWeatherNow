@@ -10,6 +10,7 @@ public class ForecastWeatherData {
     public String message;
     public Integer cnt;
     public Period[] list;
+    public long locDataTime;
 
     public ForecastWeatherData(){
 

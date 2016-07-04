@@ -186,7 +186,6 @@ public class WeatherFragment extends Fragment implements
 
     @Override
     public void onForecastWeatherResult(String forecastWeather) {
-        // TODO
         Log.v(TAG, "onForecastWeatherResult() instantiating GetCurrentWeatherDataAsyncTask before executing.");
         mForecastWeather = forecastWeather;
         mGetCurrentWeatherAsyncTask = null;
@@ -203,6 +202,7 @@ public class WeatherFragment extends Fragment implements
     @Override
     public void onCurrentWeatherDataResult(CurrentWeatherData currentWeatherData) {
         Log.v(TAG, "onCurrentWeatherDataResult()");
+        currentWeatherData.locDataTime = mLocationData.time;
         mCurrentWeatherData = currentWeatherData;
         mGetCurrentWeatherDataAsyncTask = null;
         if (mWeatherFragmentListener != null){
@@ -214,6 +214,7 @@ public class WeatherFragment extends Fragment implements
     @Override
     public void onForecastWeatherDataResult(ForecastWeatherData forecastWeatherData) {
         Log.v(TAG, "onForecastWeatherDataResult()");
+        forecastWeatherData.locDataTime = mLocationData.time;
         mForecastWeatherData = forecastWeatherData;
         mGetForecastWeatherAsyncTask = null;
         if (mWeatherFragmentListener != null){

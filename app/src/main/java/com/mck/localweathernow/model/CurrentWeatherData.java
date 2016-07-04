@@ -20,6 +20,7 @@ public class CurrentWeatherData {
     public String name; // City name
     public Integer cod; // should be
     public String message; // error message
+    public Long locDataTime;
 
     public CurrentWeatherData(){}
 
