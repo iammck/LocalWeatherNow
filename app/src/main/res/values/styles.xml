@@ -18,7 +18,7 @@
     </style>
 
     <style name="LargeTextTheme" parent="TextAppearance.AppCompat.Large">
-
+        <item name="android:padding">@dimen/large_text_padding_size</item>
     </style>
 
     <style name="MediumTextTheme" parent="TextAppearance.AppCompat.Medium">
@@ -26,7 +26,7 @@
     </style>
 
     <style name="SmallTextTheme" parent="TextAppearance.AppCompat.Small">
-
+        <item name="android:padding">@dimen/small_text_padding_size</item>
     </style>
 
 
