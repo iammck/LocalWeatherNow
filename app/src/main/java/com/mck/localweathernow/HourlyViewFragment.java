@@ -81,8 +81,12 @@ public class HourlyViewFragment extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putLong(KEY_LAST_CURR_UPDATE_TIME, lastCurrentWeatherUpdateTime);
-        outState.putLong(KEY_LAST_FORE_UPDATE_TIME, lastForecastWeatherUpdateTime);
+        if (lastCurrentWeatherUpdateTime != null) {
+            outState.putLong(KEY_LAST_CURR_UPDATE_TIME, lastCurrentWeatherUpdateTime);
+        }
+        if ( lastForecastWeatherUpdateTime != null){
+            outState.putLong(KEY_LAST_FORE_UPDATE_TIME, lastForecastWeatherUpdateTime);
+        }
     }
 
     void onCurrentWeatherDataUpdate(CurrentWeatherData currentWeatherData) {

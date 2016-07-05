@@ -40,7 +40,7 @@ public class GetForecastWeatherDataAsyncTask extends AsyncTask<Object, Integer, 
     @Override
     protected void onPostExecute(ForecastWeatherData forecastWeatherData) {
         super.onPostExecute(forecastWeatherData);
-        if (!isCancelled()) callback.onForecastWeatherDataResult(forecastWeatherData);
+        if (!isCancelled() && forecastWeatherData != null) callback.onForecastWeatherDataResult(forecastWeatherData);
 
     }
 }

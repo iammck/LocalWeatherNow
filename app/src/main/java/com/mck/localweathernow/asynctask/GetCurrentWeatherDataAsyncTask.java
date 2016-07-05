@@ -39,7 +39,7 @@ public class GetCurrentWeatherDataAsyncTask extends AsyncTask<Object, Integer, C
     @Override
     protected void onPostExecute(CurrentWeatherData currentWeatherData) {
         super.onPostExecute(currentWeatherData);
-        if (!isCancelled()) callback.onCurrentWeatherDataResult(currentWeatherData);
+        if (!isCancelled() && currentWeatherData != null) callback.onCurrentWeatherDataResult(currentWeatherData);
 
     }
 }
