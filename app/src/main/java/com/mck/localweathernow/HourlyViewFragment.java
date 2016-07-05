@@ -91,10 +91,11 @@ public class HourlyViewFragment extends Fragment {
 
     void onCurrentWeatherDataUpdate(CurrentWeatherData currentWeatherData) {
         Log.v(TAG, "onCurrentWeatherDataUpdate()");
-        if (lastCurrentWeatherUpdateTime != null &&
+        /*if (lastCurrentWeatherUpdateTime != null &&
                 lastCurrentWeatherUpdateTime.equals(currentWeatherData.locDataTime)){
+            Log.v(TAG, "onCurrentWeatherDataUpdate(), but not an update. returning.");
             return;
-        }
+        }*/
         lastCurrentWeatherUpdateTime = currentWeatherData.locDataTime;
         RecyclerView recyclerView = ((RecyclerView) getView());
         if (recyclerView != null) {
@@ -105,10 +106,11 @@ public class HourlyViewFragment extends Fragment {
 
     void onForecastWeatherDataUpdate(ForecastWeatherData forecastWeatherData) {
         Log.v(TAG, "onForecastWeatherDataUpdate()");
-        if (lastForecastWeatherUpdateTime != null &&
+        /*if (lastForecastWeatherUpdateTime != null &&
                 lastForecastWeatherUpdateTime.equals(forecastWeatherData.locDataTime)){
+            Log.v(TAG, "onForecastWeatherDataUpdate(), but not an update. returning.");
             return;
-        }
+        }*/
         lastForecastWeatherUpdateTime = forecastWeatherData.locDataTime;
         RecyclerView recyclerView = ((RecyclerView) getView());
         if (recyclerView != null) {
