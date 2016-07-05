@@ -25,7 +25,6 @@ class HourlyViewRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     private Period[] periods;
     private ArrayList<PeriodViewHolder> periodViewHolders;
     private CurrentWeatherData currentWeatherData;
-    private CurrentViewHolder currentViewHolder;
 
     HourlyViewRecyclerViewAdapter(){
         Log.v(TAG, "HourlyViewRecyclerViewAdapter instantiation in progress.");
@@ -182,9 +181,6 @@ class HourlyViewRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     void onCurrentWeatherDataUpdate(CurrentWeatherData currentWeatherData) {
         Log.v(TAG, "onCurrentWeatherDataUpdate()");
         this.currentWeatherData = currentWeatherData;
-        if (currentViewHolder != null){
-            // TODO Update current weather view.
-        }
         notifyItemChanged(0);
     }
 

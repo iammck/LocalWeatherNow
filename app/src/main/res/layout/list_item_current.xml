@@ -72,12 +72,13 @@
                     android:layout_alignParentLeft="true"/>
 
                 <TextView
-                    android:text="Cloud Cover"
+                    android:text="Cloudiness"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/tvLabelCloudCover"
                     style="@style/SmallTextTheme"
-                    android:layout_below="@id/tvLabelHumidity"/>
+                    android:layout_below="@id/tvLabelHumidity"
+                    android:singleLine="true"/>
 
                 <TextView
                     android:text="0000"
@@ -132,7 +133,8 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/tvTemperature"
                         style="@style/TemperatureTheme"
-                        />
+                        android:singleLine="true"
+                        android:gravity="left"/>
 
                     <TextView
                         android:text="-100*/-100*"
@@ -140,7 +142,8 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/tvTemperatureHighLow"
                         style="@style/SmallTextTheme"
-                        />
+                        android:singleLine="true"
+                        android:gravity="left"/>
 
                 </LinearLayout>
 
@@ -159,7 +162,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/tvDescription"
                 style="@style/LargeTextTheme"
-                />
+                android:singleLine="true"/>
 
         </LinearLayout>
 
