@@ -13,4 +13,21 @@
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 
+    <style name="TemperatureTheme" parent="TextAppearance.AppCompat.Large">
+        <item name="android:textSize">@dimen/temperature_size</item>
+    </style>
+
+    <style name="LargeTextTheme" parent="TextAppearance.AppCompat.Large">
+
+    </style>
+
+    <style name="MediumTextTheme" parent="TextAppearance.AppCompat.Medium">
+
+    </style>
+
+    <style name="SmallTextTheme" parent="TextAppearance.AppCompat.Small">
+
+    </style>
+
+
 </resources>

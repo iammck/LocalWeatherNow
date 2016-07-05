@@ -1,131 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_height="match_parent"
+    tools:context="com.mck.localweathernow.MainActivity">
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <TextView
-            android:text="LOCATION"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tvLocation"
-            android:layout_weight="1"/>
-
-        <TextView
-            android:text="DATE"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tvDate"
-            android:layout_weight="1"/>
-
-    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:weightSum="5">
+        android:layout_height="wrap_content"
+        android:weightSum="5"
+        android:id="@+id/linearLayoutMainInfo">
+
+
+        <!-- begin current extra -->
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="3"
-            android:weightSum="3">
+            android:layout_height="wrap_content"
+            android:layout_weight="2">
 
             <TextView
-                android:text="TIME"
+                android:text="Time"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:id="@+id/tvTime"
-                android:layout_weight="1"
-                android:gravity="center_vertical|center_horizontal"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:weightSum="2"
-                android:layout_weight="1">
-
-                <TextView
-                    android:text="Humidity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/tvLabelHumidity"
-                    android:layout_weight="1"/>
-
-                <TextView
-                    android:text="HUMIDITY"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/tvHumidity"
-                    android:layout_weight="1"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:weightSum="2"
-                android:layout_weight="1">
-
-                <TextView
-                    android:text="Cloud Cover"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/tvLabelCloudCover"
-                    android:layout_weight="1"/>
-
-                <TextView
-                    android:text="CLOUD COVER"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/tvCloudCover"
-                    android:layout_weight="1"/>
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2">
+                android:gravity="center_horizontal"
+                style="@style/LargeTextTheme"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:weightSum="3">
+                android:weightSum="2">
+
+                <TextView
+                    android:text="Humidity"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvLabelHumidity"
+                    android:layout_weight="1"
+                    style="@style/SmallTextTheme"/>
+
+                <TextView
+                    android:text="0000"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvHumidity"
+                    android:layout_weight="1"
+                    style="@style/MediumTextTheme"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="2">
+
+                <TextView
+                    android:text="Cloud Cover"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvLabelCloudCover"
+                    android:layout_weight="1"
+                    style="@style/SmallTextTheme"/>
+
+                <TextView
+                    android:text="0000"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvCloudCover"
+                    android:layout_weight="1"
+                    style="@style/MediumTextTheme"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- end current extra, begin current main -->
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
                 <LinearLayout
-                    android:orientation="vertical"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="2"
-                    android:layout_width="0dp">
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:text="TMP"
+                        android:text="TEMP"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/tvTemperature"/>
+                        android:id="@+id/tvTemperature"
+                        android:layout_weight="1"
+                        style="@style/TemperatureTheme"/>
 
                     <TextView
-                        android:text="HIGH/LOW"
+                        android:text="-100*/-100*"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/tvTemperatureHighLow"/>
+                        android:id="@+id/tvTemperatureHighLow"
+                        android:layout_weight="1"
+                        style="@style/SmallTextTheme"/>
+
                 </LinearLayout>
 
                 <ImageView
-                    android:src="@drawable/abc_ic_star_black_36dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/imageView"
+                    android:src="@drawable/abc_ic_star_black_48dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/ivIcon"
                     android:layout_weight="1"/>
 
             </LinearLayout>
@@ -135,106 +128,138 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/tvDescription"
+                style="@style/LargeTextTheme"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- end main info, begin wind -->
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/linearLayoutOtherInfo"
+        android:layout_below="@id/linearLayoutMainInfo"
+        android:weightSum="2"
+        android:gravity="bottom">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/linearLayoutRainSnowFall"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:weightSum="2">
+
+                <TextView
+                    android:text="Rainfall"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvLabelRainfall"
+                    android:layout_weight="1"/>
+
+                <TextView
+                    android:text="0000"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvRain"
+                    android:layout_weight="1"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+
+                <TextView
+                    android:text="Snowfall"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvLabelSnowfall"
+                    android:layout_weight="1"/>
+
+                <TextView
+                    android:text="0000"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvSnow"
+                    android:layout_weight="1"/>
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/linearLayoutWind"
+            android:layout_below="@id/linearLayoutMainInfo"
+            android:layout_weight="1">
+
+            <TextView
+                android:text="Wind"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvLabelWind"
                 />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="2">
+
+                <TextView
+                    android:text="Speed"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvLabelWindSpeed"
+                    android:layout_weight="1"/>
+
+                <TextView
+                    android:text="0000"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvWindSpeed"
+                    android:layout_weight="1"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="2">
+
+                <TextView
+                    android:text="Direction"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvLabelWindDirection"
+                    android:layout_weight="1"/>
+
+                <TextView
+                    android:text="0000"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvWindDirection"
+                    android:layout_weight="1"/>
+
+            </LinearLayout>
+
+
         </LinearLayout>
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:weightSum="2">
+    <!-- end wind, begin rain snow fall -->
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
-
-            <TextView
-                android:text="Wind Speed"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/tvLabelWindSpeed"/>
-
-            <TextView
-                android:text="WINDSPEED"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/tvWindSpeed"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:weightSum="2"
-            android:layout_weight="1">
-
-            <TextView
-                android:text="Wind Direction"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/tvLabelWindDirection"/>
-
-            <TextView
-                android:text="WIND DIR"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/tvWindDirection"/>
-
-        </LinearLayout>
+    <!-- end rain snow fall -->
 
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:weightSum="2"
-            android:layout_weight="1">
-
-            <TextView
-                android:text="Rain Volume"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/tvLabelRainVolume"
-                android:layout_weight="1"/>
-
-            <TextView
-                android:text="RAIN VOL"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/tv3HourRainVol"
-                android:layout_weight="1"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:weightSum="2"
-            android:layout_weight="1">
-
-            <TextView
-                android:text="Snow Volume"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/tvLabelSnowVol"
-                android:layout_weight="1"/>
-
-            <TextView
-                android:text="SNOW VOL"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/tvSnowVolume"
-                android:layout_weight="1"/>
-
-        </LinearLayout>
-    </LinearLayout>
-
-</LinearLayout>
+</RelativeLayout>
