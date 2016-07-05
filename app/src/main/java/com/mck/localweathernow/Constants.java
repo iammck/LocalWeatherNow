@@ -8,6 +8,7 @@ package com.mck.localweathernow;
 public class Constants {
     public static final String API_ID = PrivateConstants.API_ID;
     public static final int NUM_PERIODS_TO_REQUEST = 8;
+    public static final String UNITS = "";
 
     static long locationReqInterval = 4000;
     static long fastestLocationReqInterval = 1000;
