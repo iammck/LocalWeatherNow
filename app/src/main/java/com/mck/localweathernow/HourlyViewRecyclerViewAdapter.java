@@ -21,7 +21,7 @@ class HourlyViewRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     private static final String TAG = "HourlyRVAdapter";
     private Period[] periods;
     private ArrayList<PeriodViewHolder> periodViewHolders;
-    private CurrentWeatherData currentWeather;
+    private CurrentWeatherData currentWeatherData;
     private CurrentViewHolder currentViewHolder;
 
     HourlyViewRecyclerViewAdapter(){
@@ -29,7 +29,6 @@ class HourlyViewRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         periodViewHolders = new ArrayList<>();
 
     }
-
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -83,9 +82,18 @@ class HourlyViewRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         }
     }
 
-    void updateForecastWeather(ForecastWeatherData forecastWeather) {
-        Log.v(TAG, "updateForecastWeather");
-        periods = forecastWeather.list;
+    void onCurrentWeatherDataUpdate(CurrentWeatherData currentWeatherData) {
+        Log.v(TAG, "onCurrentWeatherDataUpdate()");
+        this.currentWeatherData = currentWeatherData;
+        if (currentViewHolder != null){
+            // TODO Update current weather view.
+        }
+        notifyItemChanged(0);
+    }
+
+    void onForecastWeatherDataUpdate(ForecastWeatherData forecastWeatherData) {
+        Log.v(TAG, "onForecastWeatherDataUpdate()");
+        periods = forecastWeatherData.list;
         // if there there are no periodViewHolders
         if (periodViewHolders.isEmpty()){
             notifyItemRangeInserted(1, periods.length);
@@ -96,25 +104,6 @@ class HourlyViewRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             notifyItemRangeRemoved(1, periodViewHolders.size());
             notifyItemRangeInserted(1, periods.length);
         }
-    }
-
-    public void updateCurrentWeather(CurrentWeatherData currentWeather) {
-        Log.v(TAG, "updateCurrentWeather");
-        this.currentWeather = currentWeather;
-        if (currentViewHolder != null){
-            // TODO Update current weather view.
-        }
-        notifyItemChanged(0);
-    }
-
-    void onCurrentWeatherDataUpdate(CurrentWeatherData currentWeatherData) {
-        // TODO
-        Log.v(TAG, "onCurrentWeatherDataUpdate()");
-    }
-
-    void onForecastWeatherDataUpdate(ForecastWeatherData forecastWeatherData) {
-        // TODO
-        Log.v(TAG, "onForecastWeatherDataUpdate()");
     }
 
     private class CurrentViewHolder extends RecyclerView.ViewHolder {

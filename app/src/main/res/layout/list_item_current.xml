@@ -35,14 +35,15 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="3"
-            android:weightSum="7">
+            android:weightSum="3">
 
             <TextView
                 android:text="TIME"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:id="@+id/tvTime"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:gravity="center_vertical|center_horizontal"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -87,95 +88,6 @@
                     android:layout_weight="1"/>
 
             </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:weightSum="2"
-                android:layout_weight="1">
-
-                <TextView
-                    android:text="Wind Speed"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/tvLabelWindSpeed"
-                    android:layout_weight="1"/>
-
-                <TextView
-                    android:text="WINDSPEED"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/tvWindSpeed"
-                    android:layout_weight="1"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:weightSum="2"
-                android:layout_weight="1">
-
-                <TextView
-                    android:text="Wind Direction"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/tvLabelWindDirection"
-                    android:layout_weight="1"/>
-
-                <TextView
-                    android:text="WINDDIRECTION"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/tvWindDirection"
-                    android:layout_weight="1"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:weightSum="2"
-                android:layout_weight="1">
-
-                <TextView
-                    android:text="Rain Volume"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/tvLabelRainVolume"
-                    android:layout_weight="1"/>
-
-                <TextView
-                    android:text="RAINVOLUME"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/tv3HourRainVol"
-                    android:layout_weight="1"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:weightSum="2"
-                android:layout_weight="1">
-
-                <TextView
-                    android:text="Snow Volume"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/tvLabelSnowVol"
-                    android:layout_weight="1"/>
-
-                <TextView
-                    android:text="SNOWVOLUME"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/tvSnowVolume"
-                    android:layout_weight="1"/>
-
-            </LinearLayout>
-
 
         </LinearLayout>
 
@@ -227,6 +139,102 @@
 
         </LinearLayout>
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="2">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <TextView
+                android:text="Wind Speed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvLabelWindSpeed"/>
+
+            <TextView
+                android:text="WINDSPEED"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvWindSpeed"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:weightSum="2"
+            android:layout_weight="1">
+
+            <TextView
+                android:text="Wind Direction"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvLabelWindDirection"/>
+
+            <TextView
+                android:text="WIND DIR"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvWindDirection"/>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:weightSum="2"
+            android:layout_weight="1">
+
+            <TextView
+                android:text="Rain Volume"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvLabelRainVolume"
+                android:layout_weight="1"/>
+
+            <TextView
+                android:text="RAIN VOL"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv3HourRainVol"
+                android:layout_weight="1"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:weightSum="2"
+            android:layout_weight="1">
+
+            <TextView
+                android:text="Snow Volume"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvLabelSnowVol"
+                android:layout_weight="1"/>
+
+            <TextView
+                android:text="SNOW VOL"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvSnowVolume"
+                android:layout_weight="1"/>
+
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>
