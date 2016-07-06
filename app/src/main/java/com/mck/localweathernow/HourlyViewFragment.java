@@ -52,11 +52,11 @@ public class HourlyViewFragment extends Fragment {
         View result = inflater.inflate(R.layout.fragment_hourly, container, false);
 
         if (result instanceof SwipeRefreshLayout){
-            SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout) result;
+            final SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout) result;
             swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener(){
                 @Override
                 public void onRefresh() {
-                    mHourlyViewFragmentListener.onRefreshHourlyViewFragment();
+                    onRefreshData();
                 }
             });
             View view = result.findViewById(R.id.recyclerView);
@@ -117,7 +117,6 @@ public class HourlyViewFragment extends Fragment {
         mHourlyViewFragmentListener = null;
     }
 
-
     void onCurrentWeatherDataUpdate(CurrentWeatherData currentWeatherData) {
         Log.v(TAG, "onCurrentWeatherDataUpdate()");
         lastCurrentWeatherUpdateTime = currentWeatherData.locDataTime;
@@ -133,22 +132,33 @@ public class HourlyViewFragment extends Fragment {
 
     }
 
+
     void onForecastWeatherDataUpdate(ForecastWeatherData forecastWeatherData) {
         Log.v(TAG, "onForecastWeatherDataUpdate()");
         lastForecastWeatherUpdateTime = forecastWeatherData.locDataTime;
-        RecyclerView recyclerView = ((RecyclerView) getView().findViewById(R.id.recyclerView));
-        if (recyclerView != null) {
-            ((HourlyViewRecyclerViewAdapter) recyclerView.getAdapter())
-                    .onForecastWeatherDataUpdate(forecastWeatherData);
+        if (getView() != null) {
+            RecyclerView recyclerView = ((RecyclerView) getView().findViewById(R.id.recyclerView));
+            if (recyclerView != null) {
+                ((HourlyViewRecyclerViewAdapter) recyclerView.getAdapter())
+                        .onForecastWeatherDataUpdate(forecastWeatherData);
+            }
         }
     }
 
-    private boolean isNotUpdate(CurrentWeatherData currentWeatherData) {
-        return lastCurrentWeatherUpdateTime != null && lastCurrentWeatherUpdateTime.equals(currentWeatherData.dt);
+    private void onRefreshData() {
+        // if false, no need to refresh.
+        if (!mHourlyViewFragmentListener.onRefresh()){
+            Log.v(TAG, "onRefresh(), but data is still good.");
+            View view = getView();
+            if (view instanceof SwipeRefreshLayout){
+                ((SwipeRefreshLayout) view).setRefreshing(false);
+            }
+        } else {
+            Log.v(TAG, "onRefresh(), refreshing data.");
+        }
     }
 
-
-    public interface HourlyViewFragmentListener {
-        void onRefreshHourlyViewFragment();
+    interface HourlyViewFragmentListener {
+        boolean onRefresh();
     }
 }

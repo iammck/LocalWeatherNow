@@ -346,7 +346,7 @@ public class LocationFragment extends Fragment implements LocationListener,
         connectGoogleApiClient();
     }
 
-    private boolean hasIdealLocationData(){
+    public boolean hasIdealLocationData(){
         // if no locationData or accuracy is greater than optimal or the time is stale
         if (locationData != null) {
             Log.v(TAG, "hasIdealLocationData() check with location accuracy: "

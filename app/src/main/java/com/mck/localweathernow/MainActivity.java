@@ -1,9 +1,9 @@
 package com.mck.localweathernow;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
@@ -17,6 +17,9 @@ public class MainActivity extends AppCompatActivity implements
         HourlyViewFragment.HourlyViewFragmentListener{
 
     private static final String TAG = "MainActivity";
+
+    // used to slow the refresh task when the data is already fresh.
+    private AsyncTask<Void, Void, Void> refreshTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +57,9 @@ public class MainActivity extends AppCompatActivity implements
     protected void onStop() {
         super.onStop();
         Log.v(TAG, "onStop()");
+        if (refreshTask != null){
+            refreshTask.cancel(true);
+        }
     }
 
     @Override
@@ -105,22 +111,21 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onRefreshHourlyViewFragment() {
+    public boolean onRefresh() {
         WeatherFragment weatherFragment = (WeatherFragment)
                 getSupportFragmentManager().findFragmentByTag(WeatherFragment.TAG);
         LocationFragment locationFragment = (LocationFragment)
                 getSupportFragmentManager().findFragmentByTag(LocationFragment.TAG);
-
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        if (weatherFragment != null){
-            transaction.remove(weatherFragment);
+        // if the weather data does not have old data and locationFragment has ideal data
+        if(!weatherFragment.hasOldData() && locationFragment.hasIdealLocationData()){
+            return false;
         }
-        if (locationFragment != null){
-            transaction.remove(locationFragment);
-        }
-        transaction
+        getSupportFragmentManager().beginTransaction()
+            .remove(weatherFragment)
+            .remove(locationFragment)
             .add(LocationFragment.newInstance(), LocationFragment.TAG)
             .add(WeatherFragment.newInstance(), WeatherFragment.TAG)
             .commit();
+        return true;
     }
 }
