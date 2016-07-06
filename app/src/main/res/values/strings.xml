@@ -10,6 +10,6 @@
     <string name="try_again">TRY AGAIN</string>
     <string name="location_settings_failure_message">Local Weather Now failed to acquire location services. Location services are a required for the application to work properly. Please enable them and try again.</string>
     <string name="requires_gps_failure_reason">Local Weather Now requires Google Play Services to run successfully. In particular it needs location services. Please make sure these services are installed and enabled on your device then try again.</string>
-    <string name="loading_data">Retrieving weather information and forecasts from OpenWeatherMap.org service.</string>
+    <string name="loading_data">Retrieving weather information and forecasts from OpenWeatherMap.org</string>
 
 </resources>

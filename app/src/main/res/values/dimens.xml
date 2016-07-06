@@ -5,7 +5,23 @@
     <dimen name="appbar_padding_top">8dp</dimen>
     <dimen name="text_margin">16dp</dimen>
     <dimen name="temperature_size">36sp</dimen>
-    <dimen name="small_text_padding_size">4dp</dimen>
-    <dimen name="large_text_padding_size">4dp</dimen>
+
+    <dimen name="large_text_left_padding_size">0dp</dimen>
+    <dimen name="large_text_right_padding_size">0dp</dimen>
+    <dimen name="large_text_top_padding_size">4dp</dimen>
+    <dimen name="large_text_bottom_padding_size">0dp</dimen>
+
+    <dimen name="medium_text_left_padding_size">4dp</dimen>
+    <dimen name="medium_text_right_padding_size">0dp</dimen>
+
+    <dimen name="small_text_left_padding_size">4dp</dimen>
+    <dimen name="small_text_right_padding_size">2dp</dimen>
+    <dimen name="small_text_top_padding_size">0dp</dimen>
+    <dimen name="small_text_bottom_padding_size">4dp</dimen>
+
+    <!-- dsadf -->
+    <dimen name="main_layout_margin_left">8dp</dimen>
+    <dimen name="main_layout_margin_right">8dp</dimen>
+    <dimen name="main_layout_margin_top">8dp</dimen>
 
 </resources>

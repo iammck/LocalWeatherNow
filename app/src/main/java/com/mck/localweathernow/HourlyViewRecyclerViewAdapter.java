@@ -193,7 +193,7 @@ class HourlyViewRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     void onCurrentWeatherDataUpdate(CurrentWeatherData currentWeatherData) {
         Log.v(TAG, "onCurrentWeatherDataUpdate()");
         this.currentWeatherData = currentWeatherData;
-        notifyItemChanged(0);
+        //notifyItemChanged(0);
     }
 
     void onForecastWeatherDataUpdate(ForecastWeatherData forecastWeatherData) {
