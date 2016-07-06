@@ -15,11 +15,13 @@ import com.mck.localweathernow.model.Period;
 import java.util.ArrayList;
 
 /**
+ *
  * {@link RecyclerView.Adapter} that can display hourly weather forecast.
  */
 class HourlyViewRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int VIEW_TYPE_CURRENT = 0;
     private static final int VIEW_TYPE_PERIOD = 1;
+    private static final int VIEW_TYPE_LOADING = 3;
     private static final String TAG = "HourlyRVAdapter";
     private static final String DNE = "---";
     private Period[] periods;
@@ -45,6 +47,11 @@ class HourlyViewRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 view = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.list_item_period, parent, false);
                 return new PeriodViewHolder(view);
+            case VIEW_TYPE_LOADING:
+                view = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.list_item_loading, parent, false);
+                return new LoadingViewHolder(view);
+
         }
         return null;
     }
@@ -53,20 +60,22 @@ class HourlyViewRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         Log.v(TAG, "onBindViewHolder() for position " + position);
         // is this the current weather view holder?
-        if (position == 0){
-            if (currentWeatherData != null){
+        if (holder instanceof CurrentViewHolder){
                 bindCurrentViewHolder((CurrentViewHolder) holder);
-            }
-        } else {
+        } else if (holder instanceof PeriodViewHolder){
             PeriodViewHolder periodViewHolder = (PeriodViewHolder) holder;
             periodViewHolders.add(position - 1, periodViewHolder);
-            // TODO Set up the periodViewHolder for position
-        }
+            bindPeriodViewHolder(periodViewHolder, position);
+        }// nothing to do if holder is a LoadingViewHolder instance.
 
         /*holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {   }
         });*/
+    }
+
+    private void bindPeriodViewHolder(PeriodViewHolder periodViewHolder, int position) {
+        // TODO Set up the periodViewHolder for position.
     }
 
     private void bindCurrentViewHolder(CurrentViewHolder holder) {
@@ -107,7 +116,7 @@ class HourlyViewRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         } else {
             holder.tvCloudCover.setText(DNE);
         }
-        // tvTemperatureHighLow, todo
+        // tvTemperatureHighLow,
         if (currentWeatherData.main.temp_max != null &&
                 currentWeatherData.main.temp_min != null){
             String formattedTemperatureHigh = WeatherDataHelper.formatTemperature(currentWeatherData.main.temp_max);
@@ -172,6 +181,9 @@ class HourlyViewRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     public int getItemViewType(int position) {
         Log.v(TAG, "getItemViewType() for position " + position);
         if (position == 0){
+            if (currentWeatherData == null){
+                return VIEW_TYPE_LOADING;
+            }
             return VIEW_TYPE_CURRENT;
         } else {
             return VIEW_TYPE_PERIOD;
@@ -259,6 +271,14 @@ class HourlyViewRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             tvWindDirection = (TextView) mView.findViewById(R.id.tvWindDirection);
 
             ivIcon = (ImageView) mView.findViewById(R.id.ivIcon);
+        }
+    }
+
+    private class LoadingViewHolder extends RecyclerView.ViewHolder {
+        View mView;
+        public LoadingViewHolder(View view) {
+            super(view);
+            mView = view;
         }
     }
 }
