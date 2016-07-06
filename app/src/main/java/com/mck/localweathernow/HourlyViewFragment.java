@@ -3,6 +3,7 @@ package com.mck.localweathernow;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -25,33 +26,54 @@ public class HourlyViewFragment extends Fragment {
 
     private Long lastCurrentWeatherUpdateTime;
     private Long lastForecastWeatherUpdateTime;
+    private HourlyViewFragmentListener mHourlyViewFragmentListener;
+
     public HourlyViewFragment() {    }
 
     public static HourlyViewFragment newInstance() {
         return new HourlyViewFragment();
     }
 
-
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof HourlyViewFragmentListener) {
+            mHourlyViewFragmentListener = (HourlyViewFragmentListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement WeatherFragmentListener");
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Log.v(TAG, "onCreateView()");
-        View view = inflater.inflate(R.layout.fragment_hourly, container, false);
+        View result = inflater.inflate(R.layout.fragment_hourly, container, false);
 
-        // Set the adapter
-        if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
-            recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            recyclerView.setAdapter(new HourlyViewRecyclerViewAdapter());
+        if (result instanceof SwipeRefreshLayout){
+            SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout) result;
+            swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener(){
+                @Override
+                public void onRefresh() {
+                    mHourlyViewFragmentListener.onRefreshHourlyViewFragment();
+                }
+            });
+            View view = result.findViewById(R.id.recyclerView);
+            // Set the adapter
+            if (view instanceof RecyclerView) {
+                Context context = view.getContext();
+                RecyclerView recyclerView = (RecyclerView) view;
+                recyclerView.setLayoutManager(new LinearLayoutManager(context));
+                recyclerView.setAdapter(new HourlyViewRecyclerViewAdapter());
+            }
         }
 
         if (savedInstanceState != null){
             lastCurrentWeatherUpdateTime = savedInstanceState.getLong(KEY_LAST_CURR_UPDATE_TIME);
             lastForecastWeatherUpdateTime = savedInstanceState.getLong(KEY_LAST_FORE_UPDATE_TIME);
         }
-        return view;
+        return result;
     }
 
     @Override
@@ -89,30 +111,32 @@ public class HourlyViewFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mHourlyViewFragmentListener = null;
+    }
+
+
     void onCurrentWeatherDataUpdate(CurrentWeatherData currentWeatherData) {
         Log.v(TAG, "onCurrentWeatherDataUpdate()");
-        /*if (lastCurrentWeatherUpdateTime != null &&
-                lastCurrentWeatherUpdateTime.equals(currentWeatherData.locDataTime)){
-            Log.v(TAG, "onCurrentWeatherDataUpdate(), but not an update. returning.");
-            return;
-        }*/
         lastCurrentWeatherUpdateTime = currentWeatherData.locDataTime;
-        RecyclerView recyclerView = ((RecyclerView) getView());
-        if (recyclerView != null) {
-            ((HourlyViewRecyclerViewAdapter) recyclerView.getAdapter())
-                    .onCurrentWeatherDataUpdate(currentWeatherData);
+        View view = getView();
+        if (view instanceof SwipeRefreshLayout){
+            ((SwipeRefreshLayout) view).setRefreshing(false);
+            RecyclerView recyclerView = ((RecyclerView) view.findViewById(R.id.recyclerView));
+            if (recyclerView != null) {
+                ((HourlyViewRecyclerViewAdapter) recyclerView.getAdapter())
+                        .onCurrentWeatherDataUpdate(currentWeatherData);
+            }
         }
+
     }
 
     void onForecastWeatherDataUpdate(ForecastWeatherData forecastWeatherData) {
         Log.v(TAG, "onForecastWeatherDataUpdate()");
-        /*if (lastForecastWeatherUpdateTime != null &&
-                lastForecastWeatherUpdateTime.equals(forecastWeatherData.locDataTime)){
-            Log.v(TAG, "onForecastWeatherDataUpdate(), but not an update. returning.");
-            return;
-        }*/
         lastForecastWeatherUpdateTime = forecastWeatherData.locDataTime;
-        RecyclerView recyclerView = ((RecyclerView) getView());
+        RecyclerView recyclerView = ((RecyclerView) getView().findViewById(R.id.recyclerView));
         if (recyclerView != null) {
             ((HourlyViewRecyclerViewAdapter) recyclerView.getAdapter())
                     .onForecastWeatherDataUpdate(forecastWeatherData);
@@ -121,5 +145,10 @@ public class HourlyViewFragment extends Fragment {
 
     private boolean isNotUpdate(CurrentWeatherData currentWeatherData) {
         return lastCurrentWeatherUpdateTime != null && lastCurrentWeatherUpdateTime.equals(currentWeatherData.dt);
+    }
+
+
+    public interface HourlyViewFragmentListener {
+        void onRefreshHourlyViewFragment();
     }
 }

@@ -223,6 +223,30 @@ public class WeatherFragment extends Fragment implements
         }
     }
 
+    /*public void reset() {
+        mLocationData = null;
+        if (mGetCurrentWeatherAsyncTask != null) {
+            mGetCurrentWeatherAsyncTask.cancel(true);
+            mGetCurrentWeatherAsyncTask = null;
+        }
+        mCurrentWeather = null;
+        if (mGetCurrentWeatherDataAsyncTask != null) {
+            mGetCurrentWeatherDataAsyncTask.cancel(true);
+            mGetCurrentWeatherDataAsyncTask = null;
+        }
+        mCurrentWeatherData = null;
+        if (mGetCurrentWeatherAsyncTask != null) {
+            mGetCurrentWeatherAsyncTask.cancel(true);
+            mGetCurrentWeatherAsyncTask = null;
+        }
+        mCurrentWeather = null;
+        if (mGetCurrentWeatherDataAsyncTask != null) {
+            mGetCurrentWeatherDataAsyncTask.cancel(true);
+            mGetCurrentWeatherDataAsyncTask = null;
+        }
+        mForecastWeatherData = null;
+    }*/
+
     interface WeatherFragmentListener {
         void onCurrentWeatherDataUpdate(CurrentWeatherData currentWeatherData);
         void onForecastWeatherDataUpdate(ForecastWeatherData mForecastWeatherData);

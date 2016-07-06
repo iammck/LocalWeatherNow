@@ -3,6 +3,7 @@ package com.mck.localweathernow;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
@@ -12,7 +13,8 @@ import com.mck.localweathernow.model.LocationData;
 
 public class MainActivity extends AppCompatActivity implements
         LocationFragment.LocationFragmentListener,
-        WeatherFragment.WeatherFragmentListener {
+        WeatherFragment.WeatherFragmentListener,
+        HourlyViewFragment.HourlyViewFragmentListener{
 
     private static final String TAG = "MainActivity";
 
@@ -100,5 +102,25 @@ public class MainActivity extends AppCompatActivity implements
         } else {
             Log.v(TAG, "onForecastWeatherDataUpdate(), but MainViewFragment can not be found by id.");
         }
+    }
+
+    @Override
+    public void onRefreshHourlyViewFragment() {
+        WeatherFragment weatherFragment = (WeatherFragment)
+                getSupportFragmentManager().findFragmentByTag(WeatherFragment.TAG);
+        LocationFragment locationFragment = (LocationFragment)
+                getSupportFragmentManager().findFragmentByTag(LocationFragment.TAG);
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        if (weatherFragment != null){
+            transaction.remove(weatherFragment);
+        }
+        if (locationFragment != null){
+            transaction.remove(locationFragment);
+        }
+        transaction
+            .add(LocationFragment.newInstance(), LocationFragment.TAG)
+            .add(WeatherFragment.newInstance(), WeatherFragment.TAG)
+            .commit();
     }
 }
