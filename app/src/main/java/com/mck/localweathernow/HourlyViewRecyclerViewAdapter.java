@@ -41,7 +41,7 @@ class HourlyViewRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         switch (viewType){
             case VIEW_TYPE_CURRENT:
                 view = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.list_item_current, parent, false);
+                        .inflate(R.layout.list_item_current2, parent, false);
                 return new CurrentViewHolder(view);
             case VIEW_TYPE_PERIOD:
                 view = LayoutInflater.from(parent.getContext())
