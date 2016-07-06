@@ -79,21 +79,29 @@ class HourlyViewRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     }
 
     private void bindCurrentViewHolder(CurrentViewHolder holder) {
-        // tvDate,
+        // tvTime
         if (currentWeatherData.dt != null){
+            String formattedDate = WeatherDataHelper.formatTime(currentWeatherData.dt);
+            holder.tvTime.setText(formattedDate);
+            holder.tvTime.setVisibility(View.VISIBLE);
+        }else{
+            holder.tvTime.setVisibility(View.GONE);
+        }
+        // tvDate,
+        /*if (currentWeatherData.dt != null){
             String formattedDate = WeatherDataHelper.formatDate(currentWeatherData.dt);
             holder.tvDate.setText(formattedDate);
             holder.tvDate.setVisibility(View.VISIBLE);
         }else{
             holder.tvDate.setVisibility(View.GONE);
-        }
+        }*/
         // tvLocation,
-        if (currentWeatherData.name != null) {
+        /*if (currentWeatherData.name != null) {
             holder.tvLocation.setText(currentWeatherData.name);
             holder.tvLocation.setVisibility(View.VISIBLE);
         }else{
             holder.tvLocation.setVisibility(View.GONE);
-        }
+        }*/
 
         // tvTemperature,
         if (currentWeatherData.main.temp != null) {
@@ -103,19 +111,19 @@ class HourlyViewRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             holder.tvTemperature.setText(DNE);
         }
         // tvHumidity,
-        if (currentWeatherData.main.humidity != null){
+        /*if (currentWeatherData.main.humidity != null){
             String formattedPercent = WeatherDataHelper.formatPercent(currentWeatherData.main.humidity);
             holder.tvHumidity.setText(formattedPercent);
         } else {
             holder.tvHumidity.setText(DNE);
-        }
+        }*/
         // tvCloudCover,
-        if (currentWeatherData.clouds != null && currentWeatherData.clouds.all != null ){
+        /*if (currentWeatherData.clouds != null && currentWeatherData.clouds.all != null ){
             String formattedPercent = WeatherDataHelper.formatPercent(currentWeatherData.clouds.all);
             holder.tvCloudCover.setText(formattedPercent);
         } else {
             holder.tvCloudCover.setText(DNE);
-        }
+        }*/
         // tvTemperatureHighLow,
         if (currentWeatherData.main.temp_max != null &&
                 currentWeatherData.main.temp_min != null){
@@ -136,37 +144,37 @@ class HourlyViewRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             holder.tvDescription.setText(DNE);
         }
         // tvRainfall,
-        if (currentWeatherData.rain != null &&
+        /*if (currentWeatherData.rain != null &&
                 currentWeatherData.rain.threeHour != null){
             String formattedVolume = WeatherDataHelper.formatVolume(currentWeatherData.rain.threeHour);
             holder.tvRainfall.setText(formattedVolume);
         } else {
             holder.tvRainfall.setText(DNE);
-        }
+        }*/
         // tvSnowfall,
-        if (currentWeatherData.snow != null &&
+        /*if (currentWeatherData.snow != null &&
                 currentWeatherData.snow.threeHour != null){
             String formattedVolume = WeatherDataHelper.formatVolume(currentWeatherData.snow.threeHour);
             holder.tvSnowfall.setText(formattedVolume);
         } else {
             holder.tvSnowfall.setText(DNE);
-        }
+        }*/
         // tvWindSpeed,
-        if (currentWeatherData.wind != null &&
+        /*if (currentWeatherData.wind != null &&
                 currentWeatherData.wind.speed != null){
             String formattedSpeed = WeatherDataHelper.formatSpeed(currentWeatherData.wind.speed);
             holder.tvWindSpeed.setText(formattedSpeed);
         } else {
             holder.tvWindSpeed.setText(DNE);
-        }
+        }*/
         // tvWindDirection;
-        if (currentWeatherData.wind != null &&
+        /*if (currentWeatherData.wind != null &&
                 currentWeatherData.wind.deg != null){
             String formattedDirection = WeatherDataHelper.formatDirection(currentWeatherData.wind.deg);
             holder.tvWindDirection.setText(formattedDirection);
         } else {
             holder.tvWindDirection.setText(DNE);
-        }
+        }*/
 
         // ivIcon TODO;
     }
@@ -214,9 +222,19 @@ class HourlyViewRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     private class CurrentViewHolder extends RecyclerView.ViewHolder {
         View mView;
 
-        TextView tvDate, tvLocation, tvTemperature,
-                tvHumidity, tvCloudCover, tvTemperatureHighLow, tvDescription,
-                tvRainfall, tvSnowfall, tvWindSpeed, tvWindDirection;
+        TextView
+                //tvDate,
+                tvTime,
+                //tvLocation,
+                tvTemperature,
+                //tvHumidity,
+                //tvCloudCover,
+                tvTemperatureHighLow,
+                tvDescription;
+                //tvRainfall,
+                //tvSnowfall,
+                //tvWindSpeed,
+                //tvWindDirection;
 
         ImageView ivIcon;
 
@@ -224,19 +242,20 @@ class HourlyViewRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             super(view);
             mView = view;
 
-            tvDate = (TextView) mView.findViewById(R.id.tvDate);
-            tvLocation = (TextView) mView.findViewById(R.id.tvLocation);
+            tvTime = (TextView) mView.findViewById(R.id.tvTime);
+            //tvDate = (TextView) mView.findViewById(R.id.tvDate);
+            //tvLocation = (TextView) mView.findViewById(R.id.tvLocation);
             tvTemperature = (TextView) mView.findViewById(R.id.tvTemperature);
 
-            tvHumidity = (TextView) mView.findViewById(R.id.tvHumidity);
-            tvCloudCover = (TextView) mView.findViewById(R.id.tvCloudCover);
+            //tvHumidity = (TextView) mView.findViewById(R.id.tvHumidity);
+            //tvCloudCover = (TextView) mView.findViewById(R.id.tvCloudCover);
             tvTemperatureHighLow = (TextView) mView.findViewById(R.id.tvTemperatureHighLow);
             tvDescription = (TextView) mView.findViewById(R.id.tvDescription);
 
-            tvRainfall = (TextView) mView.findViewById(R.id.tvRainfall);
-            tvSnowfall = (TextView) mView.findViewById(R.id.tvSnowfall);
-            tvWindSpeed = (TextView) mView.findViewById(R.id.tvWindSpeed);
-            tvWindDirection = (TextView) mView.findViewById(R.id.tvWindDirection);
+            //tvRainfall = (TextView) mView.findViewById(R.id.tvRainfall);
+            //tvSnowfall = (TextView) mView.findViewById(R.id.tvSnowfall);
+            //tvWindSpeed = (TextView) mView.findViewById(R.id.tvWindSpeed);
+            //tvWindDirection = (TextView) mView.findViewById(R.id.tvWindDirection);
 
             ivIcon = (ImageView) mView.findViewById(R.id.ivIcon);
 
@@ -255,7 +274,7 @@ class HourlyViewRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         PeriodViewHolder(View view) {
             super(view);
             mView = view;
-            tvDate = (TextView) mView.findViewById(R.id.tvDate);
+            /*tvDate = (TextView) mView.findViewById(R.id.tvDate);
             tvLocation = (TextView) mView.findViewById(R.id.tvLocation);
             tvTime = (TextView) mView.findViewById(R.id.tvTime);
             tvTemperature = (TextView) mView.findViewById(R.id.tvTemperature);
@@ -269,7 +288,7 @@ class HourlyViewRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             tvSnowfall = (TextView) mView.findViewById(R.id.tvSnowfall);
             tvWindSpeed = (TextView) mView.findViewById(R.id.tvWindSpeed);
             tvWindDirection = (TextView) mView.findViewById(R.id.tvWindDirection);
-
+*/
             ivIcon = (ImageView) mView.findViewById(R.id.ivIcon);
         }
     }
