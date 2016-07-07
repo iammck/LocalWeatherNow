@@ -115,8 +115,8 @@ public class WeatherDataHelper {
         return threeHour + " mm";
     }
 
-    public static String formatTemperature(Double temp_min) {
-        return temp_min + "°";
+    public static String formatTemperature(Double temp) {
+        return temp + "°";
     }
 
     public static String formatPercent(Double all) {

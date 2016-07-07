@@ -40,6 +40,16 @@
         <item name="android:paddingRight">@dimen/small_text_right_padding_size</item>
         <item name="android:paddingTop">@dimen/small_text_top_padding_size</item>
         <item name="android:paddingBottom">@dimen/small_text_bottom_padding_size</item>
+        <item name="android:layout_margin">0dp</item>
+    </style>
+
+
+    <style name="XSmallTextTheme" parent="SmallTextTheme">
+        <item name="android:textSize">@dimen/xtra_small_text_size</item>
+        <item name="android:paddingLeft">@dimen/xtra_small_text_left_padding_size</item>
+        <item name="android:paddingRight">@dimen/xtra_small_text_right_padding_size</item>
+        <item name="android:paddingTop">@dimen/xtra_small_text_top_padding_size</item>
+        <item name="android:paddingBottom">@dimen/xtra_small_text_bottom_padding_size</item>
     </style>
 
     <style name="main_layout_theme">
@@ -48,5 +58,6 @@
         <item name="android:layout_marginTop">@dimen/main_layout_margin_top</item>
         <item name="android:layout_marginBottom">@dimen/main_layout_margin_bottom</item>
     </style>
+
 
 </resources>

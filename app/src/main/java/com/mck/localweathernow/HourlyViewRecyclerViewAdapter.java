@@ -21,21 +21,18 @@ import java.util.List;
  *
  * {@link RecyclerView.Adapter} that can display hourly weather forecast.
  */
-class HourlyViewRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
-        implements GetWeatherIconAsyncTask.Callback {
+class HourlyViewRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int VIEW_TYPE_CURRENT = 1;
     private static final int VIEW_TYPE_PERIOD = 2;
     private static final int VIEW_TYPE_LOADING = 3;
     private static final String TAG = "HourlyRVAdapter";
     private static final String DNE = "---";
     private Period[] periods;
-    private ArrayList<HourlyViewHolder> hourlyViewHolders;
     private CurrentWeatherData currentWeatherData;
     private ArrayList<Integer> itemViewTypes;
 
     HourlyViewRecyclerViewAdapter(){
         Log.v(TAG, "HourlyViewRecyclerViewAdapter instantiation in progress.");
-        hourlyViewHolders = new ArrayList<>();
         itemViewTypes = new ArrayList<>();
         itemViewTypes.add(0,VIEW_TYPE_LOADING);
     }
@@ -67,30 +64,17 @@ class HourlyViewRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             case VIEW_TYPE_LOADING:
                 view = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.list_item_loading, parent, false);
-                return new PeriodViewHolder(view);
+                return new LoadingViewHolder(view);
             case VIEW_TYPE_CURRENT:
                 view = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.list_item_hourly, parent, false);
-                return new HourlyViewHolder(view);
+                        .inflate(R.layout.list_item_current, parent, false);
+                return new CurrentViewHolder(view);
             case VIEW_TYPE_PERIOD:
                 view = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.list_item_hourly, parent, false);
+                        .inflate(R.layout.list_item_period, parent, false);
                 return new PeriodViewHolder(view);
             }
         return null;
-    }
-
-    @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
-        Log.v(TAG, "onBindViewHolder() for position " + position);
-        // is this the current weather view holder?
-        if (holder instanceof HourlyViewHolder){
-            if (position == 0)
-                bindCurrentView((HourlyViewHolder) holder);
-            else {
-                bindPeriodView((HourlyViewHolder) holder);
-            }
-        }
     }
 
     @Override
@@ -98,18 +82,36 @@ class HourlyViewRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         Log.v(TAG, "onBindViewHolder() for position " + position + " with payload " + payloads);
         if (payloads.isEmpty()){
             onBindViewHolder(holder, position);
-            return;
+        } else if (payloads.get(0) instanceof Bitmap){
+            Log.v(TAG, "onBindViewHolder() for position " + position + " with icon payload");
+            if (holder instanceof CurrentViewHolder){
+                ((CurrentViewHolder) holder).ivIcon.setImageBitmap((Bitmap) payloads.get(0));
+            } else if (holder instanceof PeriodViewHolder){
+                ((PeriodViewHolder) holder).ivIcon.setImageBitmap((Bitmap) payloads.get(0));
+            }
         }
-        // TODO
-        // if payloads contains "ICON UPDATE", get the icon and add it to the view.
     }
 
+    @Override
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
+        Log.v(TAG, "onBindViewHolder() for position " + position);
+        // is this the current weather view holder?
+        if (holder instanceof CurrentViewHolder){
+            bindCurrentView((CurrentViewHolder) holder);
+        } else if (holder instanceof PeriodViewHolder) {
+            bindPeriodView((PeriodViewHolder) holder, position);
+        }
+    }
 
-    private void bindCurrentView(HourlyViewHolder holder) {
+    private void bindCurrentView(CurrentViewHolder holder) {
+
+        // tvCurrentTime
+        String currentTime = WeatherDataHelper.formatTime(System.currentTimeMillis()/1000);
+        holder.tvCurrentTime.setText(currentTime);
         // tvTime
         if (currentWeatherData.dt != null){
-            String formattedDate = WeatherDataHelper.formatTime(currentWeatherData.dt);
-            holder.tvTime.setText(formattedDate);
+            String formattedTime = WeatherDataHelper.formatTimeAmPm(currentWeatherData.dt);
+            holder.tvTime.setText(formattedTime);
             holder.tvTime.setVisibility(View.VISIBLE);
         }else{
             holder.tvTime.setVisibility(View.GONE);
@@ -142,14 +144,65 @@ class HourlyViewRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         } else {
             holder.tvDescription.setText(DNE);
         }
+        // todo
+        // is there an icon already? use it.
+
         GetWeatherIconAsyncTask task = new GetWeatherIconAsyncTask(
-                holder.mView.getContext(), this,
+                holder.mView.getContext(), holder,
                 holder.getAdapterPosition(),
                 currentWeatherData.weather[0].icon);
+        task.execute();
     }
 
-    private void bindPeriodView(HourlyViewHolder holder) {
+    private void bindPeriodView(PeriodViewHolder holder, int position) {
+        Period period;
+        if (itemViewTypes.get(0) == VIEW_TYPE_PERIOD){
+            period = periods[position];
+        } else {
+            period = periods[position - 1];
+        }
+        // tvTime
+        if (period.dt != null){
+            String formattedTime = WeatherDataHelper.formatTimeAmPm(period.dt);
+            holder.tvTime.setText(formattedTime);
+            holder.tvTime.setVisibility(View.VISIBLE);
+        }else{
+            holder.tvTime.setVisibility(View.GONE);
+        }
 
+        // tvTemperature,
+        if (period.main.temp != null) {
+            String formattedTemperature = WeatherDataHelper.formatTemperature(period.main.temp);
+            holder.tvTemperature.setText(formattedTemperature);
+        }else{
+            holder.tvTemperature.setText(DNE);
+        }
+
+        // tvTemperatureHighLow,
+        if (period.main.temp_max != null &&
+                period.main.temp_min != null){
+            String formattedTemperatureHigh = WeatherDataHelper.formatTemperature(period.main.temp_max);
+            String formattedTemperatureLow = WeatherDataHelper.formatTemperature(period.main.temp_min);
+            String result = formattedTemperatureHigh + "/" + formattedTemperatureLow;
+            holder.tvTemperatureHighLow.setText(result);
+        } else {
+            holder.tvTemperatureHighLow.setText(DNE);
+        }
+
+        // tvDescription,
+        if (period.weather.length > 0 &&
+                period.weather[0].description != null){
+            holder.tvDescription.setText(
+                    period.weather[0].description.toUpperCase());
+        } else {
+            holder.tvDescription.setText(DNE);
+        }
+
+        GetWeatherIconAsyncTask task = new GetWeatherIconAsyncTask(
+                holder.mView.getContext(), holder,
+                holder.getAdapterPosition(),
+                period.weather[0].icon);
+        task.execute();
     }
 
 
@@ -192,47 +245,6 @@ class HourlyViewRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 notifyItemRangeInserted(1, periods.length - 1);
             }
         }
-        /*boolean isInsert = (periods == null)? true: false;
-
-        // if this is an insert
-        if (false){
-            if (currentWeatherData != null){
-                notifyItemRangeInserted(1, periods.length);
-            } else {
-
-            }
-        } else if (periods.length == hourlyViewHolders.size()){
-            // TODO Update the viewHolders
-            notifyItemRangeChanged(1, hourlyViewHolders.size());
-        } else {
-            notifyItemRangeRemoved(1, hourlyViewHolders.size());
-            notifyItemRangeInserted(1, periods.length);
-        }*/
-    }
-
-    @Override
-    public void onWeatherIconResult(Bitmap icon, Integer requestId) {
-        // TODO
-    }
-
-    private class HourlyViewHolder extends RecyclerView.ViewHolder {
-        View mView;
-        TextView tvTime, tvTemperature, tvTemperatureHighLow, tvDescription;
-        ImageView ivIcon;
-
-        HourlyViewHolder(View view) {
-            super(view);
-            mView = view;
-
-            tvTime = (TextView) mView.findViewById(R.id.tvTime);
-            tvTemperature = (TextView) mView.findViewById(R.id.tvTemperature);
-
-            tvTemperatureHighLow = (TextView) mView.findViewById(R.id.tvTemperatureHighLow);
-            tvDescription = (TextView) mView.findViewById(R.id.tvDescription);
-
-            ivIcon = (ImageView) mView.findViewById(R.id.ivIcon);
-
-        }
     }
 
     private class LoadingViewHolder extends RecyclerView.ViewHolder {
@@ -243,11 +255,52 @@ class HourlyViewRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         }
     }
 
-    private class PeriodViewHolder extends RecyclerView.ViewHolder {
+    private class CurrentViewHolder extends RecyclerView.ViewHolder implements GetWeatherIconAsyncTask.Callback {
         View mView;
+        TextView tvCurrentTime, tvTime, tvTemperature, tvTemperatureHighLow, tvDescription;
+        ImageView ivIcon;
+
+        CurrentViewHolder(View view) {
+            super(view);
+            mView = view;
+
+            tvCurrentTime = (TextView) mView.findViewById(R.id.tvCurrentTime);
+            tvTime = (TextView) mView.findViewById(R.id.tvTime);
+            tvTemperature = (TextView) mView.findViewById(R.id.tvTemperature);
+            tvTemperatureHighLow = (TextView) mView.findViewById(R.id.tvTemperatureHighLow);
+            tvDescription = (TextView) mView.findViewById(R.id.tvDescription);
+
+            ivIcon = (ImageView) mView.findViewById(R.id.ivIcon);
+
+        }
+
+        @Override
+        public void onWeatherIconResult(Bitmap icon, Integer requestId) {
+            //ivIcon.setImageBitmap(icon);
+            notifyItemChanged(getAdapterPosition(), icon);
+        }
+    }
+
+    private class PeriodViewHolder extends RecyclerView.ViewHolder implements GetWeatherIconAsyncTask.Callback {
+        View mView;
+        TextView tvTime, tvTemperature, tvTemperatureHighLow, tvDescription;
+        ImageView ivIcon;
+
         PeriodViewHolder(View view) {
             super(view);
             mView = view;
+            tvTime = (TextView) mView.findViewById(R.id.tvTime);
+            tvTemperature = (TextView) mView.findViewById(R.id.tvTemperature);
+            tvTemperatureHighLow = (TextView) mView.findViewById(R.id.tvTemperatureHighLow);
+            tvDescription = (TextView) mView.findViewById(R.id.tvDescription);
+
+            ivIcon = (ImageView) mView.findViewById(R.id.ivIcon);
+        }
+
+        @Override
+        public void onWeatherIconResult(Bitmap icon, Integer requestId) {
+            notifyItemChanged(getAdapterPosition(), icon);
+            // TODO
         }
     }
 }

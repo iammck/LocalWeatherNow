@@ -50,26 +50,55 @@
             android:gravity="left|center_vertical"
             android:layout_centerVertical="true"/>
 
-        <TextView
-            android:text="TIME"
+
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/tvTime"
-            android:layout_gravity="center_vertical|center_horizontal"
             android:layout_alignParentTop="false"
-            android:layout_centerVertical="true"
-            android:layout_alignParentLeft="true"/>
+            android:layout_alignParentLeft="true"
+            android:id="@+id/layoutTime"
+            android:gravity="center_vertical|center_horizontal"
+            android:layout_centerHorizontal="false"
+            android:layout_centerVertical="true">
+
+
+            <TextView
+                android:text="Current"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvCurrentTime"
+                style="@style/SmallTextTheme"/>
+
+            <TextView
+                android:text="obtained"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView4"
+                style="@style/XSmallTextTheme"/>
+
+            <TextView
+                android:text="TIME"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:id="@+id/tvTime"
+                style="@style/XSmallTextTheme"/>
+
+        </LinearLayout>
+
 
         <ImageView
             android:src="@drawable/abc_ic_star_black_36dp"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/ivIcon"
             android:layout_gravity="center_vertical|center_horizontal"
-            android:adjustViewBounds="false"
             android:layout_toLeftOf="@id/layoutTemperature"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/tvTime"/>
+            android:layout_toRightOf="@id/layoutTime"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"/>
 
     </RelativeLayout>
 

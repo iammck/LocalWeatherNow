@@ -7,6 +7,7 @@
 
 
     <dimen name="temperature_text_size">36sp</dimen>
+    <dimen name="xtra_small_text_size">8sp</dimen>
 
 
     <dimen name="main_layout_margin_left">8dp</dimen>
@@ -34,5 +35,9 @@
     <dimen name="small_text_top_padding_size">2dp</dimen>
     <dimen name="small_text_bottom_padding_size">2dp</dimen>
 
+    <dimen name="xtra_small_text_left_padding_size">0dp</dimen>
+    <dimen name="xtra_small_text_right_padding_size">0dp</dimen>
+    <dimen name="xtra_small_text_top_padding_size">0dp</dimen>
+    <dimen name="xtra_small_text_bottom_padding_size">0dp</dimen>
 
 </resources>
