@@ -1,5 +1,6 @@
 package com.mck.localweathernow;
 
+import java.text.DecimalFormat;
 import java.util.Calendar;
 
 /**
@@ -116,7 +117,12 @@ public class WeatherDataHelper {
     }
 
     public static String formatTemperature(Double temp) {
-        return temp + "°";
+        String result = getFahrenheit(temp);
+        return result + "°";
+    }
+
+    private static String getFahrenheit(Double temp) {
+        return (new DecimalFormat("####.##")).format(temp * 9/5 - 459.67);
     }
 
     public static String formatPercent(Double all) {

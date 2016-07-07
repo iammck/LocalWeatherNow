@@ -31,8 +31,8 @@ public class OpenWeatherMapService {
         if (locationData == null) return null;
         try {
             String request = String.format(Locale.US,
-                    "http://api.openweathermap.org/data/2.5/weather?lat=%f&lon=%f&units=%s&APPID=%s",
-                    locationData.latitude, locationData.longitude, Constants.UNITS, API_ID);
+                    "http://api.openweathermap.org/data/2.5/weather?lat=%f&lon=%f&APPID=%s",
+                    locationData.latitude, locationData.longitude, API_ID);
             URL url = new URL(request);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestProperty("User-Agent", USER_AGENT);
@@ -56,9 +56,9 @@ public class OpenWeatherMapService {
         if (locationData == null) return null;
         try {
             String request = String.format( Locale.US,
-                    "http://api.openweathermap.org/data/2.5/forecast?lat=%f&lon=%f&cnt=%d&units=%s&APPID=%s",
+                    "http://api.openweathermap.org/data/2.5/forecast?lat=%f&lon=%f&cnt=%d&APPID=%s",
                     locationData.latitude, locationData.longitude,
-                    Constants.NUM_PERIODS_TO_REQUEST, Constants.UNITS, API_ID);
+                    Constants.NUM_PERIODS_TO_REQUEST, API_ID);
             URL url = new URL(request);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestProperty("User-Agent", USER_AGENT);
