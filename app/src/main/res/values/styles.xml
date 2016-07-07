@@ -22,6 +22,10 @@
 
     <style name="TemperatureTheme" parent="LargeTextTheme">
         <item name="android:textSize">@dimen/temperature_text_size</item>
+        <item name="android:paddingLeft">@dimen/temperature_text_left_padding_size</item>
+        <item name="android:paddingRight">@dimen/temperature_text_right_padding_size</item>
+        <item name="android:paddingTop">@dimen/temperature_text_top_padding_size</item>
+        <item name="android:paddingBottom">@dimen/temperature_text_bottom_padding_size</item>
     </style>
 
     <style name="MediumTextTheme" parent="TextAppearance.AppCompat.Medium">
