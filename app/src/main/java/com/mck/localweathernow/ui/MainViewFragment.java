@@ -1,4 +1,4 @@
-package com.mck.localweathernow;
+package com.mck.localweathernow.ui;
 
 
 import android.os.Bundle;
@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.mck.localweathernow.R;
 import com.mck.localweathernow.model.CurrentWeatherData;
 import com.mck.localweathernow.model.ForecastWeatherData;
 
@@ -79,14 +80,14 @@ public class MainViewFragment extends Fragment {
     }
 
 
-    void onCurrentWeatherDataUpdate(CurrentWeatherData currentWeatherData) {
+    public void onCurrentWeatherDataUpdate(CurrentWeatherData currentWeatherData) {
         Log.v(TAG, "onCurrentWeatherDataUpdate()");
         HourlyViewFragment fragment = (HourlyViewFragment)
                 getChildFragmentManager().findFragmentByTag(fragmentTags[0]);
         fragment.onCurrentWeatherDataUpdate(currentWeatherData);
     }
 
-    void onForecastWeatherDataUpdate(ForecastWeatherData forecastWeatherData) {
+    public void onForecastWeatherDataUpdate(ForecastWeatherData forecastWeatherData) {
         Log.v(TAG, "onForecastWeatherDataUpdate()");
         HourlyViewFragment fragment = (HourlyViewFragment)
                 getChildFragmentManager().findFragmentByTag(fragmentTags[0]);

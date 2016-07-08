@@ -1,4 +1,4 @@
-package com.mck.localweathernow;
+package com.mck.localweathernow.ui;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -9,9 +9,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.mck.localweathernow.R;
+import com.mck.localweathernow.ui.adapter.DailyViewRecyclerViewAdapter;
+
 /**
  * A fragment representing a list of daily forecasts.
  */
+@SuppressWarnings("WeakerAccess")
 public class DailyViewFragment extends Fragment {
     public DailyViewFragment() {    }
 

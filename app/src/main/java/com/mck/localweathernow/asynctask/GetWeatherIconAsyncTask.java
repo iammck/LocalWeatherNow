@@ -32,18 +32,23 @@ public class GetWeatherIconAsyncTask extends AsyncTask<Object,Integer,Bitmap> {
     @Override
     protected Bitmap doInBackground(Object... params) {
         if (context == null) return null;
-        File file = new File(context.getFilesDir(), "icon" + iconId + ".png");
-        if (!file.exists()){
-            Log.v(TAG, "Icon file does not exist, using OpenWeatherMapService to get and save.");
-            OpenWeatherMapService.getAndSaveIconFromNetwork(context, iconId);
-        }
-        file = new File(context.getFilesDir(), "icon" + iconId + ".png");
+        File file = getFile();
         if (!file.exists()){
             Log.v(TAG, "Icon file does not exist, returning null.");
             return null;
         }
         Log.v(TAG, "Icon file exists, getting and returning bitmap.");
         return BitmapFactory.decodeFile(context.getFilesDir().getPath() + "/icon" + iconId + ".png" );
+    }
+
+    private synchronized File getFile() {
+        File file = new File(context.getFilesDir(), "icon" + iconId + ".png");
+        if (!file.exists()){
+            Log.v(TAG, "Icon file does not exist, using OpenWeatherMapService to get and save.");
+            OpenWeatherMapService.getAndSaveIconFromNetwork(context, iconId);
+        }
+        file = new File(context.getFilesDir(), "icon" + iconId + ".png");
+        return file;
     }
 
     @Override

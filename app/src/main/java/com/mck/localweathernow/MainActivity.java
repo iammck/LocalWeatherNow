@@ -10,6 +10,8 @@ import android.util.Log;
 import com.mck.localweathernow.model.CurrentWeatherData;
 import com.mck.localweathernow.model.ForecastWeatherData;
 import com.mck.localweathernow.model.LocationData;
+import com.mck.localweathernow.ui.HourlyViewFragment;
+import com.mck.localweathernow.ui.MainViewFragment;
 
 public class MainActivity extends AppCompatActivity implements
         LocationFragment.LocationFragmentListener,

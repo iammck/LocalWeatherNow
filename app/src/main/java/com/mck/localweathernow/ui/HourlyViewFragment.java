@@ -1,4 +1,4 @@
-package com.mck.localweathernow;
+package com.mck.localweathernow.ui;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -11,8 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.mck.localweathernow.R;
 import com.mck.localweathernow.model.CurrentWeatherData;
 import com.mck.localweathernow.model.ForecastWeatherData;
+import com.mck.localweathernow.ui.adapter.HourlyViewRecyclerViewAdapter;
 
 /**
  * A fragment representing a list of hourly forecasts.
@@ -158,7 +160,7 @@ public class HourlyViewFragment extends Fragment {
         }
     }
 
-    interface HourlyViewFragmentListener {
+    public interface HourlyViewFragmentListener {
         boolean onRefresh();
     }
 }
