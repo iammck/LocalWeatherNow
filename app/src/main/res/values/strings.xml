@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Local Weather Now</string>
     <string name="section_format">Hello World from section: %1$d</string>
-    <string name="hourly">Hourly</string>
+    <string name="hourly">24 Hour</string>
     <string name="daily">Daily</string>
     <string name="ok">OK</string>
     <string name="permission_required_reason">Unable to get permission to access your location.\nLocal Weather Now needs access to your location in order to work correctly. \nPlease allow access before continuing.</string>

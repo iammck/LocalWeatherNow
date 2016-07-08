@@ -19,6 +19,7 @@
     <dimen name="temperature_text_right_padding_size">4dp</dimen>
     <dimen name="temperature_text_top_padding_size">4dp</dimen>
     <dimen name="temperature_text_bottom_padding_size">0dp</dimen>
+    <dimen name="temperature_margin_bottom">0dp</dimen>
 
     <dimen name="large_text_left_padding_size">4dp</dimen>
     <dimen name="large_text_right_padding_size">4dp</dimen>
@@ -28,16 +29,19 @@
     <dimen name="medium_text_left_padding_size">4dp</dimen>
     <dimen name="medium_text_right_padding_size">4dp</dimen>
     <dimen name="medium_text_top_padding_size">4dp</dimen>
-    <dimen name="medium_text_bottom_padding_size">4dp</dimen>
+    <dimen name="medium_text_bottom_padding_size">0dp</dimen>
 
     <dimen name="small_text_left_padding_size">2dp</dimen>
     <dimen name="small_text_right_padding_size">2dp</dimen>
-    <dimen name="small_text_top_padding_size">2dp</dimen>
+    <dimen name="small_text_top_padding_size">0dp</dimen>
     <dimen name="small_text_bottom_padding_size">2dp</dimen>
 
     <dimen name="xtra_small_text_left_padding_size">0dp</dimen>
     <dimen name="xtra_small_text_right_padding_size">0dp</dimen>
     <dimen name="xtra_small_text_top_padding_size">0dp</dimen>
     <dimen name="xtra_small_text_bottom_padding_size">0dp</dimen>
+
+
+    <dimen name="card_view_corner_radius">8dp</dimen>
 
 </resources>

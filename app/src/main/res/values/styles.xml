@@ -26,6 +26,7 @@
         <item name="android:paddingRight">@dimen/temperature_text_right_padding_size</item>
         <item name="android:paddingTop">@dimen/temperature_text_top_padding_size</item>
         <item name="android:paddingBottom">@dimen/temperature_text_bottom_padding_size</item>
+        <item name="android:layout_marginBottom">@dimen/temperature_margin_bottom</item>
     </style>
 
     <style name="MediumTextTheme" parent="TextAppearance.AppCompat.Medium">
