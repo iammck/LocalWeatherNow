@@ -24,6 +24,7 @@ public class HourlyViewRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
     private static final int VIEW_TYPE_CURRENT = 1;
     private static final int VIEW_TYPE_PERIOD = 2;
     private static final int VIEW_TYPE_LOADING = 3;
+    public static final String UPDATE = "UPDATE";
     private ArrayList<Integer> itemViewTypes;
 
     private boolean hasCurrentViewHolder = false;
@@ -38,20 +39,15 @@ public class HourlyViewRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
 
     @Override
     public int getItemCount() {
-        Log.v(TAG, "getItemCount() returning " + itemViewTypes.size());
         return itemViewTypes.size();
     }
 
     @Override
     public int getItemViewType(int position) {
-        Log.v(TAG, "getItemViewType() for position " + position);
         if (position < itemViewTypes.size()){
             return itemViewTypes.get(position);
-        } else {
-            Log.v(TAG, "getItemViewType() for position " + position + ", but itemViewTypes does not contain position.");
-            // produce an error.
-            return 0;
         }
+        return 0;
     }
 
     @Override
@@ -109,7 +105,7 @@ public class HourlyViewRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
             itemViewTypes.add(0, VIEW_TYPE_CURRENT);
             notifyItemInserted(0);
         } else {
-            notifyItemChanged(0);
+            notifyItemChanged(0, UPDATE);
         }
 
     }
@@ -127,10 +123,10 @@ public class HourlyViewRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
             notifyItemRangeInserted(0, periods.length - 1);
 
         } else if (itemViewTypes.get(0) == VIEW_TYPE_PERIOD){
-            notifyItemRangeChanged(0, periods.length - 1);
+            notifyItemRangeChanged(0, periods.length - 1, UPDATE);
         } else {
             if (itemViewTypes.size() > 1){
-                notifyItemRangeChanged(1, periods.length - 1);
+                notifyItemRangeChanged(1, periods.length - 1, UPDATE);
             } else {
                 int index = 1;
                 while (index <= periods.length){

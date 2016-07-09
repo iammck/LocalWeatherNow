@@ -15,6 +15,8 @@ import java.util.List;
  */
 class PeriodViewHolder extends HourlyViewHolder implements GetWeatherIconAsyncTask.Callback {
 
+    private static final String ON_CLICK = "ON_CLICK";
+
     PeriodViewHolder(View view, HourlyViewRecyclerViewAdapter adapter) {
         super(view, adapter);
     }
@@ -26,13 +28,18 @@ class PeriodViewHolder extends HourlyViewHolder implements GetWeatherIconAsyncTa
 
 
     void bindPeriodView(Period period, List<Object> payloads) {
-
-        if (payloads != null && !payloads.isEmpty() && payloads.get(0) instanceof Bitmap) {
-            ivIcon.setImageBitmap((Bitmap) payloads.get(0));
+        if (payloads != null && payloads.contains(ON_CLICK)) {
+            if (extrasAreVisible) {
+                extrasAreVisible = false;
+                layoutDetails.setVisibility(View.GONE);
+            } else {
+                extrasAreVisible = true;
+                layoutDetails.setVisibility(View.VISIBLE);
+            }
             return;
         }
 
-       // tvTime
+        // tvTime
         if (period.dt != null){
             String formattedTime = WeatherDataHelper.formatTimeAmPm(period.dt);
             tvTime.setText(formattedTime);
@@ -63,6 +70,24 @@ class PeriodViewHolder extends HourlyViewHolder implements GetWeatherIconAsyncTa
             tvDescription.setText(
                     period.weather[0].description.toUpperCase());
         }
+
+        if (payloads == null || payloads.isEmpty()) {
+            extrasAreVisible = false;
+            layoutDetails.setVisibility(View.GONE);
+        }
+
+        mView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (extrasAreVisible) {
+                    extrasAreVisible = false;
+                    layoutDetails.setVisibility(View.GONE);
+                } else {
+                    extrasAreVisible = true;
+                    layoutDetails.setVisibility(View.VISIBLE);
+                }
+            }
+        });
 
         GetWeatherIconAsyncTask task = new GetWeatherIconAsyncTask(
                 mView.getContext(), this,

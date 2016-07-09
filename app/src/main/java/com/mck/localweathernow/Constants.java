@@ -7,7 +7,7 @@ package com.mck.localweathernow;
  */
 public class Constants {
     public static final String API_ID = PrivateConstants.API_ID;
-    public static final int NUM_PERIODS_TO_REQUEST = 24; //8;
+    public static final int NUM_PERIODS_TO_REQUEST = 8;
     public static final String UNITS = "metric";
     public static final String REMOVE_LOADING_VIEW = "REMOVE_LOADING_VIEW";
 

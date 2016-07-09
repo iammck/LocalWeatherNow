@@ -23,10 +23,10 @@ class HourlyViewHolder extends ViewHolder {
 
 
     // tvDate, tvLocation;
-
-    LinearLayout layoutWind, layoutRainfall, layoutSnowfall;
-
+    LinearLayout layoutDetails, layoutWind, layoutRainfall, layoutSnowfall;
     ImageView ivIcon;
+
+    boolean extrasAreVisible;
 
     HourlyViewHolder(View view, HourlyViewRecyclerViewAdapter adapter) {
         super(view);
@@ -49,6 +49,7 @@ class HourlyViewHolder extends ViewHolder {
         layoutWind = (LinearLayout) mView.findViewById(R.id.layoutWind);
         layoutRainfall = (LinearLayout) mView.findViewById(R.id.layoutRainfall);
         layoutSnowfall = (LinearLayout) mView.findViewById(R.id.layoutSnowfall);
+        layoutDetails = (LinearLayout) mView.findViewById(R.id.layoutDetails);
         this.adapter = adapter;
     }
 }

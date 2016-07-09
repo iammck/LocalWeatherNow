@@ -2,6 +2,7 @@ package com.mck.localweathernow.ui.adapter;
 
 import android.graphics.Bitmap;
 import android.view.View;
+import android.util.Log;
 
 import com.mck.localweathernow.WeatherDataHelper;
 import com.mck.localweathernow.asynctask.GetWeatherIconAsyncTask;
@@ -14,6 +15,8 @@ import java.util.List;
  * Created by Michael on 7/8/2016.
  */
 class CurrentViewHolder extends HourlyViewHolder implements GetWeatherIconAsyncTask.Callback {
+    public static final String TAG = "CurrentViewHolder";
+    private static final String ON_CLICK = "ON_CLICK";
 
     CurrentViewHolder(View view, HourlyViewRecyclerViewAdapter adapter) {
         super(view, adapter);
@@ -25,9 +28,16 @@ class CurrentViewHolder extends HourlyViewHolder implements GetWeatherIconAsyncT
     }
 
     void onBindViewHolder(CurrentWeatherData currentWeatherData, List<Object> payloads) {
-        // is this
-        if (payloads != null && !payloads.isEmpty() && payloads.get(0) instanceof Bitmap) {
-            ivIcon.setImageBitmap((Bitmap) payloads.get(0));
+        Log.v(TAG,"onBindViewHolder() with payload " + payloads );
+
+        if (payloads != null && payloads.contains(ON_CLICK)) {
+            if (extrasAreVisible) {
+                extrasAreVisible = false;
+                layoutDetails.setVisibility(View.GONE);
+            } else {
+                extrasAreVisible = true;
+                layoutDetails.setVisibility(View.VISIBLE);
+            }
             return;
         }
 
@@ -124,12 +134,23 @@ class CurrentViewHolder extends HourlyViewHolder implements GetWeatherIconAsyncT
             layoutSnowfall.setVisibility(View.GONE);
         }
 
-
         GetWeatherIconAsyncTask task = new GetWeatherIconAsyncTask(
                 mView.getContext(), this,
                 getAdapterPosition(),
                 currentWeatherData.weather[0].icon);
         task.execute();
+
+        if (payloads == null || payloads.isEmpty()) {
+            extrasAreVisible = true;
+            layoutDetails.setVisibility(View.VISIBLE);
+        }
+
+        mView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                adapter.notifyItemChanged(getAdapterPosition(),ON_CLICK);
+            }
+        });
     }
 }
 
