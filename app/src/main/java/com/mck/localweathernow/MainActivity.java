@@ -1,12 +1,15 @@
 package com.mck.localweathernow;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
+import com.mck.localweathernow.dialog.AboutDialogFragment;
 import com.mck.localweathernow.model.CurrentWeatherData;
 import com.mck.localweathernow.model.ForecastWeatherData;
 import com.mck.localweathernow.model.LocationData;
@@ -19,9 +22,6 @@ public class MainActivity extends AppCompatActivity implements
         HourlyViewFragment.HourlyViewFragmentListener{
 
     private static final String TAG = "MainActivity";
-
-    // used to slow the refresh task when the data is already fresh.
-    private AsyncTask<Void, Void, Void> refreshTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +59,26 @@ public class MainActivity extends AppCompatActivity implements
     protected void onStop() {
         super.onStop();
         Log.v(TAG, "onStop()");
-        if (refreshTask != null){
-            refreshTask.cancel(true);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.actionbar_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+            case R.id.action_about:
+                new AboutDialogFragment().show(getSupportFragmentManager(), "information");
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 

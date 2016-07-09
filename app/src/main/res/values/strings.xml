@@ -11,5 +11,14 @@
     <string name="location_settings_failure_message">Local Weather Now failed to acquire location services. Location services are a required for the application to work properly. Please enable them and try again.</string>
     <string name="requires_gps_failure_reason">Local Weather Now requires Google Play Services to run successfully. In particular it needs location services. Please make sure these services are installed and enabled on your device then try again.</string>
     <string name="loading_data">Retrieving weather information and forecasts from OpenWeatherMap.org</string>
+    <string name="settings">Settings</string>
+    <string name="about">About</string>
+    <string name="git_hub">GitHub</string>
+    <string name="linked_in">Linked In</string>
+    <string name="open_weather_map">OpenWeatherMap.org</string>
+    <string name="about_description_connecting">Connecting OpenWeatherMap.org weather services with your device to give you the latest local weather and forecast information.</string>
+    <string name="about_description_osm">OpenWeatherMap supplies wide range of weather data including current weather, forecast, precipitations, wind, clouds, data from weather stations, lots of maps, analytics and many others. They have their own model of weather calculation that involves global meteorological broadcast data, custom WRF calculation for regions and real-time data from more than 40,000 weather stations.</string>
+    <string name="about_description_mck">This application was developed by Michael King and is available free of charge. The code is available on GitHub and licensed under Apache 2.0</string>
+    <string name="about_description_thank_you">Thank you for downloading and using this application.</string>
 
 </resources>
