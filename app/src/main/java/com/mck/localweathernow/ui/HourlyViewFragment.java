@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import com.mck.localweathernow.R;
 import com.mck.localweathernow.model.CurrentWeatherData;
 import com.mck.localweathernow.model.ForecastWeatherData;
+import com.mck.localweathernow.ui.adapter.HourlyViewItemAnimator;
 import com.mck.localweathernow.ui.adapter.HourlyViewRecyclerViewAdapter;
 
 /**
@@ -68,6 +69,7 @@ public class HourlyViewFragment extends Fragment {
                 RecyclerView recyclerView = (RecyclerView) view;
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
                 recyclerView.setAdapter(new HourlyViewRecyclerViewAdapter());
+                recyclerView.setItemAnimator(new HourlyViewItemAnimator());
             }
         }
 

@@ -6,20 +6,23 @@
     <dimen name="text_margin">16dp</dimen>
 
 
-    <dimen name="temperature_text_size">36sp</dimen>
-    <dimen name="xtra_small_text_size">8sp</dimen>
+    <dimen name="card_layout_margin_left">4dp</dimen>
+    <dimen name="card_layout_margin_right">4dp</dimen>
+    <dimen name="card_layout_margin_top">4dp</dimen>
+    <dimen name="card_layout_margin_bottom">0dp</dimen>
 
-
-    <dimen name="main_layout_margin_left">8dp</dimen>
-    <dimen name="main_layout_margin_right">8dp</dimen>
-    <dimen name="main_layout_margin_top">8dp</dimen>
-    <dimen name="main_layout_margin_bottom">0dp</dimen>
+    <dimen name="main_layout_margin_left">4dp</dimen>
+    <dimen name="main_layout_margin_right">4dp</dimen>
+    <dimen name="main_layout_margin_top">4dp</dimen>
+    <dimen name="main_layout_margin_bottom">4dp</dimen>
 
     <dimen name="temperature_text_left_padding_size">4dp</dimen>
     <dimen name="temperature_text_right_padding_size">4dp</dimen>
-    <dimen name="temperature_text_top_padding_size">4dp</dimen>
+    <dimen name="temperature_text_top_padding_size">0dp</dimen>
     <dimen name="temperature_text_bottom_padding_size">0dp</dimen>
     <dimen name="temperature_margin_bottom">0dp</dimen>
+    <dimen name="temperature_margin_top">0dp</dimen>
+    <dimen name="temperature_text_size">36sp</dimen>
 
     <dimen name="large_text_left_padding_size">4dp</dimen>
     <dimen name="large_text_right_padding_size">4dp</dimen>
@@ -34,14 +37,16 @@
     <dimen name="small_text_left_padding_size">2dp</dimen>
     <dimen name="small_text_right_padding_size">2dp</dimen>
     <dimen name="small_text_top_padding_size">0dp</dimen>
-    <dimen name="small_text_bottom_padding_size">2dp</dimen>
+    <dimen name="small_text_bottom_padding_size">0dp</dimen>
 
     <dimen name="xtra_small_text_left_padding_size">0dp</dimen>
     <dimen name="xtra_small_text_right_padding_size">0dp</dimen>
     <dimen name="xtra_small_text_top_padding_size">0dp</dimen>
     <dimen name="xtra_small_text_bottom_padding_size">0dp</dimen>
+    <dimen name="xtra_small_text_size">8sp</dimen>
 
 
-    <dimen name="card_view_corner_radius">8dp</dimen>
+
+    <dimen name="card_view_corner_radius">6dp</dimen>
 
 </resources>

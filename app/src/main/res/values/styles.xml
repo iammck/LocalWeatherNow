@@ -27,6 +27,7 @@
         <item name="android:paddingTop">@dimen/temperature_text_top_padding_size</item>
         <item name="android:paddingBottom">@dimen/temperature_text_bottom_padding_size</item>
         <item name="android:layout_marginBottom">@dimen/temperature_margin_bottom</item>
+        <item name="android:layout_marginTop">@dimen/temperature_margin_top</item>
     </style>
 
     <style name="MediumTextTheme" parent="TextAppearance.AppCompat.Medium">
@@ -53,11 +54,24 @@
         <item name="android:paddingBottom">@dimen/xtra_small_text_bottom_padding_size</item>
     </style>
 
+    <style name="card_layout_theme">
+        <item name="android:layout_marginLeft">@dimen/card_layout_margin_left</item>
+        <item name="android:layout_marginRight">@dimen/card_layout_margin_right</item>
+        <item name="android:layout_marginTop">@dimen/card_layout_margin_top</item>
+        <item name="android:layout_marginBottom">@dimen/card_layout_margin_bottom</item>
+    </style>
+
     <style name="main_layout_theme">
         <item name="android:layout_marginLeft">@dimen/main_layout_margin_left</item>
         <item name="android:layout_marginRight">@dimen/main_layout_margin_right</item>
         <item name="android:layout_marginTop">@dimen/main_layout_margin_top</item>
         <item name="android:layout_marginBottom">@dimen/main_layout_margin_bottom</item>
+    </style>
+
+
+    <style name="icon_theme" parent="AppTheme">
+        <item name="android:layout_margin">16dp</item>
+        <item name="android:padding">16dp</item>
     </style>
 
 

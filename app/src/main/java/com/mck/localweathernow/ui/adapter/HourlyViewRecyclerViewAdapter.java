@@ -30,16 +30,6 @@ public class HourlyViewRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
     private CurrentWeatherData currentWeatherData;
     private Period[] periods;
 
-    /*
-
-    if (itemViewTypes.get(0) == VIEW_TYPE_PERIOD){
-            period = periods[position];
-        } else {
-            period = periods[position - 1];
-        }
-
-     */
-
     public HourlyViewRecyclerViewAdapter(){
         Log.v(TAG, "HourlyViewRecyclerViewAdapter instantiation in progress.");
         itemViewTypes = new ArrayList<>();
@@ -79,7 +69,7 @@ public class HourlyViewRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
                 return new CurrentViewHolder(view, this);
             case VIEW_TYPE_PERIOD:
                 view = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.list_item_period, parent, false);
+                        .inflate(R.layout.list_item_current, parent, false);
                 return new PeriodViewHolder(view, this);
             }
         return null;
@@ -102,6 +92,8 @@ public class HourlyViewRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
                 ((PeriodViewHolder)  holder).bindPeriodView(periods[position - 1] , payloads);
             else
                 ((PeriodViewHolder)  holder).bindPeriodView(periods[position] , payloads);
+        } else {
+            ((LoadingViewHolder) holder).onBindViewHolder(payloads);
         }
     }
 
@@ -109,13 +101,17 @@ public class HourlyViewRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
         Log.v(TAG, "onCurrentWeatherDataUpdate()");
         this.currentWeatherData = currentWeatherData;
         // if there are many items and have already bound
-        if (itemViewTypes.get(0) != VIEW_TYPE_PERIOD){
+        if (itemViewTypes.get(0) == VIEW_TYPE_LOADING){
             itemViewTypes.set(0, VIEW_TYPE_CURRENT);
-            notifyItemChanged(0);
-        } else {
+            notifyItemRemoved(0);
+            notifyItemInserted(1);
+        } else if (itemViewTypes.get(0) == VIEW_TYPE_PERIOD){
             itemViewTypes.add(0, VIEW_TYPE_CURRENT);
             notifyItemInserted(0);
+        } else {
+            notifyItemChanged(0);
         }
+
     }
 
     public void onForecastWeatherDataUpdate(ForecastWeatherData forecastWeatherData) {

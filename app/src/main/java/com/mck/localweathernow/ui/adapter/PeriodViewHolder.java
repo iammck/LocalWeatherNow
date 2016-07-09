@@ -21,7 +21,7 @@ class PeriodViewHolder extends HourlyViewHolder implements GetWeatherIconAsyncTa
 
     @Override
     public void onWeatherIconResult(Bitmap icon, Integer requestId) {
-        adapter.notifyItemChanged(getAdapterPosition(), icon);
+        ivIcon.setImageBitmap(icon);
     }
 
 
@@ -37,15 +37,15 @@ class PeriodViewHolder extends HourlyViewHolder implements GetWeatherIconAsyncTa
             String formattedTime = WeatherDataHelper.formatTimeAmPm(period.dt);
             tvTime.setText(formattedTime);
             tvTime.setVisibility(View.VISIBLE);
-        }else{
-            tvTime.setVisibility(View.GONE);
         }
+        // remove these two TextView
+        tvLabelGeneratedTime.setVisibility(View.GONE);
+        tvGeneratedTime.setVisibility(View.GONE);
+
         // tvTemperature,
         if (period.main.temp != null) {
             String formattedTemperature = WeatherDataHelper.formatTemperature(period.main.temp);
             tvTemperature.setText(formattedTemperature);
-        }else{
-            tvTemperature.setText(DNE);
         }
 
         // tvTemperatureHighLow,
@@ -55,8 +55,6 @@ class PeriodViewHolder extends HourlyViewHolder implements GetWeatherIconAsyncTa
             String formattedTemperatureLow = WeatherDataHelper.formatTemperature(period.main.temp_min);
             String result = formattedTemperatureHigh + "/" + formattedTemperatureLow;
             tvTemperatureHighLow.setText(result);
-        } else {
-            tvTemperatureHighLow.setText(DNE);
         }
 
         // tvDescription,
@@ -64,8 +62,6 @@ class PeriodViewHolder extends HourlyViewHolder implements GetWeatherIconAsyncTa
                 period.weather[0].description != null){
             tvDescription.setText(
                     period.weather[0].description.toUpperCase());
-        } else {
-            tvDescription.setText(DNE);
         }
 
         GetWeatherIconAsyncTask task = new GetWeatherIconAsyncTask(

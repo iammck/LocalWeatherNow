@@ -32,7 +32,7 @@ public class GetWeatherIconAsyncTask extends AsyncTask<Object,Integer,Bitmap> {
     @Override
     protected Bitmap doInBackground(Object... params) {
         if (context == null) return null;
-        File file = getFile();
+        File file = getFile(context, iconId);
         if (!file.exists()){
             Log.v(TAG, "Icon file does not exist, returning null.");
             return null;
@@ -41,7 +41,7 @@ public class GetWeatherIconAsyncTask extends AsyncTask<Object,Integer,Bitmap> {
         return BitmapFactory.decodeFile(context.getFilesDir().getPath() + "/icon" + iconId + ".png" );
     }
 
-    private synchronized File getFile() {
+    private static synchronized File getFile(Context context, String iconId) {
         File file = new File(context.getFilesDir(), "icon" + iconId + ".png");
         if (!file.exists()){
             Log.v(TAG, "Icon file does not exist, using OpenWeatherMapService to get and save.");

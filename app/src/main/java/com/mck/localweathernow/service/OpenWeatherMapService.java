@@ -33,6 +33,7 @@ public class OpenWeatherMapService {
             String request = String.format(Locale.US,
                     "http://api.openweathermap.org/data/2.5/weather?lat=%f&lon=%f&APPID=%s",
                     locationData.latitude, locationData.longitude, API_ID);
+            Log.v(TAG, "making request with statement " + request);
             URL url = new URL(request);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestProperty("User-Agent", USER_AGENT);
