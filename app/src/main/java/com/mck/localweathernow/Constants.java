@@ -8,7 +8,6 @@ package com.mck.localweathernow;
 public class Constants {
     public static final String API_ID = PrivateConstants.API_ID;
     public static final int NUM_PERIODS_TO_REQUEST = 8;
-    public static final String UNITS = "metric";
     public static final String REMOVE_LOADING_VIEW = "REMOVE_LOADING_VIEW";
 
     static long locationReqInterval = 4000;
@@ -20,5 +19,5 @@ public class Constants {
     static final long MAX_LOC_TIME_DELTA = 10000;
     static final float MIN_ACCURACY = 1500;
 
-
+    public static boolean isMetric = false;
 }

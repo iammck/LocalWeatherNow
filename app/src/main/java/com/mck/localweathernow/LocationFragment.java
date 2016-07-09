@@ -348,15 +348,17 @@ public class LocationFragment extends Fragment implements LocationListener,
 
     public boolean hasIdealLocationData(){
         // if no locationData or accuracy is greater than optimal or the time is stale
-        if (locationData != null) {
-            Log.v(TAG, "hasIdealLocationData() check with location accuracy: "
-                    + locationData.accuracy + ", and time: " + locationData.time + ".");
-        } else {
-            Log.v(TAG, "hasIdealLocationData() check with null locationData");
-        }
         return !(locationData == null ||
                 locationData.accuracy > Constants.MIN_ACCURACY ||
                 System.currentTimeMillis() - locationData.time > Constants.MAX_LOC_TIME_DELTA);
+    }
+
+    public boolean hasOldData() {
+        // if no locationData or the time is stale
+        boolean result =  (locationData == null ||
+                System.currentTimeMillis() - locationData.time > Constants.MAX_LOC_TIME_DELTA);
+        Log.v(TAG, "hasOldData() with result " + result);
+        return result;
     }
 
     public class LocationModeReceiver extends BroadcastReceiver {

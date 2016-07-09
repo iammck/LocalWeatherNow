@@ -1,5 +1,6 @@
 package com.mck.localweathernow;
 
+import java.text.DecimalFormat;
 import java.util.Calendar;
 
 /**
@@ -108,7 +109,10 @@ public class WeatherDataHelper {
     }
 
     public static String formatSpeed(Double speed) {
-        return speed +  " m/s";
+        if (Constants.isMetric)
+            return  (new DecimalFormat("####.#")).format(speed) +  " m/s";
+        else
+            return (new DecimalFormat("####.#")).format(speed*2.2369) + " M/h";
     }
 
     public static String formatVolume(Double threeHour) {
@@ -116,13 +120,11 @@ public class WeatherDataHelper {
     }
 
     public static String formatTemperature(Double temp) {
-        String result = getFahrenheit(temp);
-        return result + "°";
-    }
-
-    private static String getFahrenheit(Double temp) {
-        //return (new DecimalFormat("####.##")).format(temp * 9/5 - 459.67);
-        return String.valueOf(Double.valueOf(temp * 9/5 - 459.67).intValue());
+        if (Constants.isMetric)
+            return String.valueOf(Double.valueOf(temp - 273.15).intValue()) + "°";
+        else {
+            return String.valueOf(Double.valueOf(temp * 9/5 - 459.67).intValue()) + "°";
+        }
     }
 
     public static String formatPercent(Double all) {

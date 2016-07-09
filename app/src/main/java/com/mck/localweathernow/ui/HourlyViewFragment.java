@@ -150,7 +150,9 @@ public class HourlyViewFragment extends Fragment {
     }
 
     private void onRefreshData() {
-        // if false, no need to refresh.
+        Log.v(TAG, "onRefresh(), refreshing data.");
+        mHourlyViewFragmentListener.onRefresh();
+        /*// if false, no need to refresh.
         if (!mHourlyViewFragmentListener.onRefresh()){
             Log.v(TAG, "onRefresh(), but data is still good.");
             View view = getView();
@@ -159,10 +161,10 @@ public class HourlyViewFragment extends Fragment {
             }
         } else {
             Log.v(TAG, "onRefresh(), refreshing data.");
-        }
+        }*/
     }
 
     public interface HourlyViewFragmentListener {
-        boolean onRefresh();
+        void onRefresh();
     }
 }

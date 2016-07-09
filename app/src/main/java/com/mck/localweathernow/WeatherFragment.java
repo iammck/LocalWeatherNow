@@ -87,7 +87,7 @@ public class WeatherFragment extends Fragment implements
 
         if (mCurrentWeatherData != null) {
             Log.v(TAG, "onResume() mCurrentWeatherData is not null.");
-            mWeatherFragmentListener.onCurrentWeatherDataUpdate(mCurrentWeatherData);
+            onCurrentWeatherDataResult(mCurrentWeatherData);
         } else if (mCurrentWeather != null) {
             Log.v(TAG, "onResume() mCurrentWeather is not null");
             onCurrentWeatherResult(mCurrentWeather);
@@ -98,7 +98,7 @@ public class WeatherFragment extends Fragment implements
 
         if (mForecastWeatherData != null) {
             Log.v(TAG, "onResume() mForecastWeatherData is not null.");
-            mWeatherFragmentListener.onForecastWeatherDataUpdate(mForecastWeatherData);
+            onForecastWeatherDataResult(mForecastWeatherData);
         } else if (mForecastWeather != null) {
             Log.v(TAG, "onResume() mForecastWeather is not null");
             onCurrentWeatherResult(mForecastWeather);
@@ -226,6 +226,30 @@ public class WeatherFragment extends Fragment implements
     public boolean hasOldData(){
         return (mLocationData == null ||
                 (System.currentTimeMillis() - mLocationData.time > Constants.MAX_LOC_TIME_DELTA));
+    }
+
+    public void refresh() {
+        if (mCurrentWeatherData != null) {
+            Log.v(TAG, "refresh() mCurrentWeatherData is not null.");
+            onCurrentWeatherDataResult(mCurrentWeatherData);
+        } else if (mCurrentWeather != null) {
+            Log.v(TAG, "refresh() mCurrentWeather is not null");
+            onCurrentWeatherResult(mCurrentWeather);
+        } else {
+            Log.v(TAG, "refresh() with no mCurrentWeather");
+            updateCurrentWeather(mLocationData);
+        }
+
+        if (mForecastWeatherData != null) {
+            Log.v(TAG, "refresh() mForecastWeatherData is not null.");
+            onForecastWeatherDataResult(mForecastWeatherData);
+        } else if (mForecastWeather != null) {
+            Log.v(TAG, "refresh() mForecastWeather is not null");
+            onCurrentWeatherResult(mForecastWeather);
+        } else {
+            Log.v(TAG, "refresh() with no mForecastWeather");
+            updateForecastWeather(mLocationData);
+        }
     }
 
     interface WeatherFragmentListener {

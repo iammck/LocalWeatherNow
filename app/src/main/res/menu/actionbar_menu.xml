@@ -7,4 +7,14 @@
         android:id="@+id/action_about"
         android:icon="@mipmap/ic_help_outline_white_48dp"
         app:showAsAction="never"/>
+    <item
+        android:title="@string/imperial"
+        android:checkable="true"
+        android:id="@+id/action_imperial"
+        app:showAsAction="never"/>
+    <item
+        android:title="@string/metric"
+        android:id="@+id/action_metric"
+        app:showAsAction="never"
+        android:checkable="true"/>
 </menu>

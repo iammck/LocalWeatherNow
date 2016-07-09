@@ -20,5 +20,9 @@
     <string name="about_description_osm">OpenWeatherMap supplies wide range of weather data including current weather, forecast, precipitations, wind, clouds, data from weather stations, lots of maps, analytics and many others. They have their own model of weather calculation that involves global meteorological broadcast data, custom WRF calculation for regions and real-time data from more than 40,000 weather stations.</string>
     <string name="about_description_mck">This application was developed by Michael King and is available free of charge. The code is available on GitHub and licensed under Apache 2.0</string>
     <string name="about_description_thank_you">Thank you for downloading and using this application.</string>
+    <string name="fahrenheit">Fahrenheit</string>
+    <string name="celsius">Celsius</string>
+    <string name="imperial">Imperial</string>
+    <string name="metric">Metric</string>
 
 </resources>
