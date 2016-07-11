@@ -1,15 +1,15 @@
 <resources>
-    <string name="app_name">Local Weather Now</string>
+    <string name="app_name">Quick Temps</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="hourly">24 Hour</string>
     <string name="daily">Daily</string>
     <string name="ok">OK</string>
-    <string name="permission_required_reason">Unable to get permission to access your location.\nLocal Weather Now needs access to your location in order to work correctly. \nPlease allow access before continuing.</string>
+    <string name="permission_required_reason">Unable to get permission to access your location.\nQuick Temps needs access to your location in order to work correctly. \nPlease allow access before continuing.</string>
     <string name="settings_required_reason">Access to location services is required for the application to work properly. Please enable location services to continue.</string>
     <string name="exit">Exit</string>
     <string name="try_again">TRY AGAIN</string>
-    <string name="location_settings_failure_message">Local Weather Now failed to acquire location services. Location services are a required for the application to work properly. Please enable them and try again.</string>
-    <string name="requires_gps_failure_reason">Local Weather Now requires Google Play Services to run successfully. In particular it needs location services. Please make sure these services are installed and enabled on your device then try again.</string>
+    <string name="location_settings_failure_message">Quick Temps failed to acquire location services. Location services are a required for the application to work properly. Please enable them and try again.</string>
+    <string name="requires_gps_failure_reason">Quick Temps requires Google Play Services to run successfully. In particular it needs location services. Please make sure these services are installed and enabled on your device then try again.</string>
     <string name="loading_data">Retrieving weather information and forecasts from OpenWeatherMap.org</string>
     <string name="settings">Settings</string>
     <string name="about">About</string>

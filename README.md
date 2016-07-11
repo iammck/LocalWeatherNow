@@ -1,4 +1,4 @@
-#Local Weather Now
+#Quick Temps
 
 This project builds upon a [previous](https://github.com/iammck/WeatherNow) project. The main goal here is to expand upon the original using Android Studio 2.2 along with Constraints Layouts to produce a more robust user experience.
 
