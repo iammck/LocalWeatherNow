@@ -31,7 +31,6 @@ class PeriodViewHolder extends WeatherViewHolder implements GetWeatherIconAsyncT
     void bindPeriodView(Period period, List<Object> payloads) {
         super.bindViewHolder(payloads);
         Log.v(TAG,"onBindViewHolder() for position " + getAdapterPosition() + " with payload " + payloads );
-
         if (payloads != null && payloads.contains(ON_CLICK)){
             return;
         }

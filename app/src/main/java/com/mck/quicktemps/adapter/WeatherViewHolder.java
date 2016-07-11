@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mck.quicktemps.R;
@@ -22,7 +23,7 @@ class WeatherViewHolder extends ViewHolder {
     private static final String TAG = "WeatherViewHolder";
     View mView;
 
-    private final WeatherViewRecyclerViewAdapter adapter;
+    public final WeatherViewRecyclerViewAdapter adapter;
     TextView tvTime, tvLabelGeneratedTime, tvGeneratedTime, tvTemperature,
             tvTemperatureHighLow, tvDescription, tvHumidity, tvCloudiness,
             tvRainfall, tvSnowfall, tvWindSpeed, tvWindDirection,
@@ -30,7 +31,12 @@ class WeatherViewHolder extends ViewHolder {
 
     // tvDate, tvLocation;
     @SuppressWarnings("WeakerAccess")
-    LinearLayout layoutDetails, layoutWind, layoutRainfall, layoutSnowfall;
+    public LinearLayout layoutDetails, layoutWind,
+            layoutRainfall, layoutSnowfall;
+
+    @SuppressWarnings("WeakerAccess")
+    public RelativeLayout layoutMainInfo;
+
     ImageView ivIcon;
 
     boolean detailsAreVisible;
@@ -57,6 +63,7 @@ class WeatherViewHolder extends ViewHolder {
         layoutRainfall = (LinearLayout) mView.findViewById(R.id.layoutRainfall);
         layoutSnowfall = (LinearLayout) mView.findViewById(R.id.layoutSnowfall);
         layoutDetails = (LinearLayout) mView.findViewById(R.id.layoutDetails);
+        layoutMainInfo = (RelativeLayout) mView.findViewById(R.id.layoutMainInfo);
         this.adapter = adapter;
     }
 

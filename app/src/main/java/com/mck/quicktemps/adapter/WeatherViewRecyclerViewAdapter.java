@@ -23,6 +23,7 @@ public class WeatherViewRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
     private static final int VIEW_TYPE_CURRENT = 1;
     private static final int VIEW_TYPE_PERIOD = 2;
     private static final int VIEW_TYPE_LOADING = 3;
+    private static final String UPDATE = "UPDATE";
     private ArrayList<Integer> itemViewTypes;
 
     private boolean hasCurrentViewHolder = false;
@@ -103,7 +104,7 @@ public class WeatherViewRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
             itemViewTypes.add(0, VIEW_TYPE_CURRENT);
             notifyItemInserted(0);
         } else {
-            notifyItemChanged(0);
+            notifyItemChanged(0, UPDATE);
         }
 
     }
@@ -121,10 +122,10 @@ public class WeatherViewRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
             notifyItemRangeInserted(0, periods.length - 1);
 
         } else if (itemViewTypes.get(0) == VIEW_TYPE_PERIOD){
-            notifyItemRangeChanged(0, periods.length - 1);
+            notifyItemRangeChanged(0, periods.length - 1, UPDATE);
         } else {
             if (itemViewTypes.size() > 1){
-                notifyItemRangeChanged(1, periods.length);
+                notifyItemRangeChanged(1, periods.length, UPDATE);
             } else {
                 int index = 1;
                 while (index <= periods.length){

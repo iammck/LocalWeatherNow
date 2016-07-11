@@ -17,7 +17,8 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:id="@+id/layoutMainInfo">
 
 
             <LinearLayout
@@ -237,6 +238,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/textView10"
+                        style="@style/SmallTextTheme"
                         android:layout_weight="1"
                         android:gravity="center_horizontal"/>
 
@@ -245,6 +247,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/tvRainfall"
+                        style="@style/SmallTextTheme"
                         android:layout_weight="1"
                         android:gravity="center_horizontal"/>
 
@@ -262,6 +265,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/textView8"
+                        style="@style/SmallTextTheme"
                         android:layout_weight="1"
                         android:gravity="center_horizontal"/>
 
@@ -270,6 +274,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/tvSnowfall"
+                        style="@style/SmallTextTheme"
                         android:layout_weight="1"
                         android:gravity="center_horizontal"/>
                 </LinearLayout>
