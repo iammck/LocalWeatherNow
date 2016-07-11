@@ -126,7 +126,7 @@ public class WeatherViewRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
             notifyItemRangeChanged(0, periods.length - 1, UPDATE);
         } else {
             if (itemViewTypes.size() > 1){
-                notifyItemRangeChanged(1, periods.length - 1, UPDATE);
+                notifyItemRangeChanged(1, periods.length, UPDATE);
             } else {
                 int index = 1;
                 while (index <= periods.length){
@@ -136,5 +136,4 @@ public class WeatherViewRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
             }
         }
     }
-
 }

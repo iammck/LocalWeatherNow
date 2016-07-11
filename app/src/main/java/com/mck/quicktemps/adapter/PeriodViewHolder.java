@@ -68,9 +68,6 @@ class PeriodViewHolder extends WeatherViewHolder implements GetWeatherIconAsyncT
                     period.weather[0].description.toUpperCase());
         }
 
-        //////////////////
-        // Extra data
-
         // tvWindSpeed,
         if (period.wind != null &&
                 period.wind.speed != null){
@@ -129,13 +126,6 @@ class PeriodViewHolder extends WeatherViewHolder implements GetWeatherIconAsyncT
         } else {
             layoutSnowfall.setVisibility(View.GONE);
         }
-
-/*
-        if(detailsAreVisible)
-            layoutDetails.setVisibility(View.VISIBLE);
-        else
-            layoutDetails.setVisibility(View.GONE);
-*/
 
         GetWeatherIconAsyncTask task = new GetWeatherIconAsyncTask(
                 mView.getContext(), this,
