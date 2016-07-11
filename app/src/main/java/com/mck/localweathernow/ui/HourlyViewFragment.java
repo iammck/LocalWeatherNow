@@ -71,6 +71,7 @@ public class HourlyViewFragment extends Fragment {
                 recyclerView.setAdapter(new HourlyViewRecyclerViewAdapter());
                 recyclerView.setItemAnimator(new HourlyViewItemAnimator());
             }
+
         }
 
         if (savedInstanceState != null){

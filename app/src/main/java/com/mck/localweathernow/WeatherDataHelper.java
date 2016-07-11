@@ -116,7 +116,10 @@ public class WeatherDataHelper {
     }
 
     public static String formatVolume(Double threeHour) {
-        return threeHour + " mm";
+        if (Constants.isMetric)
+            return threeHour + " mm";
+        else
+            return (new DecimalFormat("####.###")).format(threeHour*0.0393701) + " in";
     }
 
     public static String formatTemperature(Double temp) {

@@ -1,6 +1,7 @@
 package com.mck.localweathernow.ui.adapter;
 
 import android.support.v7.widget.RecyclerView.ViewHolder;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -8,11 +9,17 @@ import android.widget.TextView;
 
 import com.mck.localweathernow.R;
 
+import java.util.List;
+
 /**
+ * Base class for current and period view holders.
+ *
  * Created by Michael on 7/8/2016.
  */
 
 class HourlyViewHolder extends ViewHolder {
+    public static final String ON_CLICK = "ON_CLICK";
+    private static final String TAG = "HourlyViewHolder";
     View mView;
 
     final HourlyViewRecyclerViewAdapter adapter;
@@ -26,7 +33,7 @@ class HourlyViewHolder extends ViewHolder {
     LinearLayout layoutDetails, layoutWind, layoutRainfall, layoutSnowfall;
     ImageView ivIcon;
 
-    boolean extrasAreVisible;
+    boolean detailsAreVisible;
 
     HourlyViewHolder(View view, HourlyViewRecyclerViewAdapter adapter) {
         super(view);
@@ -51,5 +58,27 @@ class HourlyViewHolder extends ViewHolder {
         layoutSnowfall = (LinearLayout) mView.findViewById(R.id.layoutSnowfall);
         layoutDetails = (LinearLayout) mView.findViewById(R.id.layoutDetails);
         this.adapter = adapter;
+    }
+
+    void bindViewHolder(List<Object> payloads) {
+        if (payloads != null && payloads.contains(ON_CLICK)) {
+            return;
+        } else {
+            if (detailsAreVisible) {
+                detailsAreVisible = true;
+                layoutDetails.setVisibility(View.VISIBLE);
+            } else {
+                detailsAreVisible = false;
+                layoutDetails.setVisibility(View.GONE);
+
+            }
+        }
+        mView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.v(TAG, "onclick() has begun");
+                adapter.notifyItemChanged(getAdapterPosition(),ON_CLICK);
+            }
+        });
     }
 }

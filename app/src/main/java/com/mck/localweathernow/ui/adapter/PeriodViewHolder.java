@@ -1,6 +1,7 @@
 package com.mck.localweathernow.ui.adapter;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.View;
 
 import com.mck.localweathernow.WeatherDataHelper;
@@ -14,11 +15,11 @@ import java.util.List;
  * Created by Michael on 7/8/2016.
  */
 class PeriodViewHolder extends HourlyViewHolder implements GetWeatherIconAsyncTask.Callback {
-
-    private static final String ON_CLICK = "ON_CLICK";
+    private static final String TAG = "PeriodViewHolder";
 
     PeriodViewHolder(View view, HourlyViewRecyclerViewAdapter adapter) {
         super(view, adapter);
+        detailsAreVisible = false;
     }
 
     @Override
@@ -28,14 +29,10 @@ class PeriodViewHolder extends HourlyViewHolder implements GetWeatherIconAsyncTa
 
 
     void bindPeriodView(Period period, List<Object> payloads) {
-        if (payloads != null && payloads.contains(ON_CLICK)) {
-            if (extrasAreVisible) {
-                extrasAreVisible = false;
-                layoutDetails.setVisibility(View.GONE);
-            } else {
-                extrasAreVisible = true;
-                layoutDetails.setVisibility(View.VISIBLE);
-            }
+        super.bindViewHolder(payloads);
+        Log.v(TAG,"onBindViewHolder() for position " + getAdapterPosition() + " with payload " + payloads );
+
+        if (payloads != null && payloads.contains(ON_CLICK)){
             return;
         }
 
@@ -71,23 +68,74 @@ class PeriodViewHolder extends HourlyViewHolder implements GetWeatherIconAsyncTa
                     period.weather[0].description.toUpperCase());
         }
 
-        if (payloads == null || payloads.isEmpty()) {
-            extrasAreVisible = false;
-            layoutDetails.setVisibility(View.GONE);
+        //////////////////
+        // Extra data
+
+        // tvWindSpeed,
+        if (period.wind != null &&
+                period.wind.speed != null){
+            String formattedSpeed = WeatherDataHelper.formatSpeed(period.wind.speed);
+            tvWindSpeed.setText(formattedSpeed);
+            layoutWind.setVisibility(View.VISIBLE);
+        } else {
+            layoutWind.setVisibility(View.GONE);
+        }
+        // tvWindDirection;
+        if (period.wind != null &&
+                period.wind.deg != null){
+            String formattedDirection = WeatherDataHelper.formatDirection(period.wind.deg);
+            tvWindDirection.setText(formattedDirection);
+            tvWindDirection.setVisibility(View.VISIBLE);
+        } else {
+            tvWindDirection.setVisibility(View.GONE);
         }
 
-        mView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (extrasAreVisible) {
-                    extrasAreVisible = false;
-                    layoutDetails.setVisibility(View.GONE);
-                } else {
-                    extrasAreVisible = true;
-                    layoutDetails.setVisibility(View.VISIBLE);
-                }
-            }
-        });
+        // tvHumidity,
+        if (period.main.humidity != null){
+            String formattedPercent = WeatherDataHelper.formatPercent(period.main.humidity);
+            tvHumidity.setText(formattedPercent);
+            tvHumidity.setVisibility(View.VISIBLE);
+            tvLabelHumidity.setVisibility(View.VISIBLE);
+        } else {
+            tvHumidity.setVisibility(View.GONE);
+            tvLabelHumidity.setVisibility(View.GONE);
+        }
+        // tvCloudiness,
+        if (period.clouds != null && period.clouds.all != null ){
+            String formattedPercent = WeatherDataHelper.formatPercent(period.clouds.all);
+            tvCloudiness.setText(formattedPercent);
+            tvCloudiness.setVisibility(View.VISIBLE);
+            tvLabelCloudiness.setVisibility(View.VISIBLE);
+        } else {
+            tvCloudiness.setVisibility(View.GONE);
+            tvLabelCloudiness.setVisibility(View.GONE);
+        }
+
+        // tvRainfall,
+        if (period.rain != null &&
+                period.rain.threeHour != null){
+            String formattedVolume = WeatherDataHelper.formatVolume(period.rain.threeHour);
+            tvRainfall.setText(formattedVolume);
+            layoutRainfall.setVisibility(View.VISIBLE);
+        } else {
+            layoutRainfall.setVisibility(View.GONE);
+        }
+        // tvSnowfall,
+        if (period.snow != null &&
+                period.snow.threeHour != null){
+            String formattedVolume = WeatherDataHelper.formatVolume(period.snow.threeHour);
+            tvSnowfall.setText(formattedVolume);
+            layoutSnowfall.setVisibility(View.VISIBLE);
+        } else {
+            layoutSnowfall.setVisibility(View.GONE);
+        }
+
+/*
+        if(detailsAreVisible)
+            layoutDetails.setVisibility(View.VISIBLE);
+        else
+            layoutDetails.setVisibility(View.GONE);
+*/
 
         GetWeatherIconAsyncTask task = new GetWeatherIconAsyncTask(
                 mView.getContext(), this,

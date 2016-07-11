@@ -16,10 +16,10 @@ import java.util.List;
  */
 class CurrentViewHolder extends HourlyViewHolder implements GetWeatherIconAsyncTask.Callback {
     public static final String TAG = "CurrentViewHolder";
-    private static final String ON_CLICK = "ON_CLICK";
 
     CurrentViewHolder(View view, HourlyViewRecyclerViewAdapter adapter) {
         super(view, adapter);
+        detailsAreVisible = true;
     }
 
     @Override
@@ -28,16 +28,10 @@ class CurrentViewHolder extends HourlyViewHolder implements GetWeatherIconAsyncT
     }
 
     void onBindViewHolder(CurrentWeatherData currentWeatherData, List<Object> payloads) {
+        super.bindViewHolder(payloads);
         Log.v(TAG,"onBindViewHolder() with payload " + payloads );
 
-        if (payloads != null && payloads.contains(ON_CLICK)) {
-            if (extrasAreVisible) {
-                extrasAreVisible = false;
-                layoutDetails.setVisibility(View.GONE);
-            } else {
-                extrasAreVisible = true;
-                layoutDetails.setVisibility(View.VISIBLE);
-            }
+        if (payloads != null && payloads.contains(ON_CLICK)){
             return;
         }
 
@@ -134,23 +128,19 @@ class CurrentViewHolder extends HourlyViewHolder implements GetWeatherIconAsyncT
             layoutSnowfall.setVisibility(View.GONE);
         }
 
+/*
+        if(detailsAreVisible)
+            layoutDetails.setVisibility(View.VISIBLE);
+        else
+            layoutDetails.setVisibility(View.GONE);
+*/
+
         GetWeatherIconAsyncTask task = new GetWeatherIconAsyncTask(
                 mView.getContext(), this,
                 getAdapterPosition(),
                 currentWeatherData.weather[0].icon);
         task.execute();
 
-        if (payloads == null || payloads.isEmpty()) {
-            extrasAreVisible = true;
-            layoutDetails.setVisibility(View.VISIBLE);
-        }
-
-        mView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                adapter.notifyItemChanged(getAdapterPosition(),ON_CLICK);
-            }
-        });
     }
 }
 
