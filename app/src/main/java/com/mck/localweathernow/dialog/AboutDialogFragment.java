@@ -21,7 +21,7 @@ public class AboutDialogFragment extends DialogFragment {
         // Use a builder to construct the dialog
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        builder.setView(inflater.inflate(R.layout.about_fragment, null))
+        builder.setView(inflater.inflate(R.layout.dialog_about, null))
                 .setNeutralButton(R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

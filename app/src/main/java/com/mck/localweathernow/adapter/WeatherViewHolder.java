@@ -1,4 +1,4 @@
-package com.mck.localweathernow.ui.adapter;
+package com.mck.localweathernow.adapter;
 
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.util.Log;
@@ -17,12 +17,12 @@ import java.util.List;
  * Created by Michael on 7/8/2016.
  */
 
-class HourlyViewHolder extends ViewHolder {
+class WeatherViewHolder extends ViewHolder {
     public static final String ON_CLICK = "ON_CLICK";
-    private static final String TAG = "HourlyViewHolder";
+    private static final String TAG = "WeatherViewHolder";
     View mView;
 
-    final HourlyViewRecyclerViewAdapter adapter;
+    final WeatherViewRecyclerViewAdapter adapter;
     TextView tvTime, tvLabelGeneratedTime, tvGeneratedTime, tvTemperature,
             tvTemperatureHighLow, tvDescription, tvHumidity, tvCloudiness,
             tvRainfall, tvSnowfall, tvWindSpeed, tvWindDirection,
@@ -35,7 +35,7 @@ class HourlyViewHolder extends ViewHolder {
 
     boolean detailsAreVisible;
 
-    HourlyViewHolder(View view, HourlyViewRecyclerViewAdapter adapter) {
+    WeatherViewHolder(View view, WeatherViewRecyclerViewAdapter adapter) {
         super(view);
         mView = view;
         tvTime = (TextView) mView.findViewById(R.id.tvTime);

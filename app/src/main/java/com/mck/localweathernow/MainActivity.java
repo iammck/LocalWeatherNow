@@ -14,13 +14,11 @@ import com.mck.localweathernow.dialog.AboutDialogFragment;
 import com.mck.localweathernow.model.CurrentWeatherData;
 import com.mck.localweathernow.model.ForecastWeatherData;
 import com.mck.localweathernow.model.LocationData;
-import com.mck.localweathernow.ui.HourlyViewFragment;
-import com.mck.localweathernow.ui.MainViewFragment;
 
 public class MainActivity extends AppCompatActivity implements
         LocationFragment.LocationFragmentListener,
         WeatherFragment.WeatherFragmentListener,
-        HourlyViewFragment.HourlyViewFragmentListener{
+        WeatherViewFragment.MainViewFragmentListener{
 
     private static final String TAG = "MainActivity";
     private static final String PREFS = "SharedPrefs";
@@ -37,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements
         if (savedInstanceState == null){
             getSupportFragmentManager()
                     .beginTransaction()
-                    .add(R.id.mainFragmentContainer, MainViewFragment.newInstance())
+                    .add(R.id.mainFragmentContainer, WeatherViewFragment.newInstance())
                     .add(LocationFragment.newInstance(), LocationFragment.TAG)
                     .add(WeatherFragment.newInstance(), WeatherFragment.TAG)
                     .commit();
@@ -137,24 +135,24 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onCurrentWeatherDataUpdate(CurrentWeatherData currentWeatherData) {
         Log.v(TAG, "onCurrentWeatherDataUpdate()");
-        MainViewFragment fragment = (MainViewFragment)
+        WeatherViewFragment fragment = (WeatherViewFragment)
                 getSupportFragmentManager().findFragmentById(R.id.mainFragmentContainer);
         if (fragment != null){
             fragment.onCurrentWeatherDataUpdate(currentWeatherData);
         } else {
-            Log.v(TAG, "onCurrentWeatherDataUpdate(), but MainViewFragment can not be found by id.");
+            Log.v(TAG, "onCurrentWeatherDataUpdate(), but WeatherViewFragment can not be found by id.");
         }
     }
 
     @Override
     public void onForecastWeatherDataUpdate(ForecastWeatherData forecastWeatherData) {
         Log.v(TAG, "onForecastWeatherDataUpdate()");
-        MainViewFragment fragment = (MainViewFragment)
+        WeatherViewFragment fragment = (WeatherViewFragment)
                 getSupportFragmentManager().findFragmentById(R.id.mainFragmentContainer);
         if (fragment != null){
             fragment.onForecastWeatherDataUpdate(forecastWeatherData);
         } else {
-            Log.v(TAG, "onForecastWeatherDataUpdate(), but MainViewFragment can not be found by id.");
+            Log.v(TAG, "onForecastWeatherDataUpdate(), but WeatherViewFragment can not be found by id.");
         }
     }
 

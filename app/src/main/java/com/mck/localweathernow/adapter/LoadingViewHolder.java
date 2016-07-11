@@ -1,4 +1,4 @@
-package com.mck.localweathernow.ui.adapter;
+package com.mck.localweathernow.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;

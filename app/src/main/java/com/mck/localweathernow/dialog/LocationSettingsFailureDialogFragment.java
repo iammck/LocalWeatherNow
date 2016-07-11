@@ -26,7 +26,7 @@ public class LocationSettingsFailureDialogFragment extends DialogFragment {
         // Use a builder to construct the dialog
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View layout = inflater.inflate(R.layout.location_settings_failure, null);
+        View layout = inflater.inflate(R.layout.dialog_settings_failure, null);
         builder.setView(layout)
                 .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     @Override

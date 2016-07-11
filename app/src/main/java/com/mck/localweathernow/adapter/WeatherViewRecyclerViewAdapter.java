@@ -1,4 +1,4 @@
-package com.mck.localweathernow.ui.adapter;
+package com.mck.localweathernow.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -16,10 +16,10 @@ import java.util.List;
 
 /**
  *
- * {@link RecyclerView.Adapter} that can display hourly weather forecast.
+ * {@link RecyclerView.Adapter} that can display weather forecast.
  */
-public class HourlyViewRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private static final String TAG = "HourlyRVAdapter";
+public class WeatherViewRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private static final String TAG = "WeatherRVAdapter";
 
     private static final int VIEW_TYPE_CURRENT = 1;
     private static final int VIEW_TYPE_PERIOD = 2;
@@ -31,8 +31,8 @@ public class HourlyViewRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
     private CurrentWeatherData currentWeatherData;
     private Period[] periods;
 
-    public HourlyViewRecyclerViewAdapter(){
-        Log.v(TAG, "HourlyViewRecyclerViewAdapter instantiation in progress.");
+    public WeatherViewRecyclerViewAdapter(){
+        Log.v(TAG, "WeatherViewRecyclerViewAdapter instantiation in progress.");
         itemViewTypes = new ArrayList<>();
         itemViewTypes.add(0,VIEW_TYPE_LOADING);
     }
@@ -61,11 +61,11 @@ public class HourlyViewRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
                 return new LoadingViewHolder(view);
             case VIEW_TYPE_CURRENT:
                 view = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.list_item_current, parent, false);
+                        .inflate(R.layout.list_item_weather, parent, false);
                 return new CurrentViewHolder(view, this);
             case VIEW_TYPE_PERIOD:
                 view = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.list_item_current, parent, false);
+                        .inflate(R.layout.list_item_weather, parent, false);
                 return new PeriodViewHolder(view, this);
             }
         return null;

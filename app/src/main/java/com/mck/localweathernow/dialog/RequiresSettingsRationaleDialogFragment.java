@@ -35,7 +35,7 @@ public class RequiresSettingsRationaleDialogFragment extends DialogFragment {
         // Use a builder to construct the dialog
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View layout = inflater.inflate(R.layout.settings_required, null);
+        View layout = inflater.inflate(R.layout.dialog_settings_req, null);
         builder .setView(layout)
                 .setPositiveButton(R.string.try_again, new DialogInterface.OnClickListener() {
                     @Override

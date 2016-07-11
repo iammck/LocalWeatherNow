@@ -35,7 +35,7 @@ public class RequiresPermissionsRationaleDialogFragment extends DialogFragment {
         // Use a builder to construct the dialog
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View layout = inflater.inflate(R.layout.permissions_required, null);
+        View layout = inflater.inflate(R.layout.dialog_perm_required, null);
         builder .setView(layout)
                 .setPositiveButton(R.string.try_again, new DialogInterface.OnClickListener() {
                     @Override

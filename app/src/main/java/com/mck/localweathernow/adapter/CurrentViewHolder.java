@@ -1,4 +1,4 @@
-package com.mck.localweathernow.ui.adapter;
+package com.mck.localweathernow.adapter;
 
 import android.graphics.Bitmap;
 import android.view.View;
@@ -14,10 +14,10 @@ import java.util.List;
  * Holder of CurrentViewData for display in RecyclerView.Adapter
  * Created by Michael on 7/8/2016.
  */
-class CurrentViewHolder extends HourlyViewHolder implements GetWeatherIconAsyncTask.Callback {
+class CurrentViewHolder extends WeatherViewHolder implements GetWeatherIconAsyncTask.Callback {
     public static final String TAG = "CurrentViewHolder";
 
-    CurrentViewHolder(View view, HourlyViewRecyclerViewAdapter adapter) {
+    CurrentViewHolder(View view, WeatherViewRecyclerViewAdapter adapter) {
         super(view, adapter);
         detailsAreVisible = true;
     }
