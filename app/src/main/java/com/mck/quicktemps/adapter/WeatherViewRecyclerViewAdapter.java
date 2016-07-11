@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
  * {@link RecyclerView.Adapter} that can display weather forecast.
  */
 public class WeatherViewRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -24,7 +23,6 @@ public class WeatherViewRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
     private static final int VIEW_TYPE_CURRENT = 1;
     private static final int VIEW_TYPE_PERIOD = 2;
     private static final int VIEW_TYPE_LOADING = 3;
-    public static final String UPDATE = "UPDATE";
     private ArrayList<Integer> itemViewTypes;
 
     private boolean hasCurrentViewHolder = false;
@@ -105,7 +103,7 @@ public class WeatherViewRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
             itemViewTypes.add(0, VIEW_TYPE_CURRENT);
             notifyItemInserted(0);
         } else {
-            notifyItemChanged(0, UPDATE);
+            notifyItemChanged(0);
         }
 
     }
@@ -123,10 +121,10 @@ public class WeatherViewRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
             notifyItemRangeInserted(0, periods.length - 1);
 
         } else if (itemViewTypes.get(0) == VIEW_TYPE_PERIOD){
-            notifyItemRangeChanged(0, periods.length - 1, UPDATE);
+            notifyItemRangeChanged(0, periods.length - 1);
         } else {
             if (itemViewTypes.size() > 1){
-                notifyItemRangeChanged(1, periods.length, UPDATE);
+                notifyItemRangeChanged(1, periods.length);
             } else {
                 int index = 1;
                 while (index <= periods.length){
