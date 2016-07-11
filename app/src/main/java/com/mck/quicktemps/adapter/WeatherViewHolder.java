@@ -18,18 +18,18 @@ import java.util.List;
  */
 
 class WeatherViewHolder extends ViewHolder {
-    public static final String ON_CLICK = "ON_CLICK";
+    static final String ON_CLICK = "ON_CLICK";
     private static final String TAG = "WeatherViewHolder";
     View mView;
 
-    final WeatherViewRecyclerViewAdapter adapter;
+    private final WeatherViewRecyclerViewAdapter adapter;
     TextView tvTime, tvLabelGeneratedTime, tvGeneratedTime, tvTemperature,
             tvTemperatureHighLow, tvDescription, tvHumidity, tvCloudiness,
             tvRainfall, tvSnowfall, tvWindSpeed, tvWindDirection,
             tvLabelHumidity, tvLabelCloudiness;
 
-
     // tvDate, tvLocation;
+    @SuppressWarnings("WeakerAccess")
     LinearLayout layoutDetails, layoutWind, layoutRainfall, layoutSnowfall;
     ImageView ivIcon;
 
