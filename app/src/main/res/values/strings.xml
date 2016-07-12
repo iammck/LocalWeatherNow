@@ -30,5 +30,6 @@
     <string name="icon">icon</string>
     <string name="time">TIME</string>
     <string name="generated">generated</string>
+    <string name="weather_data_error_message">Unfortunately there has been an error connecting to OpenWeatherMaps.org would you like to try again?</string>
 
 </resources>

@@ -212,6 +212,12 @@ public class WeatherFragment extends Fragment implements
     }
 
     @Override
+    public void onCurrentWeatherDataError() {
+        Log.v(TAG, "onCurrentWeatherDataError() returning");
+        mWeatherFragmentListener.onWeatherDataError();
+    }
+
+    @Override
     public void onForecastWeatherDataResult(ForecastWeatherData forecastWeatherData) {
         Log.v(TAG, "onForecastWeatherDataResult()");
         forecastWeatherData.locDataTime = mLocationData.time;
@@ -221,6 +227,12 @@ public class WeatherFragment extends Fragment implements
             Log.v(TAG, "onForecastWeatherDataResult() updating listener.");
             mWeatherFragmentListener.onForecastWeatherDataUpdate(forecastWeatherData);
         }
+    }
+
+    @Override
+    public void onForecastWeatherDataError() {
+        Log.v(TAG, "onForecastWeatherDataError() returning");
+        mWeatherFragmentListener.onWeatherDataError();
     }
 
     public boolean hasOldData(){
@@ -255,5 +267,6 @@ public class WeatherFragment extends Fragment implements
     interface WeatherFragmentListener {
         void onCurrentWeatherDataUpdate(CurrentWeatherData currentWeatherData);
         void onForecastWeatherDataUpdate(ForecastWeatherData mForecastWeatherData);
+        void onWeatherDataError();
     }
 }

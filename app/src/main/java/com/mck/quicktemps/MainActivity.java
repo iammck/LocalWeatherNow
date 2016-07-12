@@ -11,6 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.mck.quicktemps.dialog.AboutDialogFragment;
+import com.mck.quicktemps.dialog.WeatherDataErrorDialogFragment;
 import com.mck.quicktemps.model.CurrentWeatherData;
 import com.mck.quicktemps.model.ForecastWeatherData;
 import com.mck.quicktemps.model.LocationData;
@@ -153,6 +154,14 @@ public class MainActivity extends AppCompatActivity implements
             fragment.onForecastWeatherDataUpdate(forecastWeatherData);
         } else {
             Log.v(TAG, "onForecastWeatherDataUpdate(), but WeatherViewFragment can not be found by id.");
+        }
+    }
+
+    @Override
+    public void onWeatherDataError() {
+        if (getSupportFragmentManager().findFragmentByTag(WeatherDataErrorDialogFragment.TAG) == null){
+            WeatherDataErrorDialogFragment frag = WeatherDataErrorDialogFragment.newInstance();
+            frag.show(getSupportFragmentManager(), WeatherDataErrorDialogFragment.TAG);
         }
     }
 

@@ -19,6 +19,7 @@ public class GetForecastWeatherDataAsyncTask extends AsyncTask<Object, Integer, 
 
     public interface Callback {
         void onForecastWeatherDataResult(ForecastWeatherData forecastWeatherData);
+        void onForecastWeatherDataError();
     }
 
     public GetForecastWeatherDataAsyncTask(Callback callback, String forecastWeather) {
@@ -40,7 +41,12 @@ public class GetForecastWeatherDataAsyncTask extends AsyncTask<Object, Integer, 
     @Override
     protected void onPostExecute(ForecastWeatherData forecastWeatherData) {
         super.onPostExecute(forecastWeatherData);
-        if (!isCancelled() && forecastWeatherData != null) callback.onForecastWeatherDataResult(forecastWeatherData);
-
+        if (!isCancelled()) {
+            if (forecastWeatherData != null){
+                callback.onForecastWeatherDataResult(forecastWeatherData);
+            } else {
+                callback.onForecastWeatherDataError();
+            }
+        }
     }
 }

@@ -18,6 +18,7 @@ public class GetCurrentWeatherDataAsyncTask extends AsyncTask<Object, Integer, C
 
     public interface Callback {
         void onCurrentWeatherDataResult(CurrentWeatherData currentWeatherData);
+        void onCurrentWeatherDataError();
     }
 
     public GetCurrentWeatherDataAsyncTask(Callback callback, String currentWeather) {
@@ -39,7 +40,13 @@ public class GetCurrentWeatherDataAsyncTask extends AsyncTask<Object, Integer, C
     @Override
     protected void onPostExecute(CurrentWeatherData currentWeatherData) {
         super.onPostExecute(currentWeatherData);
-        if (!isCancelled() && currentWeatherData != null) callback.onCurrentWeatherDataResult(currentWeatherData);
+        if (!isCancelled()) {
+            if (currentWeatherData != null) {
+                callback.onCurrentWeatherDataResult(currentWeatherData);
+            } else {
+                callback.onCurrentWeatherDataError();
+            }
+        }
 
     }
 }

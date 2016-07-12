@@ -57,7 +57,7 @@ public class WeatherDataHelper {
         return resultTime.toString();
     }
 
-    public static String formatDate(Long time) {
+    /*public static String formatDate(Long time) {
         StringBuilder result = new StringBuilder();
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis( time * 1000 );
@@ -68,7 +68,7 @@ public class WeatherDataHelper {
         result.append("/");
         result.append(dayOfMonth);
         return result.toString();
-    }
+    }*/
 
     public static String formatDirection(Double deg) {
         if (deg > 348.75 || deg < 11.24) {
@@ -115,13 +115,6 @@ public class WeatherDataHelper {
             return (new DecimalFormat("####.#")).format(speed*2.2369) + " M/h";
     }
 
-    public static String formatVolume(Double threeHour) {
-        if (Constants.isMetric)
-            return threeHour + " mm";
-        else
-            return (new DecimalFormat("####.###")).format(threeHour*0.0393701) + " in";
-    }
-
     public static String formatTemperature(Double temp) {
         if (Constants.isMetric)
             return String.valueOf(Double.valueOf(temp - 273.15).intValue()) + "°";
@@ -131,6 +124,6 @@ public class WeatherDataHelper {
     }
 
     public static String formatPercent(Double all) {
-        return all + "%";
+        return all.intValue() + "%";
     }
 }
