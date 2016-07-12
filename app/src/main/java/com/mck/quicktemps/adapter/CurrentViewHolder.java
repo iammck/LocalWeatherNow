@@ -2,7 +2,6 @@ package com.mck.quicktemps.adapter;
 
 import android.graphics.Bitmap;
 import android.view.View;
-import android.util.Log;
 
 import com.mck.quicktemps.WeatherDataHelper;
 import com.mck.quicktemps.asynctask.GetWeatherIconAsyncTask;
@@ -29,7 +28,6 @@ class CurrentViewHolder extends WeatherViewHolder implements GetWeatherIconAsync
 
     void onBindViewHolder(CurrentWeatherData currentWeatherData, List<Object> payloads) {
         super.bindViewHolder(payloads);
-        Log.v(TAG,"onBindViewHolder() with payload " + payloads );
 
         if (payloads != null && payloads.contains(ON_CLICK)){
             return;
@@ -109,32 +107,6 @@ class CurrentViewHolder extends WeatherViewHolder implements GetWeatherIconAsync
             tvLabelCloudiness.setVisibility(View.GONE);
         }
 
-        // tvRainfall,
-        if (currentWeatherData.rain != null &&
-                currentWeatherData.rain.threeHour != null){
-            String formattedVolume = WeatherDataHelper.formatVolume(currentWeatherData.rain.threeHour);
-            tvRainfall.setText(formattedVolume);
-            layoutRainfall.setVisibility(View.VISIBLE);
-        } else {
-            layoutRainfall.setVisibility(View.GONE);
-        }
-        // tvSnowfall,
-        if (currentWeatherData.snow != null &&
-                currentWeatherData.snow.threeHour != null){
-            String formattedVolume = WeatherDataHelper.formatVolume(currentWeatherData.snow.threeHour);
-            tvSnowfall.setText(formattedVolume);
-            layoutSnowfall.setVisibility(View.VISIBLE);
-        } else {
-            layoutSnowfall.setVisibility(View.GONE);
-        }
-
-/*
-        if(detailsAreVisible)
-            layoutDetails.setVisibility(View.VISIBLE);
-        else
-            layoutDetails.setVisibility(View.GONE);
-*/
-
         GetWeatherIconAsyncTask task = new GetWeatherIconAsyncTask(
                 mView.getContext(), this,
                 getAdapterPosition(),
@@ -143,24 +115,3 @@ class CurrentViewHolder extends WeatherViewHolder implements GetWeatherIconAsync
 
     }
 }
-
-
-
-
-// tvDate,
-        /*if (currentWeatherData.dt != null){
-            String formattedDate = WeatherDataHelper.formatDate(currentWeatherData.dt);
-            holder.tvDate.setText(formattedDate);
-            holder.tvDate.setVisibility(View.VISIBLE);
-        }else{
-            holder.tvDate.setVisibility(View.GONE);
-        }*/
-// tvLocation,
-        /*if (currentWeatherData.name != null) {
-            holder.tvLocation.setText(currentWeatherData.name);
-            holder.tvLocation.setVisibility(View.VISIBLE);
-        }else{
-            holder.tvLocation.setVisibility(View.GONE);
-        }*/
-
-

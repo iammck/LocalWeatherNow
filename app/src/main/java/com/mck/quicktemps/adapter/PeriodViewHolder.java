@@ -107,25 +107,6 @@ class PeriodViewHolder extends WeatherViewHolder implements GetWeatherIconAsyncT
             tvLabelCloudiness.setVisibility(View.GONE);
         }
 
-        // tvRainfall,
-        if (period.rain != null &&
-                period.rain.threeHour != null){
-            String formattedVolume = WeatherDataHelper.formatVolume(period.rain.threeHour);
-            tvRainfall.setText(formattedVolume);
-            layoutRainfall.setVisibility(View.VISIBLE);
-        } else {
-            layoutRainfall.setVisibility(View.GONE);
-        }
-        // tvSnowfall,
-        if (period.snow != null &&
-                period.snow.threeHour != null){
-            String formattedVolume = WeatherDataHelper.formatVolume(period.snow.threeHour);
-            tvSnowfall.setText(formattedVolume);
-            layoutSnowfall.setVisibility(View.VISIBLE);
-        } else {
-            layoutSnowfall.setVisibility(View.GONE);
-        }
-
         GetWeatherIconAsyncTask task = new GetWeatherIconAsyncTask(
                 mView.getContext(), this,
                 getAdapterPosition(),

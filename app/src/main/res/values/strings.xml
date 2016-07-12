@@ -24,5 +24,11 @@
     <string name="celsius">Celsius</string>
     <string name="imperial">Imperial</string>
     <string name="metric">Metric</string>
+    <string name="humidy">Humidy</string>
+    <string name="cloudiness">Cloudiness</string>
+    <string name="wind">Wind</string>
+    <string name="icon">icon</string>
+    <string name="time">TIME</string>
+    <string name="generated">generated</string>
 
 </resources>

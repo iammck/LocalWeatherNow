@@ -8,7 +8,6 @@ import android.animation.ValueAnimator;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 
 import java.util.HashMap;
@@ -20,8 +19,9 @@ import java.util.List;
  */
 public class WeatherViewItemAnimator extends DefaultItemAnimator {
     private static final long HEIGHT_ANIMATION_DURATION = 400;
-    private static final String TAG = "WeatherItemAnimator";
-    private static final long TEXT_ANIMATION_DURATION = 300;
+    //private static final String TAG = "WeatherItemAnimator";
+    private static final long TEXT_FADE_IN_DURATION = 750;
+    private static final long TEXT_FADE_OUT_DURATION = 250;
     private HashMap<RecyclerView.ViewHolder, AnimationInfo> animationMap;
     public WeatherViewItemAnimator(){
         super();
@@ -65,13 +65,14 @@ public class WeatherViewItemAnimator extends DefaultItemAnimator {
             int holderViewHeight = weatherViewHolder.mView.getHeight();
             final int mainInfoViewHeight;
             final int detailViewHeight;
-            float detailAlpha = -1;
+            // will also need the detail view alpha
+            float detailViewAlpha = -1;
 
             // if there is prevAnimationInfo then use those heights and starting alpha.
             if (prevAnimationInfo != null){
                 mainInfoViewHeight = prevAnimationInfo.mainInfoViewHeight;
                 detailViewHeight = prevAnimationInfo.detailViewHeight;
-                detailAlpha = weatherViewHolder.layoutDetails.getAlpha();
+                detailViewAlpha = weatherViewHolder.layoutDetails.getAlpha();
             } else {
                 // use the height of the weatherViewHolder to get mainViewHeight and detailViewHeight.
                 int holderViewWidth = weatherViewHolder.mView.getWidth();
@@ -90,16 +91,14 @@ public class WeatherViewItemAnimator extends DefaultItemAnimator {
             final AnimatorSet animatorSet = new AnimatorSet();
             // if the the details view is visible, then contracting.
             if (((WeatherViewHolder) newHolder).detailsAreVisible) {
-                Log.v(TAG, "animateChange() details are visible, removing and hiding details");
                 heightAnimator = getRemoveDetailsAnimator(
-                        (WeatherViewHolder) newHolder, holderViewHeight, mainInfoViewHeight, detailViewHeight);
-                textAnimator = getHideTextAnimator((WeatherViewHolder) newHolder, detailAlpha);
+                        (WeatherViewHolder) newHolder, holderViewHeight, mainInfoViewHeight);
+                textAnimator = getHideTextAnimator((WeatherViewHolder) newHolder, detailViewAlpha);
                 animatorSet.playTogether(textAnimator, heightAnimator);
             } else { // details are not visible, make them visible
-                Log.v(TAG, "animateChange() details are not visible, adding and showing details");
                 heightAnimator = getAddDetailsAnimator(
                         (WeatherViewHolder) newHolder, holderViewHeight, mainInfoViewHeight, detailViewHeight);
-                textAnimator = getShowTextAnimator((WeatherViewHolder) newHolder, detailAlpha);
+                textAnimator = getShowTextAnimator((WeatherViewHolder) newHolder, detailViewAlpha);
                 animatorSet.playTogether(heightAnimator, textAnimator);
             }
             animatorSet.addListener(new AnimatorListenerAdapter() {
@@ -107,7 +106,6 @@ public class WeatherViewItemAnimator extends DefaultItemAnimator {
                 public void onAnimationCancel(Animator animation) {
                     super.onAnimationCancel(animation);
                     animatorSet.removeListener(this);
-                    Log.v(TAG, "onAnimationCancel() " + animation);
                 }
 
                 @Override
@@ -116,14 +114,7 @@ public class WeatherViewItemAnimator extends DefaultItemAnimator {
                     weatherViewHolder.detailsAreVisible = !weatherViewHolder.detailsAreVisible;
                     weatherViewHolder.itemView.getLayoutParams().height = RecyclerView.LayoutParams.WRAP_CONTENT;
                     animationMap.remove(weatherViewHolder);
-                    Log.v(TAG, "onAnimationEnd() " + animation);
                     dispatchChangeFinished(weatherViewHolder, true);
-                }
-
-                @Override
-                public void onAnimationStart(Animator animation) {
-                    super.onAnimationStart(animation);
-                    Log.v(TAG, "onAnimationStart() " + this );
                 }
             });
             animationMap.put(weatherViewHolder, new AnimationInfo(animatorSet, mainInfoViewHeight, detailViewHeight));
@@ -135,7 +126,7 @@ public class WeatherViewItemAnimator extends DefaultItemAnimator {
 
     private ValueAnimator getRemoveDetailsAnimator(
             final WeatherViewHolder weatherViewHolder,
-            int holderViewHeight, final int mainInfoViewHeight, final int detailViewHeight) {
+            int holderViewHeight, final int mainInfoViewHeight) {
 
         // remove room used by the details view from current height to main view height
         final ValueAnimator heightAnimator = ValueAnimator.ofInt( holderViewHeight, 32 + mainInfoViewHeight);
@@ -169,7 +160,7 @@ public class WeatherViewItemAnimator extends DefaultItemAnimator {
     private ObjectAnimator getShowTextAnimator(final WeatherViewHolder newHolder, float detailTextAlpha) {
         float startValue = (detailTextAlpha == -1)? 0: detailTextAlpha;
         ObjectAnimator result = ObjectAnimator.ofFloat(newHolder.layoutDetails, "alpha", startValue, 1);
-        result.setDuration(TEXT_ANIMATION_DURATION);
+        result.setDuration(TEXT_FADE_IN_DURATION);
         result.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationStart(Animator animation) {
@@ -184,26 +175,18 @@ public class WeatherViewItemAnimator extends DefaultItemAnimator {
     private ObjectAnimator getHideTextAnimator(final WeatherViewHolder newHolder, float detailTextAlpha) {
         float startValue = (detailTextAlpha == -1)? 1: detailTextAlpha;
         ObjectAnimator result = ObjectAnimator.ofFloat(newHolder.layoutDetails, "alpha", startValue, 0);
-        result.setDuration(TEXT_ANIMATION_DURATION);
+        result.setDuration(TEXT_FADE_OUT_DURATION);
         result.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationCancel(Animator animation) {
                 super.onAnimationCancel(animation);
                 animation.removeListener(this);
-                Log.v(TAG, "onAnimationCancel() for hide text");
             }
 
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
                 newHolder.layoutDetails.setVisibility(View.GONE);
-                Log.v(TAG, "onAnimationEnd() for hide text");
-            }
-
-            @Override
-            public void onAnimationStart(Animator animation) {
-                super.onAnimationStart(animation);
-                Log.v(TAG, "onAnimationStart() for hide text");
             }
         });
         return  result;
