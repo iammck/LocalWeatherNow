@@ -10,6 +10,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.crash.FirebaseCrash;
 import com.mck.quicktemps.dialog.AboutDialogFragment;
 import com.mck.quicktemps.dialog.WeatherDataErrorDialogFragment;
 import com.mck.quicktemps.model.CurrentWeatherData;
@@ -21,6 +23,7 @@ public class MainActivity extends AppCompatActivity implements
         WeatherFragment.WeatherFragmentListener,
         WeatherViewFragment.MainViewFragmentListener{
 
+    private FirebaseAnalytics mFirebaseAnalytics;
     private static final String TAG = "MainActivity";
     private static final String PREFS = "SharedPrefs";
     private static final String KEY_IS_METRIC = "KeyIsMetric";
@@ -33,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements
         SharedPreferences prefs = getSharedPreferences(PREFS, MODE_PRIVATE);
         Constants.isMetric = prefs.getBoolean(KEY_IS_METRIC, false);
 
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         if (savedInstanceState == null){
             getSupportFragmentManager()
                     .beginTransaction()
@@ -41,7 +45,9 @@ public class MainActivity extends AppCompatActivity implements
                     .add(WeatherFragment.newInstance(), WeatherFragment.TAG)
                     .commit();
         }
+        FirebaseCrash.log("Activity created");
     }
+
 
     @Override
     protected void onStart() {
@@ -57,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-    protected void onResume() {
+    protected void onResume(){
         super.onResume();
         Log.v(TAG, "onResume()");
     }
@@ -131,6 +137,12 @@ public class MainActivity extends AppCompatActivity implements
         WeatherFragment fragment = (WeatherFragment)
                 getSupportFragmentManager().findFragmentByTag(WeatherFragment.TAG);
         fragment.onLocationDataUpdate(locationData);
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "Location Update");
+        bundle.putString("Latitude", String.valueOf(locationData.latitude));
+        bundle.putString("Longitude", String.valueOf(locationData.longitude));
+        mFirebaseAnalytics.logEvent("Location Update", bundle);
+
     }
 
     @Override
