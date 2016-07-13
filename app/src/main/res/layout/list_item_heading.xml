@@ -3,8 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    style="@style/main_layout_theme"
+    android:layout_height="wrap_content"
+    style="@style/card_layout_theme"
     app:cardElevation="4dp"
     app:cardCornerRadius="@dimen/card_view_corner_radius">
 
@@ -12,14 +12,14 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         style="@style/main_layout_theme">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/textView"
+            android:id="@+id/tvLoadingMessage"
             android:text="@string/loading_data"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:gravity="center_horizontal"
@@ -29,8 +29,19 @@
             style="?android:attr/progressBarStyleLarge"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:id="@+id/progressBar5"
-            android:layout_weight="1"/>
+            android:id="@+id/pbLoading"
+            android:layout_weight="1"
+            android:visibility="visible"/>
+
+        <TextView
+            android:text="@string/location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvLocation"
+            android:gravity="center_horizontal"
+            android:visibility="gone"
+            android:textAppearance="@style/LargeTextTheme"
+            android:textSize="28dp"/>
 
     </LinearLayout>
 
