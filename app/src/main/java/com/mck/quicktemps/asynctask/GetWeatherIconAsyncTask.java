@@ -41,7 +41,7 @@ public class GetWeatherIconAsyncTask extends AsyncTask<Object,Integer,Bitmap> {
         return BitmapFactory.decodeFile(context.getFilesDir().getPath() + "/icon" + iconId + ".png" );
     }
 
-    private static synchronized File getFile(Context context, String iconId) {
+    private static File getFile(Context context, String iconId) {
         File file = new File(context.getFilesDir(), "icon" + iconId + ".png");
         if (!file.exists()){
             Log.v(TAG, "Icon file does not exist, using OpenWeatherMapService to get and save.");

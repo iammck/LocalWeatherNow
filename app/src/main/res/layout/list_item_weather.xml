@@ -100,10 +100,10 @@
                 android:layout_gravity="center_vertical|center_horizontal"
                 android:layout_toLeftOf="@id/layoutTemperature"
                 android:layout_toRightOf="@id/layoutTime"
-                android:src="@drawable/ic_star_black_36dp"
                 android:contentDescription="@string/icon"
                 android:scaleType="fitCenter"
                 />
+            <!--android:src="@drawable/ic_star_black_36dp"-->
 
         </RelativeLayout>
 
