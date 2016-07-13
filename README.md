@@ -1,5 +1,7 @@
 #Quick Temps
 
+[Download the app from google play](https://play.google.com/store/apps/details?id=com.mck.quicktemps)
+
 This project builds upon a [previous](https://github.com/iammck/WeatherNow) project. The main goal here is to expand upon the original using Android Studio 2.2 along with Constraints Layouts to produce a more robust user experience.
 
 <font color='red'>In order to build and run this project you will need to get an OpenWeatherMaps API key and include it in the Constants class in the appropriate field. </font>
